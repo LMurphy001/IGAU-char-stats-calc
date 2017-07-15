@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=UTF-8>
+<title>Mobile Injustice Character Stats Calculator</title>
+<meta name=description content="Choose a Mobile Injustice Character and View Stats All the Way to EVII 50, or Enter Custom Starting Numbers">
+<meta name=keywords content="Mobile Injustice,Injustice Game,Calculator,Character,Stats,Add Character,Promote Character,Buy Character,Online Calculator">
+<meta name=robots content="index, follow">
+<link rel="shortcut icon" href=favicon.ico type=image/x-icon>
+<style>body{margin-left:7px}.micsc_dark_style{color:#FF0;background-color:#000}.micsc_light_style{color:#000;background-color:#FFF}.micsc_error_msg{color:red;background-color:#fff;font-weight:700}.micsc_hidden{visibility:hidden}.micsc_xlargetxt{font-size:x-large}.micsc_largetxt{font-size:large}.micsc_mediumtxt{font-size:medium}.micsc_smalltxt{font-size:small}.micsc_sectionHeader{font-size:x-large;font-weight:700}.micsc_sectionExpandButton{height:40px;width:80px;font-weight:700;color:#0F0;background-color:#666}.micsc_expandedSection{font-size:large;display:none}.micsc_horiz_overflow{overflow-x:auto;overflow-y:hidden}.micsc_table_less_spacing{border-collapse:collapse;border-spacing:1px}.micsc_border_less_padding{border:1px solid;padding:1px}.micsc_border_more_padding{border:1px solid;padding:5px}.micsc_noborder{border:0;padding:0}.micsc_big_padding{padding:7px}.micsc_bold{font-weight:700}.micsc_italic{font-style:italic}.micsc_textcenter{text-align:center}.micsc_goldbg{background-color:gold;color:#000}.micsc_silverbg{background-color:silver;color:#000}.micsc_bronzebg{background-color:peru;color:#000}.micsc_small_input{width:20px}.micsc_medium_input{width:35px}.micsc_large_input{width:45px}.micsc_inline{display:inline}.micsc_nodisplay{display:none}.micsc_compareColCheck{background-color:#0ff}.micsc_hr{height:12px;border:0;box-shadow:inset 0 12px 12px -12px rgba(0,0,255,3.5)}.micsc_sessionid{font-style:italic;font-size:medium}.micsc_table_spacing{border-collapse:collapse;border-spacing:10px}.micsc_padding{border:1px solid;padding:3px}.micsc_xsmalltxt{font-size:x-small}</style>
+<meta name=viewport content="width=device-width,initial-scale=1">
+</head>
+<body id=calculatorTop class=micsc_light_style>
+<div class=micsc_xlargetxt>Mobile Injustice Character Stats Calculator, Version 2.1</div>
+Last Modified: 14 July 2017<br>
+<a href=javascript:void(0); onclick=Basic.colorTheme()>Change color theme</a>
+<p class=micsc_largetxt>
+This calculator provides stats for any character at any level up to Elite X and XP 60. For help, read <a href=javascript:void(0); onclick='Basic.jumpToSection("guide-expand-button","guideSection")'>the guide</a>.
+</p>
+<p class=micsc_largetxt>
+Web Developers: As of 10 December 2016, this calculator is in the public domain. There are two ways to get a copy of this code.
+First, it is available at <a target=_blank href="https://www.github.com/lmurphy001">GitHub</a>.
+Second, you can use your browser to view "Page Source". For most Windows browsers, type Ctrl-U to bring up the page's source code. In Safari, type Command + Option + U to do so. After you open the page's source code, save the source code from that window.
+</p>
+<div class=micsc_largetxt id=QuickIndex></div>
+<h3 id=sortAllCharsByStatsSection class=micsc_sectionHeader>
+<input id=allsorted-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+All Cards: Lists all cards; allows sorting by column name.
+</h3>
+<div id=allsorted-expansion class=micsc_expandedSection>
+<form id=formQuickRef>
+<div id=quickRefAlreadySortedMsg></div>
+Shown: Elite VII, Level 50, with 35% Damage and Health bonuses.<br>
+Augmentations:<select id=QuickRefAugLevelSelect onchange=Search.QuickRefAugLevelSelectChanged(this)>
+<option value=0>None 0%</option>
+<option value=30>10%</option>
+<option value=60>20%</option>
+<option value=90>30%</option>
+<option value=120>40%</option>
+<option value=150>Half-way 50%</option>
+<option value=180>60%</option>
+<option value=210>70%</option>
+<option value=240>80%</option>
+<option value=270>90%</option>
+<option value=300 selected>Maxed out 100%</option>
+</select>
+</form>
+<div id=quickRefTable></div>
+<input id=quickRef_HTMLCodeBtn type=button value="Embeddable HTML Code" onclick=Basic.showHTMLcode(this)><br>
+<textarea id=quickRef_HTMLCode cols=90 rows=20 style=display:none readonly></textarea>
+<div class=micsc_copyrightnotice></div>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=searchSection class=micsc_sectionHeader>
+<input id=search-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Character Search: Find characters by specifying criteria
+</h3>
+<div id=search-expansion class=micsc_expandedSection>
+<form id=formFindCharacters>
+<table class=micsc_table_spacing id=srchSpecifyCriteria>
+<tr><th class=micsc_padding>Criteria<th class=micsc_padding>Lower bound<th class=micsc_padding>Upper bound<th class=micsc_padding>Show Column</tr>
+<tr>
+<td class=micsc_padding><strong>Health</strong></td>
+<td class=micsc_padding>between <input id=srchMinHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Health checked></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Damage</strong></td>
+<td class=micsc_padding>between <input id=srchMinDamage class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxDamage class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Damage checked></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Damage + Health</strong></td>
+<td class=micsc_padding>between <input id=srchMinDamagePlusHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxDamagePlusHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Damage+Health></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Special 1 Max</strong></td>
+<td class=micsc_padding>between <input id=srchMinSp1 class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxSp1 class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Sp1></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Special 2 Max</strong></td>
+<td class=micsc_padding>between <input id=srchMinSp2 class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxSp2 class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Sp2></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Special 1 + Special 2 Max</strong></td>
+<td class=micsc_padding>between <input id=srchMinSp1PlusSp2 class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxSp1PlusSp2 class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Sp1+Sp2></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Super Move</strong></td>
+<td class=micsc_padding>between <input id=srchMinSuper class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxSuper class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Super></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Store (Base) Damage</strong></td>
+<td class=micsc_padding>between <input id=srchMinStoreDamage class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxStoreDamage class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=StoreDamage></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Store (Base) Health</strong></td>
+<td class=micsc_padding>between <input id=srchMinStoreHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxStoreHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=StoreHealth></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Base Health + Damage</strong></td>
+<td class=micsc_padding>between <input id=srchMinStoreDamagePlusHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxStoreDamagePlusHealth class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=StoreDamage+StoreHealth></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Cost</strong></td>
+<td class=micsc_padding>between <input id=srchMinCost class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxCost class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Cost></td>
+</tr>
+<tr>
+<td class=micsc_padding><strong>Resale</strong></td>
+<td class=micsc_padding>between <input id=srchMinResale class=micsc_srchNum size=7 maxlength=7></td>
+<td class=micsc_padding>and <input id=srchMaxResale class=micsc_srchNum size=7 maxlength=7></td>
+<td class="micsc_textcenter micsc_padding"><input class=micsc_srchShow type=checkbox value=Resale checked></td>
+</tr>
+</table>
+<br>
+<strong>Color:</strong> Choose at least one of
+<label><input type=checkbox id=srchGold value=Gold checked>Gold</label>
+<label><input type=checkbox id=srchSilver value=Silver checked>Silver</label>
+<label><input type=checkbox id=srchBronze value=Bronze checked>Bronze</label>
+<br>
+<br>
+<fieldset>
+<legend>Name</legend>
+<select id=micsc_ddlsrch_NameDoes1 class=micsc_srchNameDoes>
+<option value=1 selected>does</option>
+<option value=0>does not</option>
+</select>
+<select id=micsc_ddlsrch_NameFunc1 class=micsc_srchNameFunc>
+<option value=contain selected>contain</option>
+<option value="start with">start with</option>
+<option value="end with">end with</option>
+<option value=equal>equal</option>
+</select>
+<input id=micsc_srchNameMatch1 class=micsc_srchNameMatch>
+<select id=micsc_ddlsrch_NameLogical1 class=micsc_srchNameLogical>
+<option value=and selected>and</option>
+<option value=or>or</option>
+</select>
+<select id=micsc_ddlsrch_NameDoes2 class=micsc_srchNameDoes>
+<option value=1 selected>does</option>
+<option value=0>does not</option>
+</select>
+<select id=micsc_ddlsrch_NameFunc2 class=micsc_srchNameFunc>
+<option value=contain selected>contain</option>
+<option value="start with">start with</option>
+<option value="end with">end with</option>
+<option value=equal>equal</option>
+</select>
+<input id=micsc_srchNameMatch2 class=micsc_srchNameMatch>
+<select id=micsc_ddlsrch_NameLogical2 class=micsc_srchNameLogical>
+<option value=and selected>and</option>
+<option value=or>or</option>
+</select>
+<select id=micsc_ddlsrch_NameDoes3 class=micsc_srchNameDoes>
+<option value=1 selected>does</option>
+<option value=0>does not</option>
+</select>
+<select id=micsc_ddlsrch_NameFunc3 class=micsc_srchNameFunc>
+<option value=contain selected>contain</option>
+<option value="start with">start with</option>
+<option value="end with">end with</option>
+<option value=equal>equal</option>
+</select>
+<input id=micsc_srchNameMatch3 class=micsc_srchNameMatch>
+</fieldset>
+<br>
+<fieldset>
+<legend>Title</legend>
+<select id=micsc_ddlsrch_TitleDoes1 class=micsc_srchTitleDoes>
+<option value=1 selected>does</option>
+<option value=0>does not</option>
+</select>
+<select id=micsc_ddlsrch_TitleFunc1 class=micsc_srchTitleFunc>
+<option value=contain selected>contain</option>
+<option value="start with">start with</option>
+<option value="end with">end with</option>
+<option value=equal>equal</option>
+</select>
+<input id=micsc_srchTitleMatch1 class=micsc_srchTitleMatch>
+<select id=micsc_ddlsrch_TitleLogical1 class=micsc_srchTitleLogical>
+<option value=and selected>and</option>
+<option value=or>or</option>
+</select>
+<select id=micsc_ddlsrch_TitleDoes2 class=micsc_srchTitleDoes>
+<option value=1 selected>does</option>
+<option value=0>does not</option>
+</select>
+<select id=micsc_ddlsrch_TitleFunc2 class=micsc_srchTitleFunc>
+<option value=contain selected>contain</option>
+<option value="start with">start with</option>
+<option value="end with">end with</option>
+<option value=equal>equal</option>
+</select>
+<input id=micsc_srchTitleMatch2 class=micsc_srchTitleMatch>
+<select id=micsc_ddlsrch_TitleLogical2 class=micsc_srchTitleLogical>
+<option value=and selected>and</option>
+<option value=or>or</option>
+</select>
+<select id=micsc_ddlsrch_TitleDoes3 class=micsc_srchTitleDoes>
+<option value=1 selected>does</option>
+<option value=0>does not</option>
+</select>
+<select id=micsc_ddlsrch_TitleFunc3 class=micsc_srchTitleFunc>
+<option value=contain selected>contain</option>
+<option value="start with">start with</option>
+<option value="end with">end with</option>
+<option value=equal>equal</option>
+</select>
+<input id=micsc_srchTitleMatch3 class=micsc_srchTitleMatch>
+</fieldset>
+<br>
+<fieldset>
+<legend>Fill in Bonuses</legend>
+<div id=srch_bonuses></div>
+<div id=srch_active_support_cards_for_all></div>
+</fieldset>
+<br>
+<fieldset>
+<legend>Elite Levels, XP Levels and Augmentations:</legend>
+<strong>Elite</strong> Levels:
+<select id=ddlSrchEliteStart></select>to
+<select id=ddlSrchEliteEnd></select>
+and <strong>XP</strong> Levels:
+<select id=ddlSrchXPStart></select>to
+<select id=ddlSrchXPEnd></select>
+<br>
+<div id=srch_augmentations_inputs></div>
+</fieldset>
+</form>
+<input type=button value="Find Characters" onclick=Search.onClickSearchCharacters()>
+<div id=findCharsAlreadySortedMsg></div>
+<div id=findCharsTable></div>
+<input id=findChars_HTMLCodeBtn type=button value="Embeddable HTML Code" onclick=Basic.showHTMLcode(this)><br>
+<textarea id=findChars_HTMLCode cols=90 rows=20 style=display:none readonly></textarea>
+<div class=micsc_copyrightnotice></div>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=characterSection class=micsc_sectionHeader>
+<input id=onechar-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Character Stats: Calculates Character Health and Damage at any XP and Elite levels, with any amount of Augmentations
+</h3>
+<div id=onechar-expansion class=micsc_expandedSection>
+<form id=formCharacter>
+Character:
+<select id=ddlCharacters>
+<option value="">Select Character</option>
+</select>
+<fieldset id=onechar_fieldset1>
+<legend>Fill in Bonuses:</legend>
+<div id=character_bonuses></div>
+<div id=active_support_cards_for_all></div>
+</fieldset>
+<fieldset id=onechar_fieldset2>
+<legend>Display: Elite Levels, XP Levels and Augmentations</legend>
+Display <strong>Elite</strong> Levels:
+<select id=ddlDisplayEliteStart></select>to<select id=ddlDisplayEliteEnd></select>
+and <strong>XP</strong> Levels:
+<select id=ddlDisplayXPStart></select>to<select id=ddlDisplayXPEnd></select><br>
+<div id=augmentations_inputs></div>
+</fieldset>
+<input type=button value="Calculate Character's Damage and Health" onclick=HandleCharCalculations.onClickCalculateDamageAndHealth()>
+<div id=characterMsg></div>
+<div id=characterOutput></div>
+</form>
+<input id=oneChar_HTMLCodeBtn type=button value="Embeddable HTML Code" onclick=Basic.showHTMLcode(this)><br>
+<textarea id=oneChar_HTMLCode cols=90 rows=12 style=display:none readonly></textarea>
+<div class=micsc_AugmentationCardsReminder></div>
+<div class=micsc_copyrightnotice></div>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=characterAugmentations class=micsc_sectionHeader>
+<input id=augs-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Owned Card Augmentations: Calculates damage and health augmentations already applied to your card and the remaining augmentations to reach max augmention
+</h3>
+<div id=augs-expansion class=micsc_expandedSection>
+<form id=formOwnedCharAugs>
+<p>This section will estimate the augmentations you have already applied to a character, and how many more augmentation cards you need to apply to reach the maximum. To use it, you will need information from the back of the owned character card. Note that <strong>all</strong> fields are required! Remember to fill in <strong>both Damage and Health</strong> for your Owned Card. Also remember to check and uncheck the appropriate Support Cards.
+</p>
+Character:
+<select id=ddlCharacterOwned>
+<option value="">Select Owned Character</option>
+</select>
+<br>
+Elite Level of Owned Card:<select id=ddlOwnedElite></select>
+XP Level of Owned Card:<select id=ddlOwnedXPLevel></select>
+<input class=micsc_hidden id=fldOwnedStartAugmentationDamage value=0>
+<input class=micsc_hidden id=fldOwnedEndAugmentationDamage value=300>
+<br>
+Damage for Owned Card: <input class=micsc_large_input id=fldOwnedDamage value=0>
+Health for Owned Card: <input class=micsc_large_input id=fldOwnedHealth value=0>
+<br>
+<fieldset>
+<legend>Fill in Bonuses:</legend>
+<div id=owned_character_bonuses></div>
+<br>
+<div id=owned_active_support_cards_for_all></div>
+</fieldset>
+<input type=button value="Calculate Current and Remaining Damage and Health Augmentations" onclick=HandleOwnedCharAugs.onClickAugmentationsRemaining()>
+</form>
+<div id=augmentationsRemainingOutput></div>
+<input id=ownedCharAugs_HTMLCodeBtn type=button value="Embeddable HTML Code" onclick=Basic.showHTMLcode(this)><br>
+<textarea id=ownedCharAugs_HTMLCode cols=90 rows=12 style=display:none readonly></textarea>
+<div id=augmentationsRemainingMsg></div>
+<div id=OwnedCharacterExplained class=micsc_nodisplay>
+There seems to be a lot of confusion about how to use this section. Here are step-by-step instructions on how to do so.
+<ol>
+<li>First, in the game, go to your collection and open the back of your owned character card. Here's the back of the Blackest Night Martian Manhunter card in my collection.
+<img src=images/BNMMHwAugs.png alt=BNMMHwAugs.png width=448 height=244></li>
+<li>On the form, in the "Select Owned Character" box, select "Martian Manhunter, Blackest Night". Don't worry, there's a picture at the end showing all the boxes filled in correctly.</li>
+<li>For "Elite Level of Owned Card:", look at the <em>first pink circle</em> which says "Rank Elite IV". In the box on the form, change "VII" to "IV"</li>
+<li>For "XP Level of Owned Card:", look at the <em>second pink circle</em> which says "Current Level 48". In the box on the form, change "50" to "48"</li>
+<li>For "Damage for Owned Card:", look at the <em>blue circle</em> which says "Damage 27,579". Change the 0 to 27579 in the "Damage for Owned Card" box.</li>
+<li>For "Health for Owned Card:", look at the <em>red circle</em> which says "Health 68,133". Change the 0 to 68133 in the "Health for Owned Card" box.</li>
+<li>For the two "Character Bonuses: +10% Damage +10% Health" check boxes, look at the <em>green circled</em> "Support Enhancements" cards. Since both the "Health" support card and the "Damage" support card are active, check off both of these boxes.</li>
+<li><div>
+<p>The next part is slightly tricky. If you do not already know about Support Cards for All Characters, you need to understand what they are and how to find out which ones are active in your collection. These cards give bonus Health or Damage points to <em>all</em> characters in your collection.</p>
+<p>To find them, in the game, I pressed the "BACK" button to go back to my collection. Then I selected the "SUPPORT CARDS" section. It is between "UPGRADES" and "GEAR CARDS."</p>
+<p>In the right hand corner, I sorted the Support Cards by CHARACTER. The cards which apply to all characters will move to the beginning of the list.</p>
+<p>Next I scrolled through the Support Cards and found those which have either a <em>red heart</em> or a <em>blue fist</em>. I've included an image of Swamp Thing and three Damage Support Cards. <img src=images/AllCharsSupportCards.png alt=AllCharsSupportCards.png width=448 height=244></p>
+<p>For each of the Support Cards, I made sure that the corresponding checkbox on the form was checked off. Since I have all of the "All Characters" Health and Bonus Support Cards, I checked all of these boxes.</p>
+</div></li>
+<li><div><p>You can see what the form would look like after filling in all of the fields correctly.</p>
+<p><img src=images/BNMMH_FilledIn.PNG alt=BNMMH_FilledIn.PNG width=550 height=296>
+</div>
+</li>
+</ol>
+<input type=button value="Got it!" onclick='HandleOwnedCharAugs.HideExplanation("OwnedCharacterExplained")'>
+</div>
+<form id=formTweakedAugmentations>
+<div id=hiddenOwnedCharTweak class=micsc_nodisplay>
+<strong>Tweak Augmentations for Owned Character:</strong><br>
+The augmentations you have already applied to your character have been filled in below. You can play with adding more augmentation cards to see what stats you would get.
+<div id=owned_augmentations_inputs></div>
+<input type=button value="Tweak Augmentations" onclick=HandleOwnedCharAugs.TweakOwnedCharAugmentations()>
+<div id=tweakedAugmentationsMsg></div>
+<div id=tweakedAugmentationsOutput></div>
+</div>
+</form>
+<div class=micsc_AugmentationCardsReminder></div>
+<div class=micsc_copyrightnotice></div>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=specialsSection class=micsc_sectionHeader>
+<input id=specials-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Special 1, Special 2 and Super Damage: Calculates the damage of a character's special moves, super moves and basic attacks when you enter their damage stat.
+</h3>
+<div id=specials-expansion class=micsc_expandedSection>
+<form id=formSpecials>
+<p>Note! Suicide Squad characters' specials have not yet been added; the numbers reported here are not verified.</p>
+<p>Different characters have different damages for their specials, based on their current damage stat and on other factors. For example, if the special has an extra effect such as bleed, stun chance, drain power, burn/flames, freeze, poison, or unblockable, it will <em>usually</em> do half the damage than moves which do not have these effects. Another factor that affects special/super move damage is if the character's move is some sort of exception.
+</p>
+<p>
+To use this section, first find the Damage stat for the character and type it into the box below. Then, either select the character from the drop-down list <strong>or</strong> choose the desired checkboxes. If the character has a normal special/super move, it's box should be checked. CLEAR the checkbox if the character has extra effects for its special move. As soon as you select the character or check/uncheck the boxes, the damages for specials, super move and basic attacks will be filled in.
+</p>
+<table class=micsc_table_spacing>
+<tr class=micsc_padding>
+<td class=micsc_big_padding>1:</td>
+<td class=micsc_big_padding>
+<em>Damage Stat:</em><br>
+<input class=micsc_large_input id=fldSpecialsDamageStat value=0><br>
+<td><td></tr>
+<tr class=micsc_padding>
+<td class=micsc_big_padding>2:</td>
+<td class=micsc_big_padding>
+<em>Character:</em><br>
+<select id=ddlSpecialSuperCharacters onchange=HandleSpSup.onClickSpecialsDamage(this)>
+<option value="">Select Character</option>
+</select>
+</td>
+<td class=micsc_big_padding><strong>OR</strong></td>
+<td class=micsc_big_padding>
+<em>Use checkboxes:</em> <input type=checkbox id=use_checkboxes_for_spsup value=use_checkboxes_for_spsup onchange=HandleSpSup.onClickSpecialsDamage(this)><br>
+Normal Sp1: <input type=checkbox id=normal_special_1 value=normal_special_1 checked onchange=HandleSpSup.onClickSpecialsDamage(this)><br>
+Normal Sp2: <input type=checkbox id=normal_special_2 value=normal_special_2 checked onchange=HandleSpSup.onClickSpecialsDamage(this)>
+</td>
+</tr>
+</table>
+<input type=button value="Calculate Specials" onclick=HandleSpSup.onClickSpecialsDamage(this)>
+<div id=specialsError class=micsc_error_msg></div>
+<div id=special1results></div>
+<div id=special2results></div>
+<div id=superresults></div>
+<div id=spsup_basicattacks></div>
+</form>
+<input id=specials_HTMLCodeBtn type=button value="Embeddable HTML Code" onclick=Basic.showHTMLcode(this)><br>
+<textarea id=specials_HTMLCode cols=90 rows=20 style=display:none readonly></textarea>
+<div class=micsc_copyrightnotice></div>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=charComparisonSection class=micsc_sectionHeader>
+<input id=sidebyside-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Side-by-Side: Compares up to 5 characters' stats at any levels, elites and augmentations
+</h3>
+<div id=sidebyside-expansion class=micsc_expandedSection>
+<form id=formSideBySide>
+<div id=compareChar_active_support_cards_for_all></div>
+<p><strong>Choose up to 5 characters, their bonuses, and levels:</strong></p>
+<div id=sidebysideTable class=micsc_horiz_overflow></div>
+<input type=button value="Compare Characters" onclick=SideBySideCompare.onClickSideBySideCharCompare()>
+<div id=charCompareMsg></div>
+<div id=charCompareOutput></div>
+</form>
+<input id=charCompare_HTMLCodeBtn type=button value="Embeddable HTML Code" onclick=Basic.showHTMLcode(this)><br>
+<textarea id=charCompare_HTMLCode cols=90 rows=20 style=display:none readonly></textarea>
+<div class=micsc_copyrightnotice></div>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=customCharacterSection class=micsc_sectionHeader>
+<input id=customchar-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Custom Character: Make up a character with your own "store" Damage and Health stats
+</h3>
+<div id=customchar-expansion class=micsc_expandedSection>
+<form id=formCustomChar>
+<fieldset>
+<legend>Fill in Bonuses</legend>
+<div id=customChar_bonuses></div>
+<div id=customChar_active_support_cards_for_all></div>
+</fieldset>
+<fieldset>
+<legend>Display: Elite Levels, XP Levels and Augmentations:</legend>
+Display <strong>Elite</strong> Levels:
+<select id=ddlCustomDisplayEliteStart></select>to<select id=ddlCustomDisplayEliteEnd></select>
+and <strong>XP</strong> Levels:
+<select id=ddlCustomDisplayXPStart></select>to<select id=ddlCustomDisplayXPEnd></select><br>
+<div id=customChar_augmentations_inputs></div>
+</fieldset>
+<fieldset>
+<legend>Store (Starting) Values</legend>
+Fill in Store Values for Damage and Health and Character Color:
+<p>
+Store Damage:
+<input class=micsc_medium_input id=fldDamageCustomChar value=1200 size=4>
+Store Health:
+<input class=micsc_medium_input id=fldHealthCustomChar value=1300 size=4>
+<label for=fldColorCustomChar>Color:</label>
+<select id=fldColorCustomChar>
+<option value=Gold selected>Gold</option>
+<option value=Silver>Silver</option>
+<option value=Bronze>Bronze</option>
+</select>
+</p>
+</fieldset>
+<input type=button value="Calculate Custom Character" onclick=HandleCharCalculations.onClickCalculateCustomChar()>
+<div id=customCharacterMsg class=micsc_error_msg></div>
+<div id=customCharacterOutput></div>
+</form>
+<input id=customChar_HTMLCodeBtn type=button value="Embeddable HTML Code" onclick=Basic.showHTMLcode(this)><br>
+<textarea id=customChar_HTMLCode cols=90 rows=12 style=display:none readonly></textarea>
+<div class=micsc_AugmentationCardsReminder></div>
+<div class=micsc_copyrightnotice></div>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=micsCalcTOS class=micsc_sectionHeader>
+<input id=agreement-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Agreement, License, Copyright<br>
+</h3>
+<div id=agreement-expansion class=micsc_expandedSection>
+<p>Copyright (c) 2014-2016 L Murphy</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<p>Ownership of all other copyrights and trademarks are maintained by their respective owners.</p>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=guideSection class=micsc_sectionHeader>
+<input id=guide-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Guide to Using the Calculator
+</h3>
+<div id=guide-expansion class=micsc_expandedSection>
+<h2>How to Use the Mobile Injustice Character Stats Calculator</h2>
+<p>Note: If you are examining a character card you already own, especially if you <em>may have augmented it</em>, you should start with
+<a href=#guideOwnedCardAugs>Owned Card Augmentations</a>
+section before moving on to the other sections of the calculator. This section tells you how many augmentations you've already applied to your card.
+</p>
+<p>There are seven sections of the calculator which provide data about character cards:</p>
+<ol>
+<li><a href=#guideAllCards>All Cards</a></li>
+<li><a href=#guideCharSearch>Character Search</a></li>
+<li><a href=#guideCharStats>Character Stats</a></li>
+<li><a href=#guideOwnedCardAugs>Owned Card Augmentations</a></li>
+<li><a href=#guideSpecials>Special 1, Special 2 and Super Damage</a></li>
+<li><a href=#guideSideBySide>Side-by-Side</a></li>
+<li><a href=#guideCustomChar>Custom Character</a></li>
+</ol>
+<p>There's also a <a href=#guideNotes>General Notes</a> section of the guide.
+</p>
+<p>There are three self-explanatory sections:</p>
+<ol>
+<li><a href=javascript:void(0); onclick='Basic.jumpToSection("agreement-expand-button","micsCalcTOS")'>
+Agreement, License, Copyright</a></li>
+<li><a href=javascript:void(0); onclick='Basic.jumpToSection("guide-expand-button","guideSection")'>
+This guide</a></li>
+<li><a href=javascript:void(0); onclick='Basic.jumpToSection("outside-expand-button","outsideSection")'>
+Additional Resources</a></li>
+</ol>
+<strong id=guideAllCards style="font-size:large;text-decoration:overline underline">Section 1: All Cards, Sorted</strong>
+<p>
+<a href=javascript:void(0); onclick='Basic.jumpToSection("allsorted-expand-button","sortAllCharsByStatsSection")'>
+All Cards</a> is a quick reference section listing all characters in the game. For each character, you will see:</p>
+<ol>
+<li>Name</li>
+<li>"Title" (e.g. Regime or Insurgency)</li>
+<li>Damage Stat</li>
+<li>Health Stat</li>
+<li>Store Damage Stat (also known as Base Damage Stat)</li>
+<li>Store Health Stat (also known as Base Health Stat)</li>
+<li>Cost - if it is in the store and</li>
+<li>Resale value (If you have extra copies, you can sell them and get power or alliance credits for them)</li>
+</ol>
+<p>The Damage and Health Stats shown are for Elite level VII, XP level 50, and 35% Damage and Health bonuses.</p>
+<p>
+By default, the stats show maximum damage and health <em>augmentations</em> being applied. Since not all players have lots of augmentation cards from <em>Survivor Mode</em>, you can easily adjust the augmentations level. Simply click on the "Augmentations:" box and change "Maxed out 100%" to a different value. For example, to see characters' statistics with no augmentation cards applied, change it to "None 0%".
+</p>
+<p>Note that "-" for "Title" is often called "Prime".</p>
+<strong id=guideCharSearch style="font-size:large;text-decoration:overline underline">Section 2: Character Search</strong>
+<p>
+The <a href=javascript:void(0); onclick='Basic.jumpToSection("search-expand-button","searchSection")'>
+Character Search</a> section allows you to zero in on characters matching rules you specify. Use this section for finding characters to play in Multi-Player or Survivor mode. These two game playing modes match you with opponents based on the attributes of the teams you assemble for a fight.
+</p>
+<p>
+For example, in MP mode, the higher your team's total Damage + Health stats, the higher the opponent team's Damage and Health will be, and if you win the fight, the more battle points you'll earn.
+</p>
+<p>
+You can also use the 'Character Search' section to help you figure out which minimal set of cards you can use to get through Bonus Battle 6, to make the most of your collection and farm it as effectively as possible.
+</p>
+<strong id=guideCharStats style="font-size:large;text-decoration:overline underline">Section 3: Character Stats</strong>
+<p>The
+<a href=javascript:void(0); onclick='Basic.jumpToSection("onechar-expand-button","characterSection")'>
+Character Stats</a>
+section calculates character health and damage for any specified xp and/or elite levels, with any amount of damage or health augmentation cards. It is very good for focusing in on a single character, and looking ahead to where the character will be when you invest in it. By default, the highest elite level VII and highest XP level 50 are pre-selected when you expand this section. However, you can select the drop-down box and choose different Elite levels, or select different XP levels from the other drop-down box.</p>
+<p>By default, <em>no augmentations</em> have been pre-selected for the character. If you have Damage or Health augmentation cards sitting in STAR labs in the game and you would like to see what your card would be like if you applied them to this character, you can do so in this section (as well as some of the other calculator sections.)</p>
+<p>Also, just a reminder: the augmentations are added to the starting (base) stat values for a card. If a card starts with Health stat of 1400 and you apply 1 Major Health Augmentation card, it would be as if that card were now starting with 1408 Health stat.</p>
+<strong id=guideOwnedCardAugs style="font-size:large;text-decoration:overline underline">Section 4: Owned Card Augmentations</strong>
+<p>
+The
+<a href=javascript:void(0); onclick='Basic.jumpToSection("augs-expand-button","characterAugmentations")'>
+Owned Card Augmentations</a>
+section tells you about Damage and Health augmentations for a card you already own.</p>
+<p>
+The Mobile Injustice: Gods Among Us game app does not tell you what augmentations you have already applied to a character when you look at it. It only tells you the Damage and Health the character currently has - there is no way to determine by looking at those numbers if you have applied Damage or Health augmentation cards, or how many.</p>
+<p>
+In the Owned Card Augmentations section, you fill in the information from the back of your owned character card, and then the calculator will tell you what augmentations you have applied to its Damage and Health, and will also tell you how many more augmentation cards you could apply to the character before reaching the maximum.</p>
+<p>
+If the values you provide in the "Damage for Owned Card:" and "Health for Owned Card:" boxes do not match the calculations, the calculator will tell you the closest values matching the ones you have entered. You can use this feature to reach a target.</p>
+<p>
+So for example, let's say you have Ares E7 50 and all support cards active. You want to get his Damage up to 55,000. You pick Ares from the "Character" box, pick VII and 50. Type 55000 into the "Damage for Owned Card:" box. Check all of the Bonus check boxes. Click the button "Calculate Current and Remaning Damage and Health Augmentations." You will get a message like:</p>
+<pre>
+Please fix 'Damage for Owned Card:' value to match your character card. 55000 doesn't appear to be correct. Closest: 54967, level 204.
+</pre>
+<p>
+This means that you can get Ares E7 50 to Damage 54,967 by applying (for example) 102 Minor Damage Augment Cards (204 / 2 = 102).
+</p>
+<p>
+If you do not get an error message, you can review the augmentations remaining you could apply, and then you can tweak the card, adding additional augmentation cards to the character to see where it would end up if you applied the augmentations.</p>
+<strong id=guideSpecials style="font-size:large;text-decoration:overline underline">Section 5: Special 1, Special 2, Super and Basic Attacks Damage</strong>
+<p>The <a href=javascript:void(0); onclick='Basic.jumpToSection("specials-expand-button","specialsSection")'>Specials section</a> is shorter and simpler than the others. You provide the character's Damage stat from another section of the calculator, or from the game app, and it provides tables showing how much damage Special 1, Special 2, the Supermove will do depending on how many of the 10 bars you have bought for the character.</p>
+<p>This section will also show Basic Attacks stats: light tap, knockdown swipe and heavy swipe damage.</p>
+<p>You can select the character from a drop-down box so that you do not need to know which characters have normal Specials/Supers and which characters do not.</p>
+<strong id=guideSideBySide style="font-size:large;text-decoration:overline underline">Section 6: Side-by-Side Comparision</strong>
+<p>The
+<a href=javascript:void(0); onclick='Basic.jumpToSection("sidebyside-expand-button","charComparisonSection")'>
+Side-by-Side</a> comparison section lets you compare up to five characters side-by-side. It lets you look at their potential stats right next to each other and see which ones would the better investments for gaining XP levels, promoting Elite levels or applying damage or health augmentation cards.</p>
+<p>This section's results show you the levels, bonuses and augmentations used as inputs to the calculations, and then shows you the Damage, Health, Light tap, Knockdown swipe, and Heavy Swipe values for each card. It also provides each character's store Damage and Health, for your convenience.</p>
+<strong id=guideCustomChar style="font-size:large;text-decoration:overline underline">Section 7: Custom Character</strong>
+<p>The
+<a href=javascript:void(0); onclick='Basic.jumpToSection("customchar-expand-button","customCharacterSection")'>
+Custom Character</a>
+section is for characters which do not yet exist in the rest of the calculator. Maybe you are experimenting with creating a new character. Or maybe WB released a character I have not yet added to the other sections of the calculator. This section allows you to plug in the starting store (base) Damage and Health stats and the color of the card, and then you will see the same information as you see in the <a href=#guideCharStats>Character Stats</a> section of the calculator.
+</p>
+<strong id=guideNotes style="font-size:large;text-decoration:overline underline">General Notes</strong>
+<p>
+You should note that this calculator provides stats, but does not give you a complete picture of how to succeed at this game. There are many factors which impact how successful you will be. Here are some examples:</p>
+<ul>
+<li>Your individual playing style.</li>
+<li>Your best gear.</li>
+<li>The character cards' passives. For example, Hal Jordan's passive is very unusual, and so his statistics make him seem like a much better card than he is when you actually play him. (His passive is "Red Landern Rage - Special Attacks and Supermove use HEALTH instead of POWER. Red Lantern Hal CANNOT be healed.")</li>
+<li>The cards' special moves. Some cards have a Special 1 move that packs serious damage. However, some very powerful cards have weak Special 1 moves.<p>The Batmen skins are prime examples of cards which would normally have pretty good damage for Special 1, but actually have weak Special 1 moves. So in battles where you will need strong Special 1 moves, you will need to team up Batmen with other cards which have strong Special 1 moves.</p>
+<p>Other cards have strong enough Special 1 moves, but their Special 2 moves lack instant knock-out power. Regime Superman and 600 Wonder Woman are examples of this type. Sometimes in a fight you need to bring out the "big guns," but cards with weak Special 2 moves can leave you high and dry in those moments. The Ares character has a good Special 2 which knocks out most other characters.
+</p>
+<p>Some cards have both strong Special 1 moves and Special 2 moves. To see these characters, check the "Special 1 + Special 2 Moves" checkbox in the Search Characters section, then sort by that column. Those will be the ones better at inflicting damage during battle. However, be sure to check their health stats; cards inflicting tons of damage tend to have lower health stats and be less "tank-y." You will probably want to team them up with characters with better health stats. Or, you can team them up with Batgirl to do as much damage as instantly as possible so that the lower health stat is not that much of a factor.</p>
+</li>
+<li>The cards' speeds. For example, Darkseid is very tanky and has high damage stats, but he is rather slow to fight with. Supermen cards tend to be much slower than Batmen cards.</li>
+</ul>
+<p>For these reasons and more, keep in mind that you cannot rely only on statistics to tell you what the best cards are.
+</p>
+<div class=micsc_EndOfSection></div>
+</div>
+<h3 id=outsideSection class=micsc_sectionHeader>
+<input id=outside-expand-button type=button value=Expand onclick=Basic.toggleExpansion(this) class=micsc_sectionExpandButton>
+Additional Resources<br>
+</h3>
+<div id=outside-expansion class=micsc_expandedSection>
+<ol>
+<li><a target=_blank href="https://docs.google.com/spreadsheets/d/11Dhxw7EGbkMLKBrhOxocT3rrgX37ndzT2pz8D5sZA-E/edit?pref=2&pli=1#gid=2">Injustice Levels spreadsheet</a>: The 'Characters' tab shows passives, characters' gears, and how to get each card.</li>
+<li><a target=_blank href=http://community.wbgames.com/t5/Player-Guides/bd-p/The-Arena>Player Created Guides</a>: Guides written by other mobile Injustice players.</li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/ >Injustice: Gods Among Us Mobile Fan Community on Facebook.</a> This includes about two dozen character reviews:
+<ol>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1615562208734161>Aquaman, Injustice 2</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1456878157935901/ >Aquaman, Prime & Regime</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1556106211346428>Batman, Arkham Knight</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1432925280331189>Batman, Beyond Animated</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1609165979373784>Batman, Beyond Animated</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1451168471840203/ >Black Adam, Regime</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1606941476262901>Catwoman, Arkham Knight</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1566636913626691>Darkseid, Apokolips</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1442832506007133>Green Lantern, Red Son</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1541816736108709>Hal Jordan, Red Lantern</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1556396224650760/ >Harley Quinn, Arkham Knight</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1509790725977977/ >Hawkgirl, Regime</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1446344285655955/ >Killer Frost, Regime</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1516435881980128>Lobo, Bounty Hunter</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1530416853915364/ >Martian Manhunter</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1540645436225839>Martian Manhunter, Blackest Night</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1457893131167737/ >Scorpion, MKS</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1598995347057514/ >Sinestro, Antimatter</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1468459666777750/ >Sinestro, Green Lantern</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1470836593206724/ >Static</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1535547766735606/ >Superman, Godfall</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1612691112354604>Superman, Injustice 2</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1448658482091202/ >The Flash, Elseworld</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1594120144211701>The Flash, Metahuman</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1497852563838460/ >The Joker, Arkham Origins</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/photos/1564939567129759>Wonder Woman, Justice League</a></li>
+<li><a target=_blank href=https://www.facebook.com/injustfancom/videos/1480322158924834/ >Zatanna</a></li>
+</ol>
+</li>
+<li><a target=_blank href=http://injustice-mobile.wikia.com/wiki/Injustice_Mobile_Wiki>Injustice Mobile Wiki on wikia.com</a></li>
+<li><a target=_blank href=https://www.facebook.com/injusticegame>Warner Bros. Injustice Facebook Page.</a>
+</li>
+</ol>
+You can find the Injustice: Gods Among Us app
+<a target=_blank href="https://play.google.com/store/apps/details?id=com.wb.goog.injustice">on Google</a> or
+<a target=_blank href=https://itunes.apple.com/us/app/injustice-gods-among-us/id575658129>in iTunes</a>. There are also resources on reddit, YouTube, and Gamefaqs.
+<div class=micsc_EndOfSection></div>
+</div>
+<script>var Basic=function(){function a(a){var e=document.getElementById(a);return e||console.log('MISSING ELEMENT: "'+a+'"'),e}function e(e,t){var r=a(e);return r&&r.checked?t:0}function t(e){var t;return t=a(e),parseInt(t.options[t.selectedIndex].value,10)}function r(e){var t=a(e);return t?t.value:""}function n(a){return a%2===0}function s(a){return 0===a?"Normal":1==a?"I":2==a?"II":3==a?"III":4==a?"IV":5==a?"V":6==a?"VI":7==a?"VII":8==a?"VIII":9==a?"IX":10==a?"X":"Unknown Elite "+a}function o(a){return a.toString().replace(/\B(?=(\d{3})+(?!\d))/g,",")}function i(e,t){var r=a(e);"Expand"==r.value&&c(r),window.location.hash=t}function c(a){"Expand"==a.value?a.value="Collapse":a.value="Expand",B(d(a),"inline")}function d(a){var e=a.id,t="-expand-button".length,r=e.length,n=e.substring(0,r-t)+"-expansion";return n}function l(a,e){for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)t[r].href&&(t[r].style.color=a,t[r].style.backgroundColor=e)}function u(){"micsc_dark_style"==A?l("#00FF00","#000000"):l("#0000EE","#FFFFFF")}function h(a,e){for(var t=[].slice.apply(document.getElementsByClassName(a)),r=new RegExp(" *"+a,"g"),n=0;n<t.length;n++)t[n].className=t[n].className.replace(r,e)}function m(){A="micsc_light_style",h("micsc_dark_style",A)}function g(){A="micsc_dark_style",h("micsc_light_style",A)}function p(){"micsc_dark_style"==A?m():g(),u()}function C(a,e){return Math.random()*(e-a)+a}function S(){return C(1,1e5)}function B(e,t){var r=a(e);"none"==r.style.display||""===r.style.display?r.style.display=t:r.style.display="none"}function b(a){var e=a.id.split("_")[0],t=e+"_HTMLCode",r=a.value.toLowerCase();r!==_.toLowerCase()?a.value=_:a.value="Hide HTML Code",B(t,"block")}var f={},v=function(a){return f[a]},A="micsc_light_style",_="Embeddable HTML Code";return String.prototype.includes||(String.prototype.includes=function(a,e){"use strict";return"number"!=typeof e&&(e=0),!(e+a.length>this.length)&&this.indexOf(a,e)!==-1}),String.prototype.startsWith||(String.prototype.startsWith=function(a,e){return e=e||0,this.substr(e,a.length)===a}),String.prototype.endsWith||(String.prototype.endsWith=function(a,e){var t=this.toString();("number"!=typeof e||!isFinite(e)||Math.floor(e)!==e||e>t.length)&&(e=t.length),e-=a.length;var r=t.indexOf(a,e);return r!==-1&&r===e}),f[1.9]={getElById:a,getInputCheckboxNumber:e,getIntFromDDL:t,isEven:n,cvtRankToRoman:s,numberWithCommas:o,toggleExpansion:c,jumpToSection:i,getFormVal:r,colorTheme:p,fixLinkColors:u,getRandomRequestId:S,onToggleShow:B,embeddableHTMLBtnLabel:_,showHTMLcode:b,getAPIByVersion:v},v("1.9")}(),SimpleWrites=function(){function a(a,e){for(var t=document.getElementsByClassName(a),r=0;r<t.length;r++)t[r].innerHTML=e}var e='<strong>Quick index: </strong><span><a href="javascript:void(0);" onclick="Basic.jumpToSection(\'allsorted-expand-button\',\'sortAllCharsByStatsSection\');">All cards,sorted</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'search-expand-button\',\'searchSection\');">Character Search</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'onechar-expand-button\',\'characterSection\');">Character stats</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'augs-expand-button\',\'characterAugmentations\');">Owned card augmentations</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'specials-expand-button\',\'specialsSection\');">Special &amp; Super moves damage</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'sidebyside-expand-button\',\'charComparisonSection\');">Side-by-side characters</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'customchar-expand-button\',\'customCharacterSection\');">Make up custom character</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'agreement-expand-button\',\'micsCalcTOS\');">Agreement</a>, <a href="javascript:void(0);" onclick="Basic.colorTheme();">Colors</a>, <a href="javascript:void(0);" onclick="Basic.jumpToSection(\'guide-expand-button\',\'guideSection\');">Guide</a></span>';a("micsc_EndOfSection",'<p><a href="#calculatorTop">Back to Top</a>, '+e+"</p><hr class='micsc_hr'>");var t="",r="";return a("micsc_copyrightnotice",r),a("micsc_AugmentationCardsReminder","<p><em>Augmentation Cards are added to starting store values for Damage and Health values, rather than final Damage or Health values. Note that minor cards add 2 to store values, medium cards add 4 to store values, and major cards add 8 to store values.</em></p>"),document.getElementById("QuickIndex").innerHTML=e,a("adpage","If you don't mind being tracked and wish to support this work, visit the <a target='_blank' href='adpage.php'>ad page</a>.<br /><a href=\"#calculatorTop\">(Back to Top)</a>"),{CopyRightStmt:t}}(),Characters=function(){function a(){return 300}function e(){return 150}function t(){return 0}function r(){return 1}function n(){return 2}function s(){return 3}function o(){return 4}function i(){return 5}function c(){return 6}function d(a,e){var n;for(n=0;n<b.length;n++){var s=b[n];if(s[t()]===e&&s[r()]===a)return n}return-1}function l(a){return"-"===a[t()]?a[r()]:a[t()]+" "+a[r()]}function u(){return b.length}function h(a){var e=b[a];return e.slice()}function m(a){return a[r()]+", "+a[t()]}function g(a){var e=Basic.getElById(a),t=e.options[e.selectedIndex],r=t.value,n=r.split(", "),s=n[0],o=n[1];return d(s,o)}function p(a){var e,t=g(a);return e=t>=0?h(t):null}function C(a){var e=a[r()].toLowerCase(),n=a[t()].toLowerCase();return"the joker"===e&&"the killing joke"===n?" AC":""}var S={},B=function(a){return S[a]},b=[["-","Aquaman","Gold",950,1050,220,"AM"],["Injustice 2","Aquaman","Gold",1400,1400,479,"I2AM"],["Regime","Aquaman","Gold",800,1050,192,"RAM"],["-","Ares","Gold",1200,900,241,"Ares"],["-","Bane","Gold",650,1e3,157,"Bane"],["Arkham Origins","Bane","Gold",1100,1100,262,"AOB"],["Luchador","Bane","Gold",1100,800,201,"LB"],["-","Batgirl","Gold",850,1e3,192,"BG"],["Cassandra Cain","Batgirl","Gold",1150,950,241,"CCBG"],["-","Batman","Gold",700,1100,182,"BM"],["Arkham Knight","Batman","Gold",1200,1300,395,"AKBM"],["Arkham Origins","Batman","Gold",1e3,1150,375,"AOBM"],["Beyond","Batman","Gold",850,900,174,"BBM"],["Beyond Animated","Batman","Gold",1100,1050,252,"ABB"],["Blackest Night","Batman","Gold",1e3,800,182,"BNBM"],["Dawn of Justice","Batman","Gold",1300,1200,400,"DOJBM"],["Insurgency","Batman","Gold",750,1050,182,"IBM"],["Red Son","Batman","Gold",900,1e3,201,"RSBM"],["Kahndaq","Black Adam","Gold",1100,1200,341,"KBA"],["Regime","Black Adam","Gold",750,750,133,"RBA"],["Ame-Comi","Catwoman","Gold",1200,1400,416,"ACCW"],["Arkham Knight","Catwoman","Gold",1300,1e3,351,"AKCW"],["Batman Returns","Catwoman","Gold",950,850,182,"BRCW"],["Teen Titans","Cyborg","Gold",700,1e3,165,"TTCY"],["-","Darkseid","Gold",1050,1200,274,"DKSD"],["Apokolips","Darkseid","Gold",1100,1400,333,"ADKSD"],["Suicide Squad","Deadshot","Gold",1450,1250,495,"SSQDS"],["Arkham Origins","Deathstroke","Gold",850,1100,211,"AODS"],["Red Son","Deathstroke","Gold",950,900,192,"RSDS"],["-","Doomsday","Gold",850,1050,201,"DD"],["Blackest Night","Doomsday","Gold",1050,1400,350,"BNDD"],["Containment","Doomsday","Gold",700,600,220,"CSDD"],["Man of Steel","General Zod","Gold",800,1200,220,"MOSZOD"],["Arrow","Green Arrow","Gold",900,950,192,"AGA"],["John Stewart","Green Lantern","Gold",750,950,165,"JSGL"],["Red Son","Green Lantern","Gold",850,1150,220,"RSGL"],["Red Lantern","Hal Jordan","Gold",950,1400,325,"RLHJ"],["Animated","Harley Quinn","Gold",700,900,148,"ANHQ"],["Arkham","Harley Quinn","Gold",900,950,192,"ARHQ"],["Arkham Knight","Harley Quinn","Gold",1100,1e3,285,"AKHQ"],["Suicide Squad","Harley Quinn","Gold",1250,1450,491,"SSQHQ "],["-","Hawkgirl","Gold",900,950,192,"HG"],["Regime","Hawkgirl","Gold",1100,1e3,241,"RHG"],["-","Killer Frost","Gold",850,1200,231,"KFP"],["Regime","Killer Frost","Gold",700,1250,211,"RKF"],["Krypto","Lex Luthor","Gold",800,950,174,"KLL"],["-","Lobo","Gold",850,1e3,182,"LOBO"],["Bounty Hunter","Lobo","Gold",1250,950,262,"BHL"],["-","Martian Manhunter","Gold",750,1200,211,"MMH"],["Blackest Night","Martian Manhunter","Gold",1e3,1300,330,"BNMMH"],["New 52","Nightwing","Gold",850,950,182,"N52NW"],["-","Raven","Gold",1050,1e3,231,"RP"],["Regime","Raven","Gold",950,950,201,"RR"],["Teen Titans","Raven","Gold",1400,1200,426,"TTR"],["-","Reverse Flash","Gold",1e3,1e3,300,"RVF"],["Mortal Kombat","Scorpion","Gold",950,850,182,"MKS"],["Mortal Kombat X","Scorpion","Gold",1200,1e3,262,"MKXS"],["-","Shazam","Gold",950,1350,395,"SHAZAM"],["Antimatter","Sinestro","Gold",1200,1200,369,"AMS"],["Green Lantern","Sinestro","Gold",900,950,192,"GLS"],["Boss","Solomon Grundy","Gold",550,1250,182,"BSG"],["Earth 2","Solomon Grundy","Gold",1100,1300,335,"E2SG"],["Red Son","Solomon Grundy","Gold",800,900,165,"RSSG"],["-","Static","Gold",1050,1050,241,"STATIC"],["-","Superman","Gold",800,1200,220,"SM"],["Dawn of Justice","Superman","Gold",1300,1300,430,"DOJSM"],["Godfall","Superman","Gold",1e3,1250,274,"GFSM"],["Injustice 2","Superman","Gold",1300,1500,491,"I2SM"],["Man of Steel","Superman","Gold",800,1200,220,"MOSSM"],["Prison","Superman","Gold",700,800,133,"PSM"],["Red Son","Superman","Gold",1e3,1100,241,"RSSM"],["Regime","Superman","Gold",900,1100,220,"RSM"],["Arkham Knight","The Arkham Knight","Gold",1100,1200,310,"AKAK"],["Elseworld","The Flash","Gold",750,750,133,"EWF"],["Metahuman","The Flash","Gold",1200,1200,365,"MHF"],["Arkham Origins","The Joker","Gold",1150,850,220,"AOJ"],["Insurgency","The Joker","Gold",750,850,148,"IJ"],["Suicide Squad","The Joker","Gold",1350,1350,493,"SSQJO"],["Suicide Squad","The Joker Unhinged","Gold",1400,1300,496,"SSQJU"],["The Killing Joke","The Joker","Gold",950,750,60,"KJJ"],["600","Wonder Woman","Gold",800,1100,201,"WW600"],["Dawn of Justice","Wonder Woman","Gold",1100,1400,395,"DOJWW"],["Justice League","Wonder Woman","Gold",1300,1200,370,"JLWW"],["Red Son","Wonder Woman","Gold",900,1e3,201,"RSWW"],["Regime","Wonder Woman","Gold",750,1050,182,"RWW"],["-","Zatanna","Gold",900,1150,231,"ZAT"],["-","Zod","Gold",800,1200,220,"ZOD"],["Knightfall","Bane","Silver",470,420,50,"KFB"],["Regime","Bane","Silver",460,400,47,"RBANE"],["-","Black Adam","Silver",500,400,51,"BA"],["-","Catwoman","Silver",400,300,35,"CW"],["Regime","Cyborg","Silver",370,450,44,"RCY"],["-","Deathstroke","Silver",460,400,47,"DS"],["Regime","Doomsday","Silver",400,500,51,"RDD"],["-","Green Arrow","Silver",380,420,42,"GA"],["Regime","Green Lantern","Silver",450,400,47,"RGL"],["Insurgency","Harley Quinn","Silver",380,320,35,"IHQ"],["Insurgency","Lex Luthor","Silver",420,420,46,"ILL"],["Regime","Nightwing","Silver",420,380,42,"RNW"],["Regime","Sinestro","Silver",450,400,47,"RSIN"],["-","Solomon Grundy","Silver",350,480,45,"SG"],["Regime","The Flash","Silver",480,370,47,"RF"],["-","The Joker","Silver",470,400,48,"JOK"],["-","Wonder Woman","Silver",420,460,49,"WW"],["Regime","Catwoman","Bronze",220,180,8,"RCW"],["-","Cyborg","Bronze",190,250,10,"CY"],["Insurgency","Deathstroke","Bronze",270,200,12,"IDS"],["Insurgency","Green Arrow","Bronze",190,230,9,"IGA"],["-","Green Lantern","Bronze",260,200,11,"GL"],["New 52","Green Lantern","Bronze",270,210,12,"N52GL"],["-","Harley Quinn","Bronze",200,200,8,"HQ"],["-","Lex Luthor","Bronze",220,220,10,"LL"],["-","Nightwing","Bronze",210,210,9,"NW"],["-","Sinestro","Bronze",260,200,11,"SIN"],["Regime","Solomon Grundy","Bronze",200,260,11,"RSG"],["-","The Flash","Bronze",280,180,11,"TF"],["New 52","The Flash","Bronze",280,180,11,"N52F"]];return S[1.9]={maxAug:a,halfAug:e,idxTitle:t,idxName:r,idxColor:n,idxStoreDamage:s,idxStoreHealth:o,idxCost:i,idxAbbr:c,numCharacters:u,getCharacterByIndex:h,getTitledCharName:l,getCharVal:m,getCharArrById:p,addAllianceCreditsIfNeeded:C,getAPIByVersion:B},B("1.9")}(),CharacterInputs=function(){function a(a,r,n,s,o,i,c,d,l,u,h,m,g,p,C,S,B){""!==n&&(this.characterArr=Characters.getCharArrById(n)),this.DamageBonusPercent=e(a,r),this.HealthBonusPercent=t(a,r),this.StartRank=Basic.getIntFromDDL(s),this.EndRank=Basic.getIntFromDDL(o),this.StartXPLevel=Basic.getIntFromDDL(i),this.EndXPLevel=Basic.getIntFromDDL(c);var b=parseInt(Basic.getFormVal(d),10),f=parseInt(Basic.getFormVal(l),10),v=parseInt(Basic.getFormVal(u),10),A=parseInt(Basic.getFormVal(h),10);this.DamageBonusMultiplier=this.DamageBonusPercent/100+1,this.HealthBonusMultiplier=this.HealthBonusPercent/100+1;var _=""!==m?2*parseInt(Basic.getFormVal(m),10):0,H=""!==g?4*parseInt(Basic.getFormVal(g),10):0,D=""!==p?8*parseInt(Basic.getFormVal(p),10):0,M=_+H+D,x=""!==C?2*parseInt(Basic.getFormVal(C),10):0,k=""!==S?4*parseInt(Basic.getFormVal(S),10):0,y=""!==B?8*parseInt(Basic.getFormVal(B),10):0,R=x+k+y;this.StartAugmentationDamage=b+M,this.EndAugmentationDamage=f+M,this.StartAugmentationHealth=v+R,this.EndAugmentationHealth=A+R}function e(a,e){var t=0;return t+=Basic.getInputCheckboxNumber(a+e+"character_attack_bonus",10),t+=Basic.getInputCheckboxNumber(a+"ravager_bonus",4),t+=Basic.getInputCheckboxNumber(a+"starfire_bonus",5),t+=Basic.getInputCheckboxNumber(a+"taliaalghul_bonus",6),t+=Basic.getInputCheckboxNumber(a+"thespectre_bonus",7),t+=Basic.getInputCheckboxNumber(a+"timdrake_bonus",3)}function t(a,e){var t=0;return t+=Basic.getInputCheckboxNumber(a+e+"character_health_bonus",10),t+=Basic.getInputCheckboxNumber(a+"black_manta_bonus",5),t+=Basic.getInputCheckboxNumber(a+"hawkman_bonus",4),t+=Basic.getInputCheckboxNumber(a+"kilowog_bonus",3),t+=Basic.getInputCheckboxNumber(a+"parallax_bonus",6),t+=Basic.getInputCheckboxNumber(a+"swampthing_bonus",7)}function r(a,e,t,r){var n,s=!0;return n=Basic.getElById(e),n.innerHTML="",a.characterArr?""===a.characterArr[Characters.idxName()]&&(n.innerHTML+="<br />Please select a character",s=!1):(n.innerHTML+="<span class='micsc_error_msg'>No character selected?</span>",s=!1),a.DamageBonusPercent<0&&(n.innerHTML+="<br />Missing Damage Bonus % value",s=!1),a.HealthBonusPercent<0&&(n.innerHTML+="<br />Missing Health Bonus % value",s=!1),(a.characterArr[Characters.idxStoreDamage()]>9999||a.characterArr[Characters.idxStoreDamage()]<100)&&(n.innerHTML+="<br />Store Damage must be between 100 and 9999",s=!1),(a.characterArr[Characters.idxStoreHealth()]>9999||a.characterArr[Characters.idxStoreHealth()]<100)&&(n.innerHTML+="<br />Store Health must be between 100 and 9999",s=!1),(a.StartRank<0||a.StartRank>10)&&(n.innerHTML+="<br />Starting Elite level must be between 0 and 10",s=!1),(a.EndRank<0||a.EndRank>10)&&(n.innerHTML+="<br />Ending Elite level must be between 0 and 10",s=!1),a.EndRank<a.StartRank&&(n.innerHTML+="<br />Ending Elite level must be >= Starting Elite level",s=!1),(a.StartXPLevel<1||a.StartXPLevel>100)&&(n.innerHTML+="<br />Starting XP level must be between 1 and 100",s=!1),(a.EndXPLevel<1||a.EndXPLevel>100)&&(n.innerHTML+="<br />Ending XP level must be between 1 and 100",s=!1),a.EndXPLevel<a.StartXPLevel&&(n.innerHTML+="<br />Ending XP level must be >= Starting XP level",s=!1),(a.StartAugmentationDamage<0||a.StartAugmentationDamage>Characters.maxAug())&&(n.innerHTML+="<br />Starting Damage Augmentation must be between 0 and "+Characters.maxAug(),s=!1),(a.EndAugmentationDamage<0||a.EndAugmentationDamage>Characters.maxAug())&&(n.innerHTML+="<br />Ending Damage Augmentation must be between 0 and "+Characters.maxAug(),s=!1),a.EndAugmentationDamage<a.StartAugmentationDamage&&(n.innerHTML+="<br />Ending Damage Augmentation must be >= Starting Damage Augmentation",s=!1),(a.StartAugmentationHealth<0||a.StartAugmentationHealth>Characters.maxAug())&&(n.innerHTML+="<br />Starting Health Augmentation must be between 0 and "+Characters.maxAug(),s=!1),(a.EndAugmentationHealth<0||a.EndAugmentationHealth>Characters.maxAug())&&(n.innerHTML+="<br />Ending Health Augmentation must be between 0 and "+Characters.maxAug(),s=!1),a.EndAugmentationHealth<a.StartAugmentationHealth&&(n.innerHTML+="<br />Ending Health Augmentation must be >= Starting Health Augmentation",s=!1),s&&(n=Basic.getElById(t),n.innerHTML=""),s}var n={},s=function(a){return n[a]};return n[1.9]={CharacterInputsFromFields:a,validInputs:r,getAPIByVersion:s},s("1.9")}(),GenAugmentationCards=function(){function a(a,e,t,r){var n="",s=a+e;return t&&(n+="<strong>"+e+" Augmentations:</strong><br />\n"),n+="Cards:<br />\n",n+='Minor:<input id="'+s+'AugMinorCards" class="micsc_small_input" type="text" value="0"\n',n+="  onchange='GenAugmentationCards.setAugTotals(\""+s+"\");'> \n",n+='Med:<input id="'+s+'AugMediumCards" class="micsc_small_input" type="text" value="0"\n',n+="  onchange='GenAugmentationCards.setAugTotals(\""+s+"\");'> \n",n+='Major:<input id="'+s+'AugMajorCards" class="micsc_small_input" type="text" value="0"\n',n+="  onchange='GenAugmentationCards.setAugTotals(\""+s+"\");'> \n",n+="<br />\nadded to ",r&&(n+=" range:\n"),n+='<input class="micsc_small_input" type="text" id="'+s+'StartAug" value="0"\n',n+="  onchange='GenAugmentationCards.setAugTotals(\""+s+"\");'> \n",r&&(n+=' to <input class="micsc_small_input" type="text" id="'+s+'EndAug" value="0"\n',n+="  onchange='GenAugmentationCards.setAugTotals(\""+s+"\");'> \n"),n+="<br />Total Augmentations to apply: ",n+='<span class="micsc_inline" id="'+s+'AugTotalStart">0</span>\n',r&&(n+=' to <span class="micsc_inline" id="'+s+'AugTotalEnd">0</span>\n'),n}function e(a){var e=a+"AugMinorCards",t=a+"AugMediumCards",r=a+"AugMajorCards",n=a+"StartAug",s=a+"EndAug",o=parseInt(Basic.getFormVal(e),10),i=parseInt(Basic.getFormVal(t),10),c=parseInt(Basic.getFormVal(r),10),d=parseInt(Basic.getFormVal(n),10),l=parseInt(Basic.getFormVal(s),10);Number.isNaN(o)&&(o=0),Number.isNaN(i)&&(i=0),Number.isNaN(c)&&(c=0),Number.isNaN(d)&&(d=0),Number.isNaN(l)&&(l=d);var u;l<d&&(l=d,u=Basic.getElById(s),u&&(u.value=l));var h=2*o+4*i+8*c;d+=h,l+=h;var m=a+"AugTotalStart",g=a+"AugTotalEnd";u=Basic.getElById(m),u&&(u.innerHTML=d+""),u=Basic.getElById(g),u&&(u.innerHTML=l+"")}var t={},r=function(a){return t[a]};return t[1.9]={setAugTotals:e,genAugmentationCardsAndLevels:a,getAPIByVersion:r},r("1.9")}(),DoCalcRank=function(){function a(a){return r[a]}function e(a,e){var r=[],n=0,s=0;"Gold"===e.characterArr[Characters.idxColor()]?(0===a?n=1:1===a?n=1.5:2===a?n=2:3===a?n=3:4===a?n=3.5:5===a?n=4:6===a?n=4.5:7===a?n=5:8===a?n=5.5:9===a?n=6:10===a&&(n=6.5),s=4===a?n+.1:n):"Silver"===e.characterArr[Characters.idxColor()]?(n=1+.4*a,s=n):"Bronze"===e.characterArr[Characters.idxColor()]&&(n=1+.2*a,s=n);for(var o=.2,i=.2,c=.1,d=.05,l=0,u=1;u<=e.EndXPLevel;u++){var h={XPLevel:0,arrDamageNoBonus:[],arrHealthNoBonus:[],arrDamageWithBonus:[],arrHealthWithBonus:[],arrMeleeDamage:[]};for(l=0;l<=e.EndAugmentationDamage;l++)h.arrDamageNoBonus[l]=0,h.arrDamageWithBonus[l]=0,h.arrMeleeDamage[l]=0;for(l=0;l<=e.EndAugmentationHealth;l++)h.arrHealthNoBonus[l]=0,h.arrHealthWithBonus[l]=0;r[u-1]=h}var m=r[0];for(m.XPLevel=1,l=e.StartAugmentationDamage;l<=e.EndAugmentationDamage;l++)m.arrDamageNoBonus[l]=(e.characterArr[Characters.idxStoreDamage()]+l)*n,m.arrDamageWithBonus[l]=m.arrDamageNoBonus[l]*e.DamageBonusMultiplier,m.arrMeleeDamage[l]=t(m.arrDamageWithBonus[l],e.characterArr[Characters.idxName()],e.characterArr[Characters.idxTitle()]);for(l=e.StartAugmentationHealth;l<=e.EndAugmentationHealth;l++)m.arrHealthNoBonus[l]=(e.characterArr[Characters.idxStoreHealth()]+l)*s,m.arrHealthWithBonus[l]=m.arrHealthNoBonus[l]*e.HealthBonusMultiplier;for(var g=2;g<=e.EndXPLevel;g++){var p,C=g-1,S=g-2;for(p=g<=10?i:g<=30?c:d,m=r[C],m.XPLevel=g,l=e.StartAugmentationDamage;l<=e.EndAugmentationDamage;l++)m.arrDamageNoBonus[l]=r[S].arrDamageNoBonus[l]+p*(e.characterArr[Characters.idxStoreDamage()]+l)*n,m.arrDamageWithBonus[l]=m.arrDamageNoBonus[l]*e.DamageBonusMultiplier,m.arrMeleeDamage[l]=t(m.arrDamageWithBonus[l],e.characterArr[Characters.idxName()],e.characterArr[Characters.idxTitle()]);for(l=e.StartAugmentationHealth;l<=e.EndAugmentationHealth;l++)m.arrHealthNoBonus[l]=r[S].arrHealthNoBonus[l]+o*(e.characterArr[Characters.idxStoreHealth()]+l)*s,m.arrHealthWithBonus[l]=m.arrHealthNoBonus[l]*e.HealthBonusMultiplier}return r}function t(a,e,t){var r=.02*a,n=1.5*r,s=.04*a,o=s,i=e.toLowerCase(),c=t.toLowerCase();"shazam"===i||"harley quinn"===i&&"arkham knight"!==c?(s=.05*a,o=.07*a):"doomsday"!==i||"regime"!==c&&"-"!==c||(s=.05*a,o=.07*a);var d={Light:r,Knockdown:n,Heavy1:s,Heavy2:o};return d}var r={};return r[1.9]={doCalcRank:e,calcMeleeDamage:t,getAPIByVersion:a},a("1.9")}(),DamageHealthChart=function(){function a(a,r){for(var n,s=" class='micsc_border_more_padding'",o="",i=[],c="",d="",l=" class='micsc_table_less_spacing'",u="",h=r.StartRank;h<=r.EndRank;h++)n="",i=DoCalcRank.doCalcRank(h,r),c=e(h,s,r,i),d=t(h,s,r,i),n+="<br />\n<strong>RANK (ELITE) "+Basic.cvtRankToRoman(h)+"</strong>\n",u+='\r\n"RANK (ELITE)","'+h+'"\r\n',n+="\n<table"+l+">",n+="\n<tr class='micsc_noborder'>",n+="\n<td class='micsc_noborder'>",n+="<table"+l+">",n+="\n<caption class='micsc_padding'>\n<strong>Damage</strong></caption>",n+="\n<tr class='micsc_padding'>",n+="\n<th"+s+">Level</th>",n+="\n<th"+s+">Augmentation</th>",n+="\n<th"+s+">Damage</th>",n+="\n<th"+s+">Light Tap</th>",n+="\n<th"+s+">Knockdown Swipe</th>",n+="\n<th"+s+">Heavy Swipe</th>",n+="</tr>\n",n+=c.html,n+="</table>\n",u+='"Damage"\r\n',u+='"Level","Augmentation","Damage","Light Tap","Knockdown Swipe","Heavy Swipe"\r\n',u+=c.csv,n+="</td>",n+="\n<td class='micsc_noborder'>",n+="\n<table"+l+">",n+="\n<caption class='micsc_padding'>\n<strong>Health</strong></caption>",n+="\n<tr class='micsc_padding'>",n+="\n<th"+s+">Level</th>",n+="\n<th"+s+">Augmentation</th>",n+="\n<th"+s+">Health</th>",n+="</tr>\n",n+=d.html,n+="</table>",u+='"Health"\r\n',u+='"Level","Augmentation","Health"\r\n',u+=d.csv,n+="</td>",n+="</tr>\n",n+="</table>",o+=n;var m="<strong>"+Characters.getTitledCharName(r.characterArr)+" ("+r.characterArr[Characters.idxColor()]+") -  StoreDamage: "+r.characterArr[Characters.idxStoreDamage()]+" StoreHealth: "+r.characterArr[Characters.idxStoreHealth()]+"<br />\n Damage Bonus: "+r.DamageBonusPercent+"% Health Bonus: "+r.HealthBonusPercent+"%</strong><br />\n";o=m+o+"<br />\n<br />\n",Basic.getElById(a).innerHTML=o;var g=SimpleWrites.CopyRightStmt.replace(/ /g,'"\r\n"');return u='"'+Characters.getTitledCharName(r.characterArr)+" ("+r.characterArr[Characters.idxColor()]+')"\r\n"Store Damage","'+r.characterArr[Characters.idxStoreDamage()]+'"\r\n"Store Health","'+r.characterArr[Characters.idxStoreHealth()]+'"\r\n"Damage Bonus","'+r.DamageBonusPercent+'%"\r\n"Health Bonus","'+r.HealthBonusPercent+'%"\r\n'+u+'\r\n"'+g+'"\r\n'}function e(a,e,t,r){var n,s,o="",i="",c="";s=t.StartAugmentationDamage,Basic.isEven(s)||(s+=1);for(var d=t.StartXPLevel;d<=t.EndXPLevel;d++){var l=r[d-1];for(n=s;n<=t.EndAugmentationDamage;n+=2)o="",o+="\n<tr>",o+="\n<td "+e+">"+l.XPLevel+"</td>",o+="\n<td "+e+">"+n+"</td>",o+="\n<td "+e+">"+Math.round(l.arrDamageWithBonus[n])+"</td>",o+="\n<td "+e+">"+Math.round(l.arrMeleeDamage[n].Light)+"</td>",o+="\n<td "+e+">"+Math.round(l.arrMeleeDamage[n].Knockdown)+"</td>",o+="\n<td "+e+">"+Math.round(l.arrMeleeDamage[n].Heavy1),Math.round(l.arrMeleeDamage[n].Heavy1)!=Math.round(l.arrMeleeDamage[n].Heavy2)&&(o+="("+Math.round(l.arrMeleeDamage[n].Heavy2)+")"),o+="</td>",o+="</tr>\n",i+=o,c+='"'+l.XPLevel+'","'+n+'","'+Math.round(l.arrDamageWithBonus[n])+'","'+Math.round(l.arrMeleeDamage[n].Light)+'","'+Math.round(l.arrMeleeDamage[n].Knockdown)+'","'+Math.round(l.arrMeleeDamage[n].Heavy1),Math.round(l.arrMeleeDamage[n].Heavy1)!=Math.round(l.arrMeleeDamage[n].Heavy2)&&(c+="("+Math.round(l.arrMeleeDamage[n].Heavy2)+")"),c+='"\r\n'}return{html:i,csv:c}}function t(a,e,t,r){var n,s="",o="",i=t.StartAugmentationHealth;Basic.isEven(i)||(i+=1);for(var c=t.StartXPLevel;c<=t.EndXPLevel;c++){var d=r[c-1];for(n=i;n<=t.EndAugmentationHealth;n+=2)s+="\n<tr>",s+="\n<td"+e+">"+d.XPLevel+"</td>",s+="\n<td"+e+">"+n+"</td>",s+="\n<td"+e+">"+Math.round(d.arrHealthWithBonus[n])+"</td>",s+="</tr>\n",o+='"'+d.XPLevel+'","'+n+'","'+Math.round(d.arrHealthWithBonus[n])+'"\r\n'}return{html:s,csv:o}}var r={},n=function(a){return r[a]};return r[1.9]={doDamageHealthChart:a,getAPIByVersion:n},n("1.9")}(),HandleCharCalculations=function(){function a(){var a=Basic.getRandomRequestId(),e=new CharacterInputs.CharacterInputsFromFields("","","ddlCharacters","ddlDisplayEliteStart","ddlDisplayEliteEnd","ddlDisplayXPStart","ddlDisplayXPEnd","DamageStartAug","DamageEndAug","HealthStartAug","HealthEndAug","DamageAugMinorCards","DamageAugMediumCards","DamageAugMajorCards","HealthAugMinorCards","HealthAugMediumCards","HealthAugMajorCards");return CharacterInputs.validInputs(e,"characterMsg","characterOutput",a)&&(o=DamageHealthChart.doDamageHealthChart("characterOutput",e),Basic.getElById("oneChar_HTMLCode").value=r(Basic.getElById("characterOutput").innerHTML)),!0}function e(){var a,e=[];return e[Characters.idxTitle()]="-",e[Characters.idxName()]="Custom Char",a=Basic.getElById("fldColorCustomChar"),e[Characters.idxColor()]=a.options[a.selectedIndex].text,e[Characters.idxStoreDamage()]=parseInt(Basic.getFormVal("fldDamageCustomChar"),10),e[Characters.idxStoreHealth()]=parseInt(Basic.getFormVal("fldHealthCustomChar"),10),e}function t(){var a=Basic.getRandomRequestId(),t=new CharacterInputs.CharacterInputsFromFields("customChar_","","","ddlCustomDisplayEliteStart","ddlCustomDisplayEliteEnd","ddlCustomDisplayXPStart","ddlCustomDisplayXPEnd","customChar_DamageStartAug","customChar_DamageEndAug","customChar_HealthStartAug","customChar_HealthEndAug","customChar_DamageAugMinorCards","customChar_DamageAugMediumCards","customChar_DamageAugMajorCards","customChar_HealthAugMinorCards","customChar_HealthAugMediumCards","customChar_HealthAugMajorCards");return t.characterArr=e(),CharacterInputs.validInputs(t,"customCharacterMsg","customCharacterOutput",a)&&(i=DamageHealthChart.doDamageHealthChart("customCharacterOutput",t),Basic.getElById("customChar_HTMLCode").value=r(Basic.getElById("customCharacterOutput").innerHTML)),!0}function r(a){return"<div>\n<style>.micsc_table_less_spacing  { border-collapse:collapse; border-spacing:1px; }\n.micsc_padding             { border:1px solid; padding:3px; }\n.micsc_noborder\t\t\t{ border:0px; padding:0px; }\n.micsc_border_more_padding { border:1px solid; padding:5px; }\n</style>\n"+a+"\n"+SimpleWrites.CopyRightStmt+"</div>"}var n={},s=function(a){return n[a]},o="",i="";return n[1.9]={onClickCalculateDamageAndHealth:a,onClickCalculateCustomChar:t,getAPIByVersion:s},s("1.9")}(),HandleOwnedCharAugs=function(){function a(){var a,e,n,s,o,c,d,l=Basic.getRandomRequestId(),u="",h=-1,m=-1,g=new CharacterInputs.CharacterInputsFromFields("owned_","","ddlCharacterOwned","ddlOwnedElite","ddlOwnedElite","ddlOwnedXPLevel","ddlOwnedXPLevel","fldOwnedStartAugmentationDamage","fldOwnedEndAugmentationDamage","fldOwnedStartAugmentationDamage","fldOwnedEndAugmentationDamage","","","","","","");if(CharacterInputs.validInputs(g,"augmentationsRemainingMsg","augmentationsRemainingOutput",l))if(a=DoCalcRank.doCalcRank(g.StartRank,g),e=a[g.StartXPLevel-1],s=parseInt(Basic.getFormVal("fldOwnedDamage"),10),o=parseInt(Basic.getFormVal("fldOwnedHealth"),10),d=t(s,e.arrDamageWithBonus,"Damage"),d.found===!1?(u+=d.errMsg,Basic.getElById("fldOwnedDamage").value=d.closest):m=d.augmentationLevel,c=t(o,e.arrHealthWithBonus,"Health"),c.found===!1?(u+=c.errMsg,Basic.getElById("fldOwnedHealth").value=c.closest):h=c.augmentationLevel,""!==u)n=Basic.getElById("augmentationsRemainingMsg"),n&&(n.innerHTML=u),n=Basic.getElById("OwnedCharacterExplained"),n&&(n.style.display="block");else{u="<strong>"+Characters.getTitledCharName(g.characterArr)+" E"+Basic.cvtRankToRoman(g.StartRank)+" level "+g.StartXPLevel+"</strong><br />\n",i='"'+Characters.getTitledCharName(g.characterArr)+" E"+Basic.cvtRankToRoman(g.StartRank)+" level "+g.StartXPLevel+'"\r\n';var p=r("Damage",Characters.idxStoreDamage(),e.arrDamageWithBonus,s,m,g.DamageBonusPercent,g);u+=p.html,i+=p.csv;var C=r("Health",Characters.idxStoreHealth(),e.arrHealthWithBonus,o,h,g.HealthBonusPercent,g);u+=C.html,i+=C.csv,n=Basic.getElById("hiddenOwnedCharTweak"),n&&(n.style.display="block"),n=Basic.getElById("owned_DamageStartAug"),n&&(n.value=m),n=Basic.getElById("owned_HealthStartAug"),n&&(n.value=h),n=Basic.getElById("augmentationsRemainingOutput"),n.innerHTML=u,Basic.getElById("ownedCharAugs_HTMLCode").value="<div>\n<style>\n.micsc_padding { border:1px solid; padding:3px; }\n.micsc_table_spacing { border-collapse:collapse; border-spacing:10px; }\n.micsc_textcenter {text-align:center;}\n</style>\n"+u+"\n"+SimpleWrites.CopyRightStmt+"</div>";var S=(" "+SimpleWrites.CopyRightStmt).replace(/ /g,'"\r\n"","","');i+='"'+S+'"\r\n',n=Basic.getElById("OwnedCharacterExplained"),n&&(n.style.display="none")}}function e(a){var e=Basic.getElById(a);e&&(e.style.display="none")}function t(a,e,t){var r,n=0,s=1e6,o=0,i=0,c="";for(r=0;r<e.length;r+=2)if(n=a-e[r],n=Math.abs(n),n<s&&(s=n,o=r,i=e[r]),n<=2)return{found:!0,augmentationLevel:r};return c="<span class='micsc_error_msg'>Please fix '"+t+" for Owned Card:' value to match your character card. "+a+" doesn't appear to be correct. Closest: "+Math.round(i)+", level "+o+".</span><br />",{found:!1,errMsg:c,closest:Math.round(i)}}function r(a,e,t,r,n,s,o){var i=r-Math.floor(t[0]),c=Characters.maxAug()-n,d="",l="";return d+="<table class='micsc_table_spacing'>",d+="<tr><td class='micsc_padding'>Reported "+a+":</td><td class='micsc_padding'>"+Basic.numberWithCommas(r)+"</td></tr>\n",d+="<tr><td class='micsc_padding'>Store "+a+":</td><td class='micsc_padding'>"+Basic.numberWithCommas(o.characterArr[e])+"</td></tr>\n",d+="<tr><td class='micsc_padding'>"+a+" Bonus Applied:</td><td class='micsc_padding'>"+s+"%</td></tr>\n",d+="<tr><td class='micsc_padding'>Augmentations already applied:</td><td class='micsc_padding'>"+n+" ("+Math.round(100*n/300)+"%)</td></tr>\n",d+="<tr><td class='micsc_padding'>Store "+a+" + augmentations:</td><td class='micsc_padding'>"+o.characterArr[e]+" + "+n+" = "+Basic.numberWithCommas(o.characterArr[e]+n)+"</td></tr>\n",d+="<tr><td class='micsc_padding'>"+a+" before applying augmentations:</td><td class='micsc_padding'>"+Basic.numberWithCommas(Math.floor(t[0]))+"</td></tr>\n",d+="<tr><td class='micsc_padding'>Gained from applied augmentations:</td><td class='micsc_padding'>"+Basic.numberWithCommas(i)+" ("+Basic.numberWithCommas(r)+" - "+Basic.numberWithCommas(Math.floor(t[0]))+")</td></tr>\n",d+="<tr><td class='micsc_padding'>Needed to reach max:</td><td class='micsc_padding'>"+c+" ("+Characters.maxAug()+" - "+n+")</td></tr>\n",d+="<tr><td class='micsc_padding micsc_textcenter' colspan='2'><strong>To reach max, you need:</strong></td></tr>\n",d+="<tr><td class='micsc_padding'>Minor "+a+" Augment Cards:</td><td class='micsc_padding'>"+Math.round(c/2*100)/100+" <strong>OR</strong></td></tr>\n",d+="<tr><td class='micsc_padding'>Medium "+a+" Augment Cards:</td><td class='micsc_padding'>"+Math.round(c/4*100)/100+" <strong>OR</strong></td></tr>\n",d+="<tr><td class='micsc_padding'>Major "+a+" Augment Cards:</td><td class='micsc_padding'>"+Math.round(c/8*100)/100+"</td></tr>\n",d+="</table><br />",l+='"Reported '+a+':","'+Basic.numberWithCommas(r)+'"\r\n',l+='"Store '+a+':","'+Basic.numberWithCommas(o.characterArr[e])+'"\r\n',l+='"'+a+' Bonus Applied:","'+s+'%"\r\n',l+='"Augmentations already applied:","'+n+" ("+Math.round(100*n/300)+'%)"\r\n',l+='"Store '+a+' + augmentations:","'+o.characterArr[e]+" + "+n+" = "+Basic.numberWithCommas(o.characterArr[e]+n)+'"\r\n',l+='"'+a+' before applying augmentations:","'+Basic.numberWithCommas(Math.floor(t[0]))+'"\r\n',l+='"Gained from applied augmentations:","'+Basic.numberWithCommas(i)+" ("+Basic.numberWithCommas(r)+" - "+Basic.numberWithCommas(Math.floor(t[0]))+')"\r\n',l+='"Needed to reach max:","'+c+" ("+Characters.maxAug()+" - "+n+')"\r\n',l+='"To reach max, you need:"\r\n',l+='"Minor '+a+' Augment Cards:","'+Math.round(c/2*100)/100+' OR"\r\n',l+='"Medium '+a+' Augment Cards:","'+Math.round(c/4*100)/100+' OR"\r\n',
+l+='"Major '+a+' Augment Cards:","'+Math.round(c/8*100)/100+'"\r\n',{html:d,csv:l}}function n(){var a=Basic.getRandomRequestId(),e=new CharacterInputs.CharacterInputsFromFields("owned_","","ddlCharacterOwned","ddlOwnedElite","ddlOwnedElite","ddlOwnedXPLevel","ddlOwnedXPLevel","owned_DamageStartAug","owned_DamageStartAug","owned_HealthStartAug","owned_HealthStartAug","owned_DamageAugMinorCards","owned_DamageAugMediumCards","owned_DamageAugMajorCards","owned_HealthAugMinorCards","owned_HealthAugMediumCards","owned_HealthAugMajorCards");return CharacterInputs.validInputs(e,"tweakedAugmentationsMsg","tweakedAugmentationsOutput",a)&&DamageHealthChart.doDamageHealthChart("tweakedAugmentationsOutput",e),!0}var s={},o=function(a){return s[a]},i="";return s[1.9]={onClickAugmentationsRemaining:a,TweakOwnedCharAugmentations:n,HideExplanation:e,getAPIByVersion:o},o("1.9")}(),HandleSpSup=function(){function a(a,e,t){for(var r=a.length,n=0;n<r;n++){var s=a[n];if(s&&s[1].toLowerCase()===e){if("*"===s[0])return n;if(s[0].toLowerCase()===t)return n}}return-1e3}function e(a,e,t){var r=10*t+(e-1)*t;return e>5&&(r-=t/2*(e-5)),r*a}function t(a){return a/2}function r(r,n,s,o,i,c,d){var l,u=r.toLowerCase(),h=n.toLowerCase(),m=e(s,o,i);if(c&&(l=a(c,u,h),l>=0))return t(m);if(l=a(d,u,h),l>=0){var g=d[l];return e(s,o,g[2])}return m}function n(a,e,t,n){return r(a,e,t,n,_,H,D)}function s(a,e,t,n){return r(a,e,t,n,y,k,R)}function o(a,e,t,n){return r(a,e,t,n,L,!1,E)}function i(e,t,r,n,s){if(r<0)return r;var o=a(s,e.toLowerCase(),t.toLowerCase());if(o>=0){var i=s[o];return r*i[2]}return r*n}function c(a,e,t){return i(a,e,t,M,x)}function d(a,e,t){return i(a,e,t,w,I)}function l(a,e){var t=a[Characters.idxName()],r=a[Characters.idxTitle()],s=n(t,r,e,10);return c(t,r,s)}function u(a,e){var t=a[Characters.idxName()],r=a[Characters.idxTitle()],n=s(t,r,e,10);return d(t,r,n)}function h(a,e){var t=a[Characters.idxName()],r=a[Characters.idxTitle()];return o(t,r,e,10)}function m(){this.curDamage=parseInt(Basic.getFormVal("fldSpecialsDamageStat"),10),this.normalSpecial1=Basic.getInputCheckboxNumber("normal_special_1",!0),this.normalSpecial2=Basic.getInputCheckboxNumber("normal_special_2",!0),this.useCheckboxes=Basic.getInputCheckboxNumber("use_checkboxes_for_spsup",!0),this.characterArr=Characters.getCharArrById("ddlSpecialSuperCharacters")}function g(a){a===Basic.getElById("normal_special_1")||a===Basic.getElById("normal_special_2")?Basic.getElById("use_checkboxes_for_spsup").checked=!0:a===Basic.getElById("ddlSpecialSuperCharacters")&&(Basic.getElById("use_checkboxes_for_spsup").checked=!1);var e=new m,t=Basic.getElById("specialsError");if("undefined"==typeof e.characterArr&&!e.useCheckboxes)return void(t.innerHTML="Please select a character (left) or use the checkboxes (right)");if(e.curDamage<1)return void(t.innerHTML="Please enter character's damage");t.innerHTML="",A="",A+=C(1,e),A+=C(2,e),A+=S(e),A+=p("spsup_basicattacks",e,e.characterArr[Characters.idxName()],e.characterArr[Characters.idxTitle()]);var r='"'+SimpleWrites.CopyRightStmt.replace(/ /g,'"\r\n"')+'"';A+=r;var n="<div>\n<style>\n.micsc_table_spacing { border-collapse:collapse; border-spacing:10px; }\n.micsc_padding { border:1px solid; padding:3px; }\n.micsc_noborder { border:0px; padding:0px; }\n</style>\n\n";n+="<strong>Specials, Super and Basic Attacks for "+Characters.getTitledCharName(e.characterArr)+" with Damage Stat of "+e.curDamage+"</strong><br />\n",n+='<div id="sp1res">'+Basic.getElById("special1results").innerHTML+"</div><br />\n",n+='<div id="sp2res">'+Basic.getElById("special2results").innerHTML+"</div><br />\n",n+='<div id="superres">'+Basic.getElById("superresults").innerHTML+"</div><br />\n",n+='<div id="bscattk">'+Basic.getElById("spsup_basicattacks").innerHTML+"</div><br />\n",n+=SimpleWrites.CopyRightStmt+"\n</div>\n",Basic.getElById("specials_HTMLCode").value=n}function p(a,e,t,r){var n,s=DoCalcRank.calcMeleeDamage(e.curDamage,t,r),o=Basic.getElById(a),i="";return n="<br /><table class='micsc_table_spacing' id='SpBasicAttacksDamageTable'>\n",n+="<caption class='micsc_padding'><strong>Basic Attacks:</strong></caption>\n",n+="<tr class='micsc_noborder'>\n",n+="  <th class='micsc_padding'>Light Tap</th>\n",n+="  <th class='micsc_padding'>Knockdown swipe</th>\n",n+="  <th class='micsc_padding'>Heavy swipe</th>\n",n+="</tr>\n",n+="<tr class='micsc_noborder'>\n",n+="<td class='micsc_padding'>"+Basic.numberWithCommas(Math.round(s.Light))+"</td>\n",n+="<td class='micsc_padding'>"+Basic.numberWithCommas(Math.round(s.Knockdown))+"</td>\n",n+="<td class='micsc_padding'>"+Basic.numberWithCommas(Math.round(s.Heavy1)),Math.round(s.Heavy1)!=Math.round(s.Heavy2)&&(n+=" ("+Basic.numberWithCommas(Math.round(s.Heavy2))+")"),n+="</td>\n",n+="</tr>\n",n+="</table>\n",i+='"Basic Attacks:"\r\n',i+='"Light Tap","Knockdown swipe","Heavy Swipe"\r\n',i+='"'+Math.round(s.Light)+'",',i+='"'+Math.round(s.Knockdown)+'",',i+='"'+Math.round(s.Heavy1),Math.round(s.Heavy1)!=Math.round(s.Heavy2)&&(i+=" ("+Math.round(s.Heavy2)+")"),i+='"\r\n\r\n',o&&(o.innerHTML=n),i}function C(a,n){var s,o,c,d,l,u,h=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],m=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];1===a?(s=_,o=n.normalSpecial1,c=H,d=D,l=M,u=x):(s=y,o=n.normalSpecial2,c=k,d=R,l=w,u=I);for(var g=1;g<=10;g++)if(n.useCheckboxes){var p=e(n.curDamage,g,s);o?h[g-1]=p:h[g-1]=t(p),m[g-1]=2*h[g-1]}else h[g-1]=r(n.characterArr[Characters.idxName()],n.characterArr[Characters.idxTitle()],n.curDamage,g,s,c,d),m[g-1]=i(n.characterArr[Characters.idxName()],n.characterArr[Characters.idxTitle()],h[g-1],l,u);return B(a,h,m,n.useCheckboxes)}function S(a){for(var t=[-1,-1,-1,-1,-1,-1,-1,-1,-1,-1],n=1;n<=10;n++)a.useCheckboxes?t[n-1]=e(a.curDamage,n,L):t[n-1]=r(a.characterArr[Characters.idxName()],a.characterArr[Characters.idxTitle()],a.curDamage,n,L,!1,E);return b("superresults","Super:",t)}function B(a,e,t,r){var n,s=" class='micsc_padding'>",o=" class='micsc_padding'>\n",i="special"+a+"results",c=Basic.getElById(i),d="",l=0,u="";for(d+="<br /><table class='micsc_table_spacing' id='Sp"+a+"DamageTable'>\n",d+="<caption class='micsc_padding'><strong>Damage per bar for Sp"+a+"</strong> (Using "+(r?"checkboxes":"character")+")</caption>\n",u+='"Damage per bar for Sp'+a+" (Using "+(r?"checkboxes":"character")+')"\r\n\r\n',d+="<tr class='micsc_noborder'>\n",d+="<td"+s+" </td>\n",u+='""',l=1;l<=10;l++)d+="<td"+s+"<strong>"+l+"</strong></td>\n",u+=',"'+l+'"';for(u+="\r\n",d+="</tr>\n<tr"+o,d+="<td"+s+"<strong>Min</strong></td>\n",u+='"Min"',l=0;l<10;l++)n=Math.floor(e[l]),n=n<0?"?":Basic.numberWithCommas(n),d+="<td"+s+n+"</td>\n",u+=',"'+n+'"';for(d+="</tr>\n",u+="\r\n",d+="<tr"+o,d+="<td"+s+"<strong>Max</strong></td>\n",u+='"Max"',l=0;l<10;l++)n=Math.floor(t[l]),n=n<0?"?":Basic.numberWithCommas(n),d+="<td"+s+n+"</td>\n",u+=',"'+n+'"';return d+="</tr>\n",u+="\r\n\r\n",d+="</table>",c?c.innerHTML=d:alert('Unable to find Element named "'+i+'"'),u}function b(a,e,t){var r,n=" class='micsc_padding'>\n",s=" class='micsc_padding'>\n",o=Basic.getElById(a),i="",c=0,d="";for(i+="<br /><table class='micsc_table_spacing' id='SuperDamageTable'>\n",i+="<caption class='micsc_padding'><strong>Damage per bar for "+e+"</strong></caption>\n",i+="<tr"+s,d+='"Damage per bar for Super"\r\n',c=1;c<=10;c++)i+="<td"+n+"<strong>"+c+"</strong></td>\n",d+='"'+c+'"',c<10&&(d+=",");for(d+="\r\n",i+="</tr>\n<tr"+s,c=0;c<10;c++)r=Math.floor(t[c]),r=r<0?"?":Basic.numberWithCommas(r),i+="<td"+n+r+"</td>\n",d+='"'+r+'"',c<9&&(d+=",");return i+="</tr>\n",i+="</table>",d+="\r\n\r\n",o&&(o.innerHTML=i),d}var f={},v=function(a){return f[a]},A="",_=.02,H=[["*","Aquaman"],["*","Batman"],["*","Catwoman"],["*","Cyborg"],["*","Green Arrow"],["*","Hawkgirl"],["*","Lex Luthor"],["*","Nightwing"],["-","Zatanna"]],D=[["*","Black Adam",.021],["Red Lantern","Hal Jordan",.015],["-","Static",.025]],M=2,x=[["*","Batman",1.8],["-","Harley Quinn",1.95],["-","Static",1.6],["Arkham Knight","The Arkham Knight",1.5]],k=[["-","Black Adam"],["Regime","Black Adam"],["-","Darkseid"],["-","Deathstroke"],["New 52","Green Lantern"],["Regime","Green Lantern"],["Red Lantern","Hal Jordan"],["-","Lobo"],["-","Sinestro"],["Regime","Sinestro"],["-","Solomon Grundy"],["Regime","Solomon Grundy"],["Regime","Superman"],["New 52","The Flash"],["-","The Joker"],["Insurgency","The Joker"],["The Killing Joke","The Joker"],["600","Wonder Woman"]],y=.06,R=[["-","Aquaman",.02],["Arkham Knight","Batman",.062],["-","Catwoman",.08],["Apokolips","Darkseid",.062],["Mortal Kombat X","Scorpion",.04],["-","Static",.08],["Godfall","Superman",.052],["Dawn of Justice","Wonder Woman",.061],["Arkham Knight","Catwoman",.045]],w=2,I=[["-","Catwoman",1.5],["Arkham Knight","Batman",2.0324],["*","Harley Quinn",1],["Apokolips","Darkseid",1.9678],["Mortal Kombat X","Scorpion",1.5],["-","Static",1.5],["Arkham Knight","The Arkham Knight",1.75],["Dawn of Justice","Superman",2.06666],["Dawn of Justice","Wonder Woman",1.9836907]],L=.15,E=[["Red Lantern","Hal Jordan",.12],["-","Shazam",.03]];return f[1.9]={onClickSpecialsDamage:g,getSp1Start:n,getSp2Start:s,getSp1End:c,getSp2End:d,getSuper:o,getTenBarsSp1End:l,getTenBarsSp2End:u,getTenBarsSuper:h,getAPIByVersion:v},v("1.9")}(),QuickRef=function(){function a(){return 1}function e(){var a={},e={},t=["Gold","Silver","Bronze"];return e.StartRank=7,e.EndRank=7,e.StartXPLevel=50,e.EndXPLevel=50,e.DamageBonusMultiplier=1.35,e.HealthBonusMultiplier=1.35,e.StartAugmentationDamage=B,e.EndAugmentationDamage=B,e.StartAugmentationHealth=B,e.EndAugmentationHealth=B,a.numbers={},a.inputs=e,a.colors=t,a}function t(){return f}function r(){return S}function n(a){S=a}function s(a){B=a}function o(){return f}function i(a){C=a.slice()}function c(){return 320}function d(){return C}function l(){return"quickRefTable"}function u(){return"quickRefSave"}function h(){return b}function m(a){b=a}var g={},p=function(a){return g[a]},C=[],S="Damage",B=300,b="",f=["Damage","Health","Color","Resale","StoreDamage","StoreHealth","Cost"];return g[1.9]={quickRefLabel:a,getSortKey:r,getCriteria:e,getMaxNumRows:c,getOutputElementId:l,getColumns:t,getResultRows:d,getshowCodeElementId:u,setResultRows:i,setSortKey:n,setAugmentationLevel:s,getSavedColumns:o,getCSV:h,setCSV:m,getAPIByVersion:p},p("1.9")}(),FindChars=function(){function a(){return f}function e(a){f=a}function t(a){b=a.slice()}function r(){return 1e3}function n(){return b}function s(){return"findCharsTable"}function o(){return"findCharsSave"}function i(){var a,e=[];return a=Basic.getElById("srchGold"),a.checked&&e.push("Gold"),a=Basic.getElById("srchSilver"),a.checked&&e.push("Silver"),a=Basic.getElById("srchBronze"),a.checked&&e.push("Bronze"),e}function c(){return new CharacterInputs.CharacterInputsFromFields("srch_","","","ddlSrchEliteStart","ddlSrchEliteEnd","ddlSrchXPStart","ddlSrchXPEnd","srch_DamageStartAug","srch_DamageStartAug","srch_HealthStartAug","srch_HealthStartAug","srch_DamageAugMinorCards","srch_DamageAugMediumCards","srch_DamageAugMajorCards","srch_HealthAugMinorCards","srch_HealthAugMediumCards","srch_HealthAugMajorCards")}function d(){for(var a=[],e=document.getElementsByClassName("micsc_srchShow"),t=0;t<e.length;t++){var r=e[t];r.checked&&a.push(r.value.trim())}return a}function l(a){var e=[];a.inputs.EndRank-a.inputs.StartRank+1>1&&e.push("Rank"),a.inputs.EndXPLevel-a.inputs.StartXPLevel+1>1&&e.push("XP"),a.colors.length>1&&e.push("Color");for(var t=d(),r=0;r<t.length;r++)e.push(t[r]);return v=e,e}function u(){return v}function h(a,e){var t,r=1,n="contain",s="",o="and";return!!(t=Basic.getElById("micsc_srch"+a+"Match"+e))&&(s=t.value.trim().toLowerCase(),""!==s&&(t=Basic.getElById("micsc_ddlsrch_"+a+"Does"+e),t&&(r=t.options[t.selectedIndex].value),t=Basic.getElById("micsc_ddlsrch_"+a+"Func"+e),t&&(n=t.options[t.selectedIndex].value),e<3&&(t=Basic.getElById("micsc_ddlsrch_"+a+"Logical"+e),t&&(o=t.options[t.selectedIndex].value)),{does:r,func:n,match:s,logOp:o}))}function m(){var a,e=[],t=[];return a=h("Name",1),a&&e.push(a),a=h("Name",2),a&&e.push(a),a=h("Name",3),a&&e.push(a),a=h("Title",1),a&&t.push(a),a=h("Title",2),a&&t.push(a),a=h("Title",3),a&&t.push(a),{nameCriteria:e,titleCriteria:t}}function g(){for(var a,e={},t=document.getElementsByClassName("micsc_srchNum"),r=0;r<t.length;r++)a=t[r].value.trim(),a=a.replace(/,/g,""),""===a||isNaN(a)||(e[t[r].id]=+a);var n=i(),s=c(),o=m();return{numbers:e,colors:n,inputs:s,nameAndTitle:o}}function p(){return A}function C(a){A=a}var S={},B=function(a){return S[a]},b=[],f="Name",v=[],A="";return S[1.9]={getCriteria:g,setResultRows:t,getResultRows:n,getMaxNumRows:r,getSortKey:a,setSortKey:e,getColumns:l,getOutputElementId:s,getshowCodeElementId:o,getSavedColumns:u,getCSV:p,setCSV:C,getAPIByVersion:B},B("1.9")}(),SearchRows=function(){function a(){return 0}function e(){return 1}function t(){return 2}function r(){return 3}function n(){return 4}function s(a,e){return a.indexOf(e)>=0}function o(o,i){var l,u,h,m,g,p,C,S=[],B=[];for(l=0;l<Characters.numCharacters()&&S.length<i;l++)if(p=Characters.getCharacterByIndex(l),g=o.inputs,g.characterArr=p,s(o.colors,p[Characters.idxColor()])&&c(o.nameAndTitle,p[Characters.idxName()],p[Characters.idxTitle()]))for(u=o.inputs.StartRank;u<=o.inputs.EndRank&&S.length<i;u++){for(C=DoCalcRank.doCalcRank(u,g),h=o.inputs.StartXPLevel;h<=o.inputs.EndXPLevel&&S.length<i;h++)m=C[h-1],d(o.numbers,g.StartAugmentationDamage,g.StartAugmentationHealth,g.characterArr,m)&&(B=[],B[a()]=l,B[e()]=m.arrDamageWithBonus[g.StartAugmentationDamage],B[t()]=m.arrHealthWithBonus[g.StartAugmentationHealth],B[r()]=u,B[n()]=m.XPLevel,S.push(B));C=null}return S}function i(a,e){if(!a)return!0;var t,r,n,s="and",o=!0;for(r=0;r<a.length;r++)t=a[r],n=!1,"equal"===t.func?e===t.match&&(n=!0):"contain"===t.func?e.includes(t.match)&&(n=!0):"start with"===t.func?e.startsWith(t.match)&&(n=!0):e.endsWith(t.match)&&(n=!0),0!==t.does&&"0"!==t.does||(n=!n),o="or"===s?o||n:o&&n,s=t.logOp;return o}function c(a,e,t){return!a||i(a.nameCriteria,e.toLowerCase())&&i(a.titleCriteria,t.toLowerCase())}function d(a,e,t,r,n){var s,o,i,c,d=!0,l=Math.round(n.arrDamageWithBonus[e]),u=Math.round(n.arrHealthWithBonus[t]),h=r[Characters.idxStoreDamage()],m=r[Characters.idxStoreHealth()],g=r[Characters.idxCost()],p=.3*g;return d&&a.srchMinHealth&&u<a.srchMinHealth&&(d=!1),d&&a.srchMaxHealth&&u>a.srchMaxHealth&&(d=!1),d&&a.srchMinDamage&&l<a.srchMinDamage&&(d=!1),d&&a.srchMaxDamage&&l>a.srchMaxDamage&&(d=!1),d&&a.srchMinDamagePlusHealth&&l+u<a.srchMinDamagePlusHealth&&(d=!1),d&&a.srchMaxDamagePlusHealth&&l+u>a.srchMaxDamagePlusHealth&&(d=!1),d&&a.srchMinStoreDamage&&h<a.srchMinStoreDamage&&(d=!1),d&&a.srchMaxStoreDamage&&h>a.srchMaxStoreDamage&&(d=!1),d&&a.srchMinStoreHealth&&m<a.srchMinStoreHealth&&(d=!1),d&&a.srchMaxStoreHealth&&m>a.srchMaxStoreHealth&&(d=!1),d&&a.srchMinStoreDamagePlusHealth&&h+m<a.srchMinStoreDamagePlusHealth&&(d=!1),d&&a.srchMaxStoreDamagePlusHealth&&h+m>a.srchMaxStoreDamagePlusHealth&&(d=!1),d&&a.srchMinCost&&g<a.srchMinCost&&(d=!1),d&&a.srchMaxCost&&g>a.srchMaxCost&&(d=!1),d&&a.srchMinResale&&p<a.srchMinResale&&(d=!1),d&&a.srchMaxResale&&p>a.srchMaxResale&&(d=!1),d&&(s=HandleSpSup.getTenBarsSp1End(r,l),o=HandleSpSup.getTenBarsSp2End(r,l),i=HandleSpSup.getTenBarsSuper(r,l),c=g/(h+m),d&&a.srchMinCostDivBase&&c<a.srchMinCostDivBase&&(d=!1),d&&a.srchMaxCostDivBase&&c>a.srchMaxCostDivBase&&(d=!1),d&&a.srchMinSp1&&s<a.srchMinSp1&&(d=!1),d&&a.srchMaxSp1&&s>a.srchMaxSp1&&(d=!1),d&&a.srchMinSp2&&o<a.srchMinSp2&&(d=!1),d&&a.srchMaxSp2&&o>a.srchMaxSp2&&(d=!1),d&&a.srchMinSp1PlusSp2&&s+o<a.srchMinSp1PlusSp2&&(d=!1),d&&a.srchMaxSp1PlusSp2&&s+o>a.srchMaxSp1PlusSp2&&(d=!1),d&&a.srchMinSuper&&i<a.srchMinSuper&&(d=!1),d&&a.srchMaxSuper&&i>a.srchMaxSuper&&(d=!1)),d}var l={},u=function(a){return l[a]};return l[1.9]={idxidx:a,idxDamage:e,idxHealth:t,idxRank:r,idxXP:n,getResultRows:o,getAPIByVersion:u},u("1.9")}(),SearchOutput=function(){function a(a){return s.indexOf(a)>=0}function e(a,e){var t;return t="  <th class='micsc_padding'><a href='javascript:void(0);' \n    onClick='Search.sortCharacters(this, "+e+");'>"+a+"</a></th>\n"}function t(a){return"  <td class='micsc_padding'>"+a+"</td>\n"}function r(r,o,i,c,d,l){var u,h,m,g,p,C,S,B,b,f,v="",A="";f="which="+r+", searchOutput columns: ";for(var _=0;_<i.length;_++)_>0&&(f+="; "),f+=i[_];for(f="",s=i,o.length>=c&&(v+="<p><span class='micsc_error_msg'>Results may be truncated, maximum of "+c+" matches reached.</span></p>"),v+="<table class='micsc_table_spacing' id='table_"+l+"'>\n",v+="<caption class='micsc_padding micsc_bold'>Characters sorted by '"+d+"' (Click col name to change.)</caption>\n",v+="<tr>\n",A+='"","","Characters sorted by '+d+'"\r\n\r\n',v+=e("#",r),A+='"#",',a("Color")&&(v+=e("Color",r),A+='"Color",'),v+=e("Name",r),A+='"Name",',v+=e("Title",r),A+='"Title",',a("Rank")&&(v+=e("Elite",r),A+='"Elite",'),a("XP")&&(v+=e("XP",r),A+='"XP",'),a("Damage")&&(v+=e("Damage",r),A+='"Damage",'),a("Health")&&(v+=e("Health",r),A+='"Health",'),a("Damage+Health")&&(v+=e("Damage<br />+ Health",r),A+='"Damage+Health",'),a("Sp1")&&(v+=e("Sp1",r),A+='"Sp1",'),a("Sp2")&&(v+=e("Sp2",r),A+='"Sp2",'),a("Sp1+Sp2")&&(v+=e("Sp1<br />+ Sp2",r),A+='"Sp1+Sp2",'),a("Super")&&(v+=e("Super",r),A+='"Super",'),a("StoreDamage")&&(v+=e("Store<br />Damage",r),A+='"Store Damage",'),a("StoreHealth")&&(v+=e("Store<br />Health",r),A+='"Store Health",'),a("StoreDamage+StoreHealth")&&(v+=e("Store<br />Damage<br />+ Health",r),A+='"Store Damage + Health",'),a("Cost")&&(v+=e("Cost if<br />in Store",r),A+='"Cost if in Store",'),a("Resale")&&(v+=e("Resale<br />Value",r),A+='"Resale",'),v+="</tr>\n",A+="\r\n",u=0;u<o.length;u++)h=o[u],g=-1,p=-1,C=-1,S=-1,B=h[SearchRows.idxDamage()],b=h[SearchRows.idxHealth()],m=Characters.getCharacterByIndex(h[SearchRows.idxidx()]),v+="<tr class='",v+="Gold"==m[Characters.idxColor()]?"micsc_goldbg":"Silver"==m[Characters.idxColor()]?"micsc_silverbg":"micsc_bronzebg",v+="'>\n",v+=t(u+1+""),A+='"'+(u+1)+'",',a("Color")&&(v+=t(m[Characters.idxColor()]),A+='"'+m[Characters.idxColor()]+'",'),v+=t(m[Characters.idxName()]),A+='"'+m[Characters.idxName()]+'",',v+=t(m[Characters.idxTitle()]),A+='"'+("-"===m[Characters.idxTitle()]?"":m[Characters.idxTitle()])+'",',a("Rank")&&(v+=t(Basic.cvtRankToRoman(h[SearchRows.idxRank()])),A+='"'+h[SearchRows.idxRank()]+'",'),a("XP")&&(v+=t(h[SearchRows.idxXP()]),A+='"'+h[SearchRows.idxXP()]+'",'),a("Damage")&&(v+=t(Basic.numberWithCommas(Math.round(B))),A+='"'+Math.round(B)+'",'),a("Health")&&(v+=t(Basic.numberWithCommas(Math.round(b))),A+='"'+Math.round(b)+'",'),a("Damage+Health")&&(v+=t(Basic.numberWithCommas(Math.round(B+b))),A+='"'+Math.round(B+b)+'",'),a("Sp1")&&(g<0&&(g=Math.round(HandleSpSup.getTenBarsSp1End(m,B))),v+=t(Basic.numberWithCommas(g)),A+='"'+g+'",'),a("Sp2")&&(p<0&&(p=Math.round(HandleSpSup.getTenBarsSp2End(m,B))),v+=t(Basic.numberWithCommas(p)),A+='"'+p+'",'),a("Sp1+Sp2")&&(g<0&&(g=Math.round(HandleSpSup.getTenBarsSp1End(m,B))),p<0&&(p=Math.round(HandleSpSup.getTenBarsSp2End(m,B))),v+=t(Basic.numberWithCommas(g+p)),A+='"'+(g+p)+'",'),a("Super")&&(C<0&&(C=Math.round(HandleSpSup.getTenBarsSuper(m,B))),v+=t(Basic.numberWithCommas(C)),A+='"'+C+'",'),a("StoreDamage")&&(v+=t(m[Characters.idxStoreDamage()]),A+='"'+m[Characters.idxStoreDamage()]+'",'),a("StoreHealth")&&(v+=t(m[Characters.idxStoreHealth()]),A+='"'+m[Characters.idxStoreHealth()]+'",'),a("StoreDamage+StoreHealth")&&(v+=t(Basic.numberWithCommas(m[Characters.idxStoreDamage()]+m[Characters.idxStoreHealth()])),A+='"'+(m[Characters.idxStoreDamage()]+m[Characters.idxStoreHealth()])+'",'),a("Cost")&&(f=Characters.addAllianceCreditsIfNeeded(m),""===f?(v+=t(Basic.numberWithCommas(1e3*m[Characters.idxCost()])),A+='"'+1e3*m[Characters.idxCost()]+'",'):(v+=t(Basic.numberWithCommas(m[Characters.idxCost()])+f),A+='"'+m[Characters.idxCost()]+f+'",')),a("Resale")&&(f=Characters.addAllianceCreditsIfNeeded(m),""===f?(v+=t(Basic.numberWithCommas(300*m[Characters.idxCost()])),A+='"'+300*m[Characters.idxCost()]+'",'):(v+=t(Basic.numberWithCommas(.3*m[Characters.idxCost()])+f),A+='"'+.3*m[Characters.idxCost()]+f+'",')),v+="</tr>\n",A+="\r\n";v+="</table>",Basic.getElById(l).innerHTML=v,Basic.fixLinkColors(),n(Basic.getElById(l).innerHTML,r);var H=(" "+SimpleWrites.CopyRightStmt).replace(/ /g,'"\r\n"","","');A+='"'+H+'"\r\n',r==QuickRef.quickRefLabel()?QuickRef.setCSV(A):FindChars.setCSV(A)}function n(a,e){var t,r;t="<div>\n<style>\n   .micsc_padding {border:1px solid; padding:3px; }\n\t.micsc_goldbg { background-color:gold; color:black; }\n\t.micsc_silverbg { background-color:silver; color:black; }\n\t.micsc_bronzebg { background-color:peru; color:black; }\n   .micsc_table_spacing { border-collapse:collapse; border-spacing:10px; }\n   .micsc_bold { font-weight:bold; }\n</style>\n<h2>Character Stats Calculator Results:</h2>",r="\n"+SimpleWrites.CopyRightStmt+"</div>",a=a.replace(/<a href=".*;">/g,""),a=a.replace(/<\/a>/g,""),a=a.replace(/\(Click col name to change.\)/,"");var n="unknown";n=e===QuickRef.quickRefLabel()?"quickRef_HTMLCode":"findChars_HTMLCode",Basic.getElById(n).value=t+a+r}var s,o={},i=function(a){return o[a]};return o[1.9]={displayResultRowsAsHTML:r,getAPIByVersion:i},i("1.9")}(),Sort=function(){function a(a){return"Gold"===a?3:"Silver"===a?2:"Bronze"===a?1:0}function e(e,t){var r=e[Characters.idxColor()];r=a(r);var n=t[Characters.idxColor()];return n=a(n),r-n}function t(a,e){var t=a.toLowerCase(),r=e.toLowerCase(),n=t.localeCompare(r);return n}function r(a,e){var r=a[Characters.idxName()],n=e[Characters.idxName()];return t(r,n)}function n(a,e){var r=a[Characters.idxTitle()],n=e[Characters.idxTitle()];return t(r,n)}function s(a,t){var s;return s=e(a,t),s>0?-1:s<0?1:(s=r(a,t),0!==s?s:s=n(a,t))}function o(a,e){var t;return t=r(a,e),0!==t?t:t=n(a,e)}function i(a,e){var t;return t=n(a,e),0!==t?t:t=r(a,e)}function c(a,e){var t,r,n,c,d,u,h;return l++,n=a[SearchRows.idxidx()],r=Characters.getCharacterByIndex(n),u=e[SearchRows.idxidx()],d=Characters.getCharacterByIndex(u),"color"===m?h=s(r,d):"name"===m?h=o(r,d):"title"===m?h=i(r,d):("elite"===m?(t=a[SearchRows.idxRank()],c=e[SearchRows.idxRank()]):"xp"===m?(t=a[SearchRows.idxXP()],c=e[SearchRows.idxXP()]):"damage"===m?(t=a[SearchRows.idxDamage()],c=e[SearchRows.idxDamage()]):"health"===m?(t=a[SearchRows.idxHealth()],c=e[SearchRows.idxHealth()]):"sp1"===m?(t=HandleSpSup.getTenBarsSp1End(r,a[SearchRows.idxDamage()]),c=HandleSpSup.getTenBarsSp1End(d,e[SearchRows.idxDamage()])):"sp2"===m?(t=HandleSpSup.getTenBarsSp2End(r,a[SearchRows.idxDamage()]),c=HandleSpSup.getTenBarsSp2End(d,e[SearchRows.idxDamage()])):"super"===m?(t=HandleSpSup.getTenBarsSuper(r,a[SearchRows.idxDamage()]),c=HandleSpSup.getTenBarsSuper(d,e[SearchRows.idxDamage()])):"damage + health"===m?(t=a[SearchRows.idxDamage()]+a[SearchRows.idxHealth()],c=e[SearchRows.idxDamage()]+e[SearchRows.idxHealth()]):"sp1 + sp2"===m?(t=HandleSpSup.getTenBarsSp1End(r,a[SearchRows.idxDamage()])+HandleSpSup.getTenBarsSp2End(r,a[SearchRows.idxDamage()]),c=HandleSpSup.getTenBarsSp1End(d,e[SearchRows.idxDamage()])+HandleSpSup.getTenBarsSp2End(d,e[SearchRows.idxDamage()])):"store damage"===m?(t=r[Characters.idxStoreDamage()],c=d[Characters.idxStoreDamage()]):"store health"===m?(t=r[Characters.idxStoreHealth()],c=d[Characters.idxStoreHealth()]):"store damage + health"===m?(t=r[Characters.idxStoreDamage()]+r[Characters.idxStoreHealth()],c=d[Characters.idxStoreDamage()]+d[Characters.idxStoreHealth()]):"resale value"===m?(t=.3*r[Characters.idxCost()],c=.3*d[Characters.idxCost()]):"cost if in store"===m?(t=r[Characters.idxCost()],c=d[Characters.idxCost()]):"base / cost"===m?(t=0!==r[Characters.idxCost()]?(r[Characters.idxStoreDamage()]+r[Characters.idxStoreHealth()])/r[Characters.idxCost()]:1e3,c=0!==d[Characters.idxCost()]?(d[Characters.idxStoreDamage()]+d[Characters.idxStoreHealth()])/d[Characters.idxCost()]:1e3):(t=0,c=0),h=c-t)}function d(a,e){m=e.toLowerCase(),l=0,a.sort(c)}var l,u={},h=function(a){return u[a]},m="";return u[1.9]={doSort:d,getAPIByVersion:h},h("1.9")}(),Search=function(){function a(a,e){var t,r,n,s,o;a!==QuickRef.quickRefLabel()?(t=FindChars.getResultRows,n=FindChars.getMaxNumRows(),s=FindChars.getColumns(FindChars.getCriteria()),o=FindChars.getOutputElementId()):(t=QuickRef.getResultRows,n=QuickRef.getMaxNumRows(),s=QuickRef.getColumns(QuickRef.getCriteria()),o=QuickRef.getOutputElementId()),r=t(),Sort.doSort(r,e),SearchOutput.displayResultRowsAsHTML(a,r,s,n,e,o)}function e(e){var t,r,n,s,o;e!==QuickRef.quickRefLabel()?(n=FindChars.getCriteria(),s=FindChars.setResultRows,o=FindChars.getMaxNumRows(),r=FindChars.getSortKey()):(n=QuickRef.getCriteria(),s=QuickRef.setResultRows,o=QuickRef.getMaxNumRows(),r=QuickRef.getSortKey()),t=SearchRows.getResultRows(n,o),s(t),a(e,r)}function t(e,t){var r=e.innerHTML.toLowerCase().replace(/<br>/g," ");a(t,r),t===QuickRef.quickRefLabel()?QuickRef.setSortKey(r):FindChars.setSortKey(r)}function r(a){QuickRef.setAugmentationLevel(Basic.getIntFromDDL("QuickRefAugLevelSelect")),e(QuickRef.quickRefLabel())}function n(){e(999+QuickRef.quickRefLabel())}var s={},o=function(a){return s[a]};return s[1.9]={SearchSortAndShow:e,QuickRefAugLevelSelectChanged:r,onClickSearchCharacters:n,sortCharacters:t,getAPIByVersion:o},o("1.9")}(),SideBySideCompare=function(){function a(){var a="<table class='micsc_table_less_spacing'>\n",e=5,t="\n<th class='micsc_border_less_padding'>\n",r="\n<td class='micsc_border_less_padding'>\n",n="\n<tr class='micsc_noborder'>",s=["","1st","2nd","3rd","4th","5th","6th","7th","8th","9th","10th"];a+="\n<tr"+n,a+=t+"Character:</th>\n";for(var o=1;o<=e;o++)a+=r+"\n<select id='compareChar"+o+"'><option value=''>Select "+s[o]+" Character</option></select></td>\n";a+="</tr>\n",a+="<tr"+n,a+=t+"Elite:</th>\n";for(var i=1;i<=e;i++)a+=r+"<select id='compareCharElite"+i+"'></select></td>\n";a+="</tr>\n",a+="<tr"+n,a+=t+"XP Level:</th>\n";for(var c=1;c<=e;c++)a+=r+"<select id='compareCharXP"+c+"'></select></td>\n";a+="</tr>\n",a+="<tr class='micsc_noborder'>"+t+"Char Bonuses:</th>\n";for(var d=1;d<=e;d++)a+=r+AfterHtmlParsed.individualCharacterBonusCards("compareChar"+d,!1)+"</td>\n";a+="</tr>\n",a+="<tr>"+t+"Damage Aug:</th>\n";for(var l=1;l<=e;l++)a+=r+GenAugmentationCards.genAugmentationCardsAndLevels("compareChar"+l,"Damage",!1,!1)+"</td>\n";a+="</tr>\n",a+="<tr>"+t+"Health Aug:</th>\n";for(var u=1;u<=e;u++)a+=r+GenAugmentationCards.genAugmentationCardsAndLevels("compareChar"+u,"Health",!1,!1)+"</td>\n";a+="</tr>\n",a+="</table>\n";var h=Basic.getElById("sidebysideTable");h&&(h.innerHTML=a);for(var m=1;m<=e;m++)AfterHtmlParsed.addOptionsToCharacterDropDownList("compareChar"+m),AfterHtmlParsed.addOptionsToRankDropDownList("compareCharElite"+m,10,7),AfterHtmlParsed.addOptionsToXPDropDownList("compareCharXP"+m,60,50)}function e(){var a,e,t,r,s,o=Basic.getRandomRequestId(),i="",c=" class='micsc_border_less_padding'",d=" class='micsc_table_less_spacing'",l=[],u=[],h=[];for(a=1;a<=5;a++)e=new CharacterInputs.CharacterInputsFromFields("compareChar",""+a,"compareChar"+a,"compareCharElite"+a,"compareCharElite"+a,"compareCharXP"+a,"compareCharXP"+a,"compareChar"+a+"DamageStartAug","compareChar"+a+"DamageStartAug","compareChar"+a+"HealthStartAug","compareChar"+a+"HealthStartAug","compareChar"+a+"DamageAugMinorCards","compareChar"+a+"DamageAugMediumCards","compareChar"+a+"DamageAugMajorCards","compareChar"+a+"HealthAugMinorCards","compareChar"+a+"HealthAugMediumCards","compareChar"+a+"HealthAugMajorCards"),e&&e.characterArr&&CharacterInputs.validInputs(e,"charCompareMsg","charCompareOutput",o)&&(u[a]=e,l=DoCalcRank.doCalcRank(e.StartRank,e),h[a]=l[e.StartXPLevel-1]);if(u.length<1)return!0;for(i+="<table class='micsc_table_spacing' id='SideBySideTable'"+d+">",n="",i+="\n<tr>",i+="\n<th "+c+">Character:</th>",n+='"Character:",',a=1;a<=5;a++)u[a]&&(i+="\n<th "+c+">",i+=Characters.getTitledCharName(u[a].characterArr)+"<br />\n E"+Basic.cvtRankToRoman(u[a].StartRank)+" "+u[a].StartXPLevel,n+='"'+Characters.getTitledCharName(u[a].characterArr)+" E "+u[a].StartRank+" "+u[a].StartXPLevel+'",',i+="</th>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Bonuses:</th>",n+='"Bonuses:",',a=1;a<=5;a++)u[a]&&(i+="\n<td "+c+">",i+="D: "+u[a].DamageBonusPercent+"% H: "+u[a].HealthBonusPercent+"%",n+='"D: '+u[a].DamageBonusPercent+"% H: "+u[a].HealthBonusPercent+'%",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Augmentations:</th>",n+='"Augmentations:",',a=1;a<=5;a++)u[a]&&(i+="\n<td "+c+">",i+="D: "+u[a].StartAugmentationDamage+" H: "+u[a].StartAugmentationHealth,n+='"D: '+u[a].StartAugmentationDamage+" H: "+u[a].StartAugmentationHealth+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Damage:</th>",n+='"Damage:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",i+=Basic.numberWithCommas(Math.floor(h[a].arrDamageWithBonus[u[a].StartAugmentationDamage])),n+='"'+Math.floor(h[a].arrDamageWithBonus[u[a].StartAugmentationDamage])+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Health:</th>",n+='"Health:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",i+=Basic.numberWithCommas(Math.floor(h[a].arrHealthWithBonus[u[a].StartAugmentationHealth])),n+='"'+Math.floor(h[a].arrHealthWithBonus[u[a].StartAugmentationHealth])+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Sp1 Max:</th>",n+='"Sp1 Max:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",i+=Basic.numberWithCommas(Math.floor(HandleSpSup.getTenBarsSp1End(u[a].characterArr,h[a].arrDamageWithBonus[u[a].StartAugmentationDamage]))),n+='"'+Math.floor(HandleSpSup.getTenBarsSp1End(u[a].characterArr,h[a].arrDamageWithBonus[u[a].StartAugmentationDamage]))+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Sp2 Max:</th>",n+='"Sp2 Max:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",i+=Basic.numberWithCommas(Math.floor(HandleSpSup.getTenBarsSp2End(u[a].characterArr,h[a].arrDamageWithBonus[u[a].StartAugmentationDamage]))),n+='"'+Math.floor(HandleSpSup.getTenBarsSp2End(u[a].characterArr,h[a].arrDamageWithBonus[u[a].StartAugmentationDamage]))+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Super Max:</th>",n+='"Super Max:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",i+=Basic.numberWithCommas(Math.floor(HandleSpSup.getTenBarsSuper(u[a].characterArr,h[a].arrDamageWithBonus[u[a].StartAugmentationDamage]))),n+='"'+Math.floor(HandleSpSup.getTenBarsSuper(u[a].characterArr,h[a].arrDamageWithBonus[u[a].StartAugmentationDamage]))+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Light tap:</th>",n+='"Light tap:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",t=h[a],s=u[a].StartAugmentationDamage,r=t.arrMeleeDamage[s],i+=Basic.numberWithCommas(Math.round(r.Light)),n+='"'+Math.round(r.Light)+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Knockdown swipe:</th>",n+='"Knockdown swipe:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",t=h[a],s=u[a].StartAugmentationDamage,r=t.arrMeleeDamage[s],i+=Basic.numberWithCommas(Math.round(r.Knockdown)),n+='"'+Math.round(r.Knockdown)+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Heavy swipe:</th>",n+='"Heavy swipe:",',a=1;a<=5;a++)h[a]&&(i+="\n<td "+c+">",t=h[a],s=u[a].StartAugmentationDamage,r=t.arrMeleeDamage[s],i+=Basic.numberWithCommas(Math.round(r.Heavy1)),n+='"'+Math.round(r.Heavy1),Math.round(r.Heavy1)!=Math.round(r.Heavy2)&&(i+="("+Basic.numberWithCommas(Math.round(r.Heavy2))+")",n+="("+Math.round(r.Heavy2)+")"),i+="</td>",n+='",');for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Store Damage:</th>",n+='"Store Damage:",',a=1;a<=5;a++)u[a]&&(i+="\n<td "+c+">",i+=Basic.numberWithCommas(u[a].characterArr[Characters.idxStoreDamage()]),n+='"'+u[a].characterArr[Characters.idxStoreDamage()]+'",',i+="</td>");for(i+="</tr>\n",n+="\r\n",i+="\n<tr>",i+="\n<th "+c+">Store Health:</th>",n+='"Store Health:",',a=1;a<=5;a++)u[a]&&(i+="\n<td "+c+">",i+=Basic.numberWithCommas(u[a].characterArr[Characters.idxStoreHealth()]),n+='"'+u[a].characterArr[Characters.idxStoreHealth()]+'",',
+i+="</td>");i+="</tr>\n",n+="\r\n\r\n",n+='"'+SimpleWrites.CopyRightStmt.replace(/ /g,'"\r\n"')+'"',i+="</table>",Basic.getElById("charCompareOutput").innerHTML=i,Basic.getElById("charCompare_HTMLCode").value="<style>\n.micsc_table_spacing {border-collapse:collapse; border-spacing:10px;}\n.micsc_border_less_padding {border:1px solid; padding:1px;}\n</style>\n\n"+Basic.getElById("charCompareOutput").innerHTML+SimpleWrites.CopyRightStmt}var t={},r=function(a){return t[a]},n="";return t[1.9]={genSidebySideTable:a,onClickSideBySideCharCompare:e,getAPIByVersion:r},r("1.9")}(),AfterHtmlParsed=function(){function a(a){t("ddlCharacters"),Basic.getElById("character_bonuses").innerHTML=s("",!0),Basic.getElById("active_support_cards_for_all").innerHTML=o(""),r("ddlDisplayEliteStart",10,7),r("ddlDisplayEliteEnd",10,7),n("ddlDisplayXPStart",60,50),n("ddlDisplayXPEnd",60,50),Basic.getElById("augmentations_inputs").innerHTML=GenAugmentationCards.genAugmentationCardsAndLevels("","Damage",!0,!0)+"<br />"+GenAugmentationCards.genAugmentationCardsAndLevels("","Health",!0,!0),Basic.getElById("customChar_bonuses").innerHTML=s("customChar_",!0),Basic.getElById("customChar_active_support_cards_for_all").innerHTML=o("customChar_"),r("ddlCustomDisplayEliteStart",10,7),r("ddlCustomDisplayEliteEnd",10,7),n("ddlCustomDisplayXPStart",60,50),n("ddlCustomDisplayXPEnd",60,50),Basic.getElById("customChar_augmentations_inputs").innerHTML=GenAugmentationCards.genAugmentationCardsAndLevels("customChar_","Damage",!0,!0)+"<br />"+GenAugmentationCards.genAugmentationCardsAndLevels("customChar_","Health",!0,!0),t("ddlSpecialSuperCharacters"),Basic.getElById("compareChar_active_support_cards_for_all").innerHTML=o("compareChar"),SideBySideCompare.genSidebySideTable(),t("ddlCharacterOwned"),Basic.getElById("owned_character_bonuses").innerHTML=s("owned_",!0),Basic.getElById("owned_active_support_cards_for_all").innerHTML=o("owned_"),r("ddlOwnedElite",10,7),n("ddlOwnedXPLevel",60,50),Basic.getElById("owned_augmentations_inputs").innerHTML=GenAugmentationCards.genAugmentationCardsAndLevels("owned_","Damage",!0,!1)+"<br />"+GenAugmentationCards.genAugmentationCardsAndLevels("owned_","Health",!0,!1),Basic.getElById("srch_bonuses").innerHTML=s("srch_",!0),Basic.getElById("srch_active_support_cards_for_all").innerHTML=o("srch_"),r("ddlSrchEliteStart",10,7),r("ddlSrchEliteEnd",10,7),n("ddlSrchXPStart",60,50),n("ddlSrchXPEnd",60,50),Basic.getElById("srch_augmentations_inputs").innerHTML=GenAugmentationCards.genAugmentationCardsAndLevels("srch_","Damage",!0,!1)+"<br />"+GenAugmentationCards.genAugmentationCardsAndLevels("srch_","Health",!0,!1),Search.SearchSortAndShow(QuickRef.quickRefLabel())}function e(a,e,t){var r=document.createElement("option");return r.innerHTML=e,r.value=t,a.appendChild(r),r}function t(a){for(var t=Basic.getElById(a),r=0;r<Characters.numCharacters();r++){var n=Characters.getCharacterByIndex(r),s=e(t,Characters.getTitledCharName(n),Characters.getCharVal(n));"Gold"==n[Characters.idxColor()]?s.style.backgroundColor="gold":"Silver"==n[Characters.idxColor()]?s.style.backgroundColor="silver":s.style.backgroundColor="peru"}}function r(a,t,r){var n=Basic.getElById(a);e(n,"Normal",0),e(n,"I",1),e(n,"II",2),e(n,"III",3),e(n,"IV",4),e(n,"V",5),e(n,"VI",6),e(n,"VII",7),t>=8&&e(n,"VIII",8),t>=9&&e(n,"IX",9),t>=10&&e(n,"X",10),n.selectedIndex=r}function n(a,t,r){for(var n=Basic.getElById(a),s=1;s<=t;s++)e(n,s,s);n.selectedIndex=r-1}function s(a,e){var t="";return e&&(t+="<strong>Character Bonuses:</strong> "),t+="+10% Damage<input type='checkbox' id='"+a+"character_attack_bonus' value='damage 10' checked='checked'>\n+10% Health<input type='checkbox' id='"+a+"character_health_bonus' value='health 10' checked='checked'>"}function o(a){var e="";return e+="<strong>Active support cards for all characters:</strong>\n<table class='micsc_table_less_spacing'>\n<tr class='micsc_border_less_padding'>\n<td class='micsc_border_less_padding'>Black Manta - Health (5%)\n<input type='checkbox' id='"+a+"black_manta_bonus' value='health 5' checked='checked'></td>\n<td class='micsc_border_less_padding'>Hawkman - Health (4%)\n<input type='checkbox' id='"+a+"hawkman_bonus' value='health 4' checked='checked'></td>\n<td class='micsc_border_less_padding'>Kilowog - Health (3%)\n<input type='checkbox' id='"+a+"kilowog_bonus' value='health 3' checked='checked'></td>\n</tr>\n<tr class='micsc_border_less_padding'>\n<td class='micsc_border_less_padding'>Parallax - Health (6%)\n<input type='checkbox' id='"+a+"parallax_bonus' value='health 6' checked='checked'></td>\n<td class='micsc_border_less_padding'>Ravager - Damage (4%)\n<input type='checkbox' id='"+a+"ravager_bonus' value='damage 4' checked='checked'></td>\n<td class='micsc_border_less_padding'>Starfire - Damage (5%)\n<input type='checkbox' id='"+a+"starfire_bonus' value='damage 5' checked='checked'></td>\n</tr>\n<tr class='micsc_border_less_padding'>\n<td class='micsc_border_less_padding'>Swamp Thing - Health (7%)\n<input type='checkbox' id='"+a+"swampthing_bonus' value='health 7' checked='checked'></td>\n<td class='micsc_border_less_padding''>Talia Al Ghul - Damage (6%)\n<input type='checkbox' id='"+a+"taliaalghul_bonus' value='damage 6' checked='checked'></td>\n<td class='micsc_border_less_padding'>The Spectre - Damage (7%)\n<input type='checkbox' id='"+a+"thespectre_bonus' value='damage 7' checked='checked'></td>\n</tr>\n<tr class='micsc_border_less_padding'>\n<td class='micsc_border_less_padding''>Tim Drake - Damage (3%)\n<input type='checkbox' id='"+a+"timdrake_bonus' value='damage 3' checked='checked'></td><th class='micsc_border_less_padding'>\n<input type='button' value='Check All' onclick='AfterHtmlParsed.onClickCheckAllSupportCards(true,  \""+a+"\");'></th>\n<th class='micsc_border_less_padding'>\n<input type='button' value='Uncheck All' onclick='AfterHtmlParsed.onClickCheckAllSupportCards(false, \""+a+"\");'></th>\n</tr>\n</table>"}function i(a,e){var t=Basic.getElById(a);t&&(t.checked=e)}function c(a){var e=Basic.getElById(a);return!!e&&e.checked}function d(a,e){i(e+"black_manta_bonus",a),i(e+"hawkman_bonus",a),i(e+"kilowog_bonus",a),i(e+"parallax_bonus",a),i(e+"ravager_bonus",a),i(e+"starfire_bonus",a),i(e+"swampthing_bonus",a),i(e+"taliaalghul_bonus",a),i(e+"thespectre_bonus",a),i(e+"timdrake_bonus",a)}function l(a,e){var t="active_support_cards_for_all";a+=t,e+=t,i(e+"black_manta_bonus",c(a+"black_manta_bonus")),i(e+"hawkman_bonus",c(a+"hawkman_bonus")),i(e+"kilowog_bonus",c(a+"kilowog_bonus")),i(e+"parallax_bonus",c(a+"parallax_bonus")),i(e+"ravager_bonus",c(a+"ravager_bonus")),i(e+"starfire_bonus",c(a+"starfire_bonus")),i(e+"swampthing_bonus",c(a+"swampthing_bonus")),i(e+"taliaalghul_bonus",c(a+"taliaalghul_bonus")),i(e+"thespectre_bonus",c(a+"thespectre_bonus")),i(e+"timdrake_bonus",c(a+"timdrake_bonus"))}var u={},h=function(a){return u[a]};return document.addEventListener("DOMContentLoaded",a),u[1.9]={onClickCheckAllSupportCards:d,addOptionsToCharacterDropDownList:t,addOptionsToRankDropDownList:r,addOptionsToXPDropDownList:n,individualCharacterBonusCards:s,Copy_AllSupportCards:l,getAPIByVersion:h},h("1.9")}()</script>

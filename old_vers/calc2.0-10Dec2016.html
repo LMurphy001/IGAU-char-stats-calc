@@ -1,0 +1,4641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Mobile Injustice Character Stats Calculator</title>
+	<meta name="description" content="Choose a Mobile Injustice Character and View Stats All the Way to EVII 50, or Enter Custom Starting Numbers" />
+	<meta name="keywords" content="Mobile Injustice,Injustice Game,Calculator,Character,Stats,Add Character,Promote Character,Buy Character,Online Calculator" />
+	<meta name="robots" content="index, follow" />
+<style>
+
+body { margin-left:7px;  } /* bg was #a69c9c */
+
+.micsc_dark_style {color:#FFFF00; background-color:#000000;} /*yellow on black*/
+
+.micsc_light_style {color:#000000; background-color:#FFFFFF;} /* black on white */
+
+.micsc_error_msg { color:red; background-color:white; font-weight:bold;}
+.micsc_hidden {visibility:hidden;}
+
+.micsc_xlargetxt { font-size:x-large; }
+.micsc_largetxt { font-size:large; }
+.micsc_mediumtxt { font-size:medium; }
+.micsc_smalltxt { font-size:small; }
+
+.micsc_sectionHeader { font-size:x-large; font-weight:bold; }
+.micsc_sectionExpandButton { height:40px; width:80px; font-weight:bold; color:#00FF00; background-color:#666666; }
+.micsc_expandedSection { font-size:large; display:none; }
+.micsc_horiz_overflow { overflow-x:auto; overflow-y:hidden; }
+
+
+.micsc_table_less_spacing { border-collapse:collapse; border-spacing:1px; }
+
+.micsc_border_less_padding { border:1px solid; padding:1px; }
+.micsc_border_more_padding { border:1px solid; padding:5px; }
+.micsc_noborder			 { border:0px; padding:0px; }
+.micsc_big_padding		 { padding:7px; }
+
+.micsc_bold { font-weight:bold; }
+.micsc_italic { font-style:italic; }
+
+.micsc_textcenter {text-align:center;}
+
+.micsc_goldbg { background-color:gold; color:black; }
+.micsc_silverbg { background-color:silver; color:black; }
+.micsc_bronzebg { background-color:peru; color:black; }
+
+.micsc_small_input { width:20px; }
+.micsc_medium_input { width:35px; }
+.micsc_large_input { width:45px; }
+
+.micsc_inline { display:inline; }
+.micsc_nodisplay { display:none; }
+.micsc_compareColCheck {background-color:aqua;}
+
+.micsc_hr { height: 12px; border: 0; box-shadow: inset 0 12px 12px -12px rgba(0, 0, 255, 3.5); }
+.micsc_sessionid { font-style:italic; font-size:medium; }
+.micsc_table_spacing       { border-collapse:collapse; border-spacing:10px; }
+.micsc_padding             { border:1px solid; padding:3px; }
+.micsc_xsmalltxt { font-size:x-small; }
+</style>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body id="calculatorTop" class="micsc_light_style">
+        <div class="micsc_xlargetxt">Mobile Injustice Character Stats Calculator, Version 2.0</div>
+Last Modified: 10 December 2016<br />
+
+<a href="javascript:void(0);" onclick="Basic.colorTheme();">Change color theme</a>
+
+        <p class="micsc_largetxt">
+			This calculator provides stats for any character at any level up to Elite VII and XP level 50.
+			For help, read <a href='javascript:void(0);' onclick="Basic.jumpToSection('guide-expand-button','guideSection');">the guide</a>.
+		</p>
+		
+		<p class="micsc_largetxt">
+		Web Developers: As of 10 December 2016, this calculator is in the public domain.
+		To get your own copy of the source code of this tool, use your browser to view "Page Source".
+		For most Windows browsers, type Ctrl-U to bring up the page's source code. In Safari, type Command + Option + U to do so.
+		After you open the page's source code, save the source code from that window.</p>
+
+		<div class="micsc_largetxt" id="QuickIndex"></div>
+<h3 id="sortAllCharsByStatsSection" class="micsc_sectionHeader">
+    <input id="allsorted-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+    All Cards: Lists all cards; allows sorting by column name.
+	</h3>
+
+<div id="allsorted-expansion" class="micsc_expandedSection">
+
+<form id="formQuickRef">
+
+<div id="quickRefAlreadySortedMsg"></div>
+Shown: Elite VII, Level 50, with 35% Damage and Health bonuses.<br />
+		Augmentations:	 <select id="QuickRefAugLevelSelect" onchange="Search.QuickRefAugLevelSelectChanged(this)">
+    		<option value="0">None 0%</option>
+			<option value="30">10%</option>
+			<option value="60">20%</option>
+			<option value="90">30%</option>
+			<option value="120">40%</option>
+    		<option value="150">Half-way 50%</option>
+			<option value="180">60%</option>
+			<option value="210">70%</option>
+			<option value="240">80%</option>
+			<option value="270">90%</option>
+    		<option value="300" selected>Maxed out 100%</option>
+		</select>
+</form>
+
+		<div id="quickRefTable"></div>
+
+		<!--<input id="quickRef_CSVBtn" type="button" value="Save results as CSV" onclick="Search.SaveCSVFile(this);"/>
+		<span class="micsc_smalltxt">Note: Your browser may ask you to allow a popup from this site. Confirm the popup to receive the csv.</span><br />-->
+
+		<input id="quickRef_HTMLCodeBtn" type="button" value="Embeddable HTML Code" onclick="Basic.showHTMLcode(this);"/><br />
+		<textarea id="quickRef_HTMLCode" COLS=90 ROWS=20 style="display:none;" readonly></textarea>
+
+	<div class="micsc_copyrightnotice"></div>
+	<div class="micsc_EndOfSection"></div>
+</div>
+<h3 id="searchSection" class="micsc_sectionHeader">
+    <input id="search-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+    Character Search: Find characters by specifying criteria
+	</h3>
+
+<div id="search-expansion" class="micsc_expandedSection">
+
+<form id="formFindCharacters">
+
+<table class="micsc_table_spacing" id="srchSpecifyCriteria">
+<tr><th class='micsc_padding'>Criteria</th><th class='micsc_padding'>Lower bound</th><th class='micsc_padding'>Upper bound</th><th class='micsc_padding'>Show Column</th></tr>
+<tr>
+<td class='micsc_padding'><strong>Health</strong></td>
+<td class='micsc_padding'>between <input id="srchMinHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Health" checked="checked"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Damage</strong></td>
+<td class='micsc_padding'>between <input id="srchMinDamage" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxDamage" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Damage" checked="checked"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Damage + Health</strong></td>
+<td class='micsc_padding'>between <input id="srchMinDamagePlusHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxDamagePlusHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Damage+Health"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Special 1 Max</strong></td>
+<td class='micsc_padding'>between <input id="srchMinSp1" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxSp1" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Sp1"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Special 2 Max</strong></td>
+<td class='micsc_padding'>between <input id="srchMinSp2" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxSp2" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Sp2"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Special 1 + Special 2 Max</strong></td>
+<td class='micsc_padding'>between <input id="srchMinSp1PlusSp2" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxSp1PlusSp2" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Sp1+Sp2"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Super Move</strong></td>
+<td class='micsc_padding'>between <input id="srchMinSuper" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxSuper" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Super"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Store (Base) Damage</strong></td>
+<td class='micsc_padding'>between <input id="srchMinStoreDamage" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxStoreDamage" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="StoreDamage"></td>
+</tr>
+
+
+<tr>
+<td class='micsc_padding'><strong>Store (Base) Health</strong></td>
+<td class='micsc_padding'>between <input id="srchMinStoreHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxStoreHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="StoreHealth"></td>
+</tr>
+
+
+<tr>
+<td class='micsc_padding'><strong>Base Health + Damage</strong></td>
+<td class='micsc_padding'>between <input id="srchMinStoreDamagePlusHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxStoreDamagePlusHealth" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="StoreDamage+StoreHealth"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Cost</strong></td>
+<td class='micsc_padding'>between <input id="srchMinCost" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxCost" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Cost"></td>
+</tr>
+
+<tr>
+<td class='micsc_padding'><strong>Resale</strong></td>
+<td class='micsc_padding'>between <input id="srchMinResale" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class='micsc_padding'>and <input id="srchMaxResale" class="micsc_srchNum" type="text" value="" size="7" maxlength="7"></td>
+<td class="micsc_textcenter micsc_padding"><input class="micsc_srchShow" type="checkbox" value="Resale" checked="checked"></td>
+</tr>
+
+</table>
+
+<br />
+<strong>Color:</strong> Choose at least one of
+<label><input type="checkbox" id="srchGold"   value="Gold"   checked="checked">Gold</label>
+<label><input type="checkbox" id="srchSilver" value="Silver" checked="checked">Silver</label>
+<label><input type="checkbox" id="srchBronze" value="Bronze" checked="checked">Bronze</label>
+<br />
+<br />
+
+<fieldset>
+<legend>Name</legend>
+	<select id="micsc_ddlsrch_NameDoes1" class="micsc_srchNameDoes">
+		<option value="1" selected>does</option>
+		<option value="0" >does not</option>
+	</select>
+	<select id="micsc_ddlsrch_NameFunc1" class="micsc_srchNameFunc">
+		<option value="contain" selected>contain</option>
+		<option value="start with">start with</option>
+		<option value="end with">end with</option>
+		<option value="equal">equal</option>
+	</select>
+	<input id="micsc_srchNameMatch1" type="text" value="" class="micsc_srchNameMatch">
+	<select id="micsc_ddlsrch_NameLogical1" class="micsc_srchNameLogical">
+		<option value="and" selected>and</option>
+		<option value="or">or</option>
+	</select>
+	&nbsp;&nbsp;
+
+	<select id="micsc_ddlsrch_NameDoes2" class="micsc_srchNameDoes">
+		<option value="1" selected>does</option>
+		<option value="0" >does not</option>
+	</select>
+	<select id="micsc_ddlsrch_NameFunc2" class="micsc_srchNameFunc">
+		<option value="contain" selected>contain</option>
+		<option value="start with">start with</option>
+		<option value="end with">end with</option>
+		<option value="equal">equal</option>
+	</select>
+	<input id="micsc_srchNameMatch2" type="text" value="" class="micsc_srchNameMatch">
+	<select id="micsc_ddlsrch_NameLogical2" class="micsc_srchNameLogical">
+		<option value="and" selected>and</option>
+		<option value="or">or</option>
+	</select>
+	&nbsp;&nbsp;
+
+	<select id="micsc_ddlsrch_NameDoes3" class="micsc_srchNameDoes">
+		<option value="1" selected>does</option>
+		<option value="0" >does not</option>
+	</select>
+	<select id="micsc_ddlsrch_NameFunc3" class="micsc_srchNameFunc">
+		<option value="contain" selected>contain</option>
+		<option value="start with">start with</option>
+		<option value="end with">end with</option>
+		<option value="equal">equal</option>
+	</select>
+	<input id="micsc_srchNameMatch3" type="text" value="" class="micsc_srchNameMatch">
+</fieldset>
+
+<br />
+
+<fieldset>
+<legend>Title</legend>
+	<select id="micsc_ddlsrch_TitleDoes1" class="micsc_srchTitleDoes">
+		<option value="1" selected>does</option>
+		<option value="0" >does not</option>
+	</select>
+	<select id="micsc_ddlsrch_TitleFunc1" class="micsc_srchTitleFunc">
+		<option value="contain" selected>contain</option>
+		<option value="start with">start with</option>
+		<option value="end with">end with</option>
+		<option value="equal">equal</option>
+	</select>
+	<input id="micsc_srchTitleMatch1" type="text" value="" class="micsc_srchTitleMatch">
+	<select id="micsc_ddlsrch_TitleLogical1" class="micsc_srchTitleLogical">
+		<option value="and" selected>and</option>
+		<option value="or">or</option>
+	</select>
+	&nbsp;&nbsp;
+
+	<select id="micsc_ddlsrch_TitleDoes2" class="micsc_srchTitleDoes">
+		<option value="1" selected>does</option>
+		<option value="0" >does not</option>
+	</select>
+	<select id="micsc_ddlsrch_TitleFunc2" class="micsc_srchTitleFunc">
+		<option value="contain" selected>contain</option>
+		<option value="start with">start with</option>
+		<option value="end with">end with</option>
+		<option value="equal">equal</option>
+	</select>
+	<input id="micsc_srchTitleMatch2" type="text" value="" class="micsc_srchTitleMatch">
+	<select id="micsc_ddlsrch_TitleLogical2" class="micsc_srchTitleLogical">
+		<option value="and" selected>and</option>
+		<option value="or">or</option>
+	</select>
+	&nbsp;&nbsp;
+
+	<select id="micsc_ddlsrch_TitleDoes3" class="micsc_srchTitleDoes">
+		<option value="1" selected>does</option>
+		<option value="0" >does not</option>
+	</select>
+	<select id="micsc_ddlsrch_TitleFunc3" class="micsc_srchTitleFunc">
+		<option value="contain" selected>contain</option>
+		<option value="start with">start with</option>
+		<option value="end with">end with</option>
+		<option value="equal">equal</option>
+	</select>
+	<input id="micsc_srchTitleMatch3" type="text" value="" class="micsc_srchTitleMatch">
+</fieldset>
+
+<br />
+
+<fieldset>
+        <legend>Fill in Bonuses</legend>
+        <div id="srch_bonuses"></div>
+        <div id="srch_active_support_cards_for_all"></div>
+</fieldset>
+
+<br />
+
+<fieldset>
+    <legend>Elite Levels, XP Levels and Augmentations:</legend>
+
+    <strong>Elite</strong> Levels:
+    <select id="ddlSrchEliteStart"></select> to
+	<select id="ddlSrchEliteEnd"></select>
+    and <strong>XP</strong> Levels:
+    <select id="ddlSrchXPStart"></select> to
+	<select id="ddlSrchXPEnd"></select>
+	<br />
+
+    <div id="srch_augmentations_inputs"></div>
+</fieldset>
+</form>
+
+<input type="button" value="Find Characters" onclick="Search.onClickSearchCharacters();">
+
+<div id="findCharsAlreadySortedMsg"></div>
+<div id="findCharsTable"></div>
+
+<!--<input id="findChars_CSVBtn" type="button" value="Save results as CSV" onclick="Search.SaveCSVFile(this);" />
+<span class="micsc_smalltxt">Note: Your browser may ask you to allow a popup from this site. Confirm the popup to receive the csv.</span><br />-->
+
+<input id="findChars_HTMLCodeBtn" type="button" value="Embeddable HTML Code" onclick="Basic.showHTMLcode(this);"/><br />
+		<textarea id="findChars_HTMLCode" COLS=90 ROWS=20 style="display:none;" readonly></textarea>
+
+<div class="micsc_copyrightnotice"></div>
+<div class="micsc_EndOfSection"></div>
+
+</div>
+
+<h3 id="characterSection" class="micsc_sectionHeader">
+	<input id="onechar-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+	Character Stats: Calculates Character Health and Damage at any XP and  Elite levels, with any amount of Augmentations
+    </h3>
+
+<div id="onechar-expansion" class="micsc_expandedSection">
+
+<form id="formCharacter">
+
+	Character:
+	<select id="ddlCharacters">
+		<option value="">Select Character</option>
+	</select>
+	<fieldset id="onechar_fieldset1">
+		<legend>Fill in Bonuses:</legend>
+		<div id="character_bonuses"></div>
+		<div id="active_support_cards_for_all"></div>
+	</fieldset>
+
+	<fieldset id="onechar_fieldset2">
+		<legend>Display: Elite Levels, XP Levels and Augmentations</legend>
+        Display <strong>Elite</strong> Levels:
+		<select id="ddlDisplayEliteStart"></select> to <select id="ddlDisplayEliteEnd"></select>
+        and <strong>XP</strong> Levels:
+		<select id="ddlDisplayXPStart"></select> to <select id="ddlDisplayXPEnd"></select><br />
+
+		<div id="augmentations_inputs"></div>
+	</fieldset>
+	<input type="button" value="Calculate Character&#39;s Damage and Health" onclick="HandleCharCalculations.onClickCalculateDamageAndHealth();">
+	<div id="characterMsg"></div>
+	<div id="characterOutput"></div>
+
+</form>
+
+	<!--<input id="oneChar_CSVBtn" type="button" value="Save results as CSV" onclick="HandleCharCalculations.SaveCSVFile(this);" />
+	<span class="micsc_smalltxt">Note: Your browser may ask you to allow a popup from this site. Confirm the popup to receive the csv.</span><br />-->
+
+	<input id="oneChar_HTMLCodeBtn" type="button" value="Embeddable HTML Code" onclick="Basic.showHTMLcode(this);"/><br />
+		<textarea id="oneChar_HTMLCode" COLS=90 ROWS=12 style="display:none;" readonly></textarea>
+
+	<div class="micsc_AugmentationCardsReminder"></div>
+	<div class="micsc_copyrightnotice"></div>
+	<div class="micsc_EndOfSection"></div>
+</div>
+<h3 id="characterAugmentations" class="micsc_sectionHeader">
+	<input id="augs-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+	Owned Card Augmentations: Calculates damage and health augmentations already applied to your card and the remaining augmentations to reach max augmention
+</h3>
+<div id="augs-expansion" class="micsc_expandedSection">
+
+<form id=formOwnedCharAugs>
+
+	<p>This section will estimate the augmentations you have already applied to a character,
+		and how many more augmentation cards you need to apply to reach the maximum.
+		To use it, you will need information from the back of the owned character card.
+		Note that <strong>all</strong> fields are required! Remember to fill in <strong>both Damage and Health</strong> for your Owned Card. Also remember to check and uncheck the appropriate Support Cards.
+	</p>
+
+	Character:
+	<select id="ddlCharacterOwned">
+		<option value="">Select Owned Character</option>
+	</select>
+	<br />
+	Elite Level of Owned Card: <select id="ddlOwnedElite"></select>
+	XP Level of Owned Card: <select id="ddlOwnedXPLevel"></select>
+	<input class="micsc_hidden" type="text" id="fldOwnedStartAugmentationDamage" value="0">
+	<input class="micsc_hidden" type="text" id="fldOwnedEndAugmentationDamage" value="300">
+	<br />
+	Damage for Owned Card: <input class="micsc_large_input" type="text" id="fldOwnedDamage" value="0">
+	Health for Owned Card: <input class="micsc_large_input" type="text" id="fldOwnedHealth" value="0">
+	<br />
+	<fieldset>
+		<legend>Fill in Bonuses:</legend>
+		<div id="owned_character_bonuses"></div>
+		<br />
+		<div id="owned_active_support_cards_for_all"></div>
+	</fieldset>
+	<input type="button" value="Calculate Current and Remaining Damage and Health Augmentations" onclick="HandleOwnedCharAugs.onClickAugmentationsRemaining();">
+</form>
+
+	<div id="augmentationsRemainingOutput"></div>
+
+	<!--<input id="ownedCharAugs_CSVBtn" type="button" value="Save results as CSV" onclick="HandleOwnedCharAugs.SaveCSVFile(this);" />
+	<span class="micsc_smalltxt">Note: Your browser may ask you to allow a popup from this site. Confirm the popup to receive the csv.</span><br />-->
+
+	<input id="ownedCharAugs_HTMLCodeBtn" type="button" value="Embeddable HTML Code" onclick="Basic.showHTMLcode(this);"/><br />
+		<textarea id="ownedCharAugs_HTMLCode" COLS=90 ROWS=12 style="display:none;" readonly></textarea>
+
+	<div id="augmentationsRemainingMsg"></div>
+
+	<div id="OwnedCharacterExplained"  class="micsc_nodisplay">
+There seems to be a lot of confusion about how to use this section. Here are step-by-step instructions on how to do so.
+<ol>
+<li>First, in the game, go to your collection and open the back of your owned character card. Here's the back of the Blackest Night Martian Manhunter card in my collection.
+<img src="images/BNMMHwAugs.png" alt="BNMMHwAugs.png" width="448" height="244" /></li>
+
+<li>On the form, in the "Select Owned Character" box, select "Martian Manhunter, Blackest Night". Don't worry, there's a picture at the end showing all the boxes filled in correctly. </li>
+
+<li>For "Elite Level of Owned Card:", look at the <em>first pink circle</em> which says "Rank Elite IV". In the box on the form, change "VII" to "IV"</li>
+
+<li>For "XP Level of Owned Card:", look at the <em>second pink circle</em> which says "Current Level 48". In the box on the form, change "50" to "48" </li>
+
+<li>For "Damage for Owned Card:", look at the <em>blue circle</em> which says "Damage 27,579". Change the 0 to 27579 in the "Damage for Owned Card" box.</li>
+
+<li>For "Health for Owned Card:", look at the <em>red circle</em> which says "Health 68,133". Change the 0 to 68133 in the "Health for Owned Card" box.</li>
+
+<li>For the two "Character Bonuses: +10% Damage +10% Health" check boxes, look at the <em>green circled</em> "Support Enhancements" cards. Since both the "Health" support card and the "Damage" support card are active, check off both of these boxes.</li>
+
+<li><div>
+<p>The next part is slightly tricky. If you do not already know about Support Cards for All Characters, you need to understand what they are and how to find out which ones are active in your collection. These cards give bonus Health or Damage points to <em>all</em> characters in your collection.</p>
+
+<p>To find them, in the game, I pressed the "BACK" button to go back to my collection. Then I selected the "SUPPORT CARDS" section. It is between "UPGRADES" and "GEAR CARDS."</p>
+
+<p>In the right hand corner, I sorted the Support Cards by CHARACTER. The cards which apply to all characters will move to the beginning of the list.</p>
+
+<p>Next I scrolled through the Support Cards and found those which have either a <em>red heart</em> or a <em>blue fist</em>. I've included an image of Swamp Thing and three Damage Support Cards. <img src="images/AllCharsSupportCards.png" alt="AllCharsSupportCards.png" width="448" height="244" /></p>
+
+<p>For each of the Support Cards, I made sure that the corresponding checkbox on the form was checked off. Since I have all of the "All Characters" Health and Bonus Support Cards, I checked all of these boxes.</p>
+</div></li>
+
+<li><div><p>You can see what the form would look like after filling in all of the fields correctly.</p>
+<p><img src="images/BNMMH_FilledIn.PNG" alt="BNMMH_FilledIn.PNG" width="550" height="296" />
+</p></div>
+</li>
+</ol>
+<input type="button" value="Got it!" onclick="HandleOwnedCharAugs.HideExplanation('OwnedCharacterExplained');" />
+</div>
+
+<form id="formTweakedAugmentations">
+	<div id="hiddenOwnedCharTweak" class="micsc_nodisplay">
+		<strong>Tweak Augmentations for Owned Character:</strong><br />
+		The augmentations you have already applied to your character have been filled in below. You can play with adding more augmentation cards to see what stats you would get.
+		<div id="owned_augmentations_inputs"></div>
+		<input type="button" value="Tweak Augmentations" onclick="HandleOwnedCharAugs.TweakOwnedCharAugmentations();">
+		<div id="tweakedAugmentationsMsg"></div>
+		<div id="tweakedAugmentationsOutput"></div>
+	</div>
+</form>
+
+    <div class="micsc_AugmentationCardsReminder"></div>
+	<div class="micsc_copyrightnotice"></div>
+	<div class="micsc_EndOfSection"></div>
+</div>
+<h3 id="specialsSection" class="micsc_sectionHeader">
+    <input id="specials-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+    Special 1, Special 2 and Super Damage:
+    Calculates the damage of a character&#39;s special moves, super moves and basic attacks when you enter their damage stat.
+    </h3>
+
+<div id="specials-expansion" class="micsc_expandedSection">
+
+<form id="formSpecials">
+<p>Note! Suicide Squad characters' specials have not yet been added; the numbers reported here are not verified.</p>
+
+<p>Different characters have different damages for their specials, based on their current damage stat and on other factors. For example, if the special has an extra effect such as
+bleed,
+stun chance,
+drain power,
+burn/flames,
+freeze,
+poison, or
+unblockable, it will <em>usually</em> do half the damage than moves which do not have these effects.
+
+Another factor that affects special/super move damage is if the character&#39;s move is some sort of exception.
+</p>
+
+<p>
+To use this section, first find the Damage stat for the character and type it into the box below. Then,
+either select the character from the drop-down list <strong>or</strong> choose the desired checkboxes. If the character has a normal special/super move,
+it&#39;s box should be checked. CLEAR the checkbox if the character has extra effects for its special move. As soon as you select the character or check/uncheck the boxes, the damages for specials, super move and basic attacks will be filled in.
+</p>
+
+<table class="micsc_table_spacing">
+<tr class="micsc_padding">
+<td class="micsc_big_padding">1:</td>
+<td class="micsc_big_padding">
+<em>Damage Stat:</em><br />
+<input class="micsc_large_input" type="text" id="fldSpecialsDamageStat" value="0"><br />
+</td> <td></td> <td></td> </tr> <!-- end of first row of table -->
+
+<tr class="micsc_padding"><!-- second row of table-->
+
+<td class="micsc_big_padding">2:</td><!-- 1st col of 2nd row -->
+
+<td class="micsc_big_padding"><!-- 2nd col of second row -->
+<em>Character:</em><br />
+	<select id="ddlSpecialSuperCharacters" onchange='HandleSpSup.onClickSpecialsDamage(this)'>
+		<option value="">Select Character</option>
+	</select>
+</td>
+
+<td class="micsc_big_padding"><!-- 3rd col of second row --><strong>OR</strong></td>
+
+<td class="micsc_big_padding"><!-- 4th col of second row -->
+	<em>Use checkboxes:</em> <input type="checkbox" id="use_checkboxes_for_spsup" value="use_checkboxes_for_spsup" onchange='HandleSpSup.onClickSpecialsDamage(this)'><br />
+	Normal Sp1: <input type="checkbox" id="normal_special_1" value="normal_special_1" checked="checked" onchange='HandleSpSup.onClickSpecialsDamage(this)'><br />
+	Normal Sp2: <input type="checkbox" id="normal_special_2" value="normal_special_2" checked="checked" onchange='HandleSpSup.onClickSpecialsDamage(this)'>
+</td><!-- End of third col of second row -->
+
+</tr> <!-- end second row of table-->
+</table>
+<input type="button" value="Calculate Specials" onclick="HandleSpSup.onClickSpecialsDamage(this);" />
+
+<div id="specialsError" class="micsc_error_msg"></div>
+
+<div id="special1results"></div>
+
+<div id="special2results"></div>
+
+<div id="superresults"></div>
+
+<div id="spsup_basicattacks"></div>
+
+</form>
+
+		<!--<input id="specials_CSVBtn" type="button" value="Save results as CSV" onclick="HandleSpSup.SaveCSVFile(this);" />
+		<span class="micsc_smalltxt">Note: Your browser may ask you to allow a popup from this site. Confirm the popup to receive the csv.</span><br />-->
+		<input id="specials_HTMLCodeBtn" type="button" value="Embeddable HTML Code" onclick="Basic.showHTMLcode(this);"/><br />
+		<textarea id="specials_HTMLCode" COLS=90 ROWS=20 style="display:none;" readonly></textarea>
+
+	<div class="micsc_copyrightnotice"></div>
+	<div class="micsc_EndOfSection"></div>
+</div>
+
+<h3 id="charComparisonSection" class="micsc_sectionHeader">
+    <input id="sidebyside-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+    Side-by-Side:
+    Compares up to 5 characters' stats at any levels, elites and augmentations
+    </h3>
+
+<div id="sidebyside-expansion" class="micsc_expandedSection">
+
+<form id="formSideBySide">
+
+    <div id="compareChar_active_support_cards_for_all"></div>
+
+    <p><strong>Choose up to 5 characters, their bonuses, and levels:</strong></p>
+    <div id="sidebysideTable" class="micsc_horiz_overflow"></div>
+
+    <input type="button" value="Compare Characters" onclick="SideBySideCompare.onClickSideBySideCharCompare();">
+
+    <div id="charCompareMsg"></div>
+    <div id="charCompareOutput"></div>
+</form>
+
+		<!--<input id="charCompare_CSVBtn" type="button" value="Save results as CSV" onclick="SideBySideCompare.SaveCSVFile(this);" />
+		<span class="micsc_smalltxt">Note: Your browser may ask you to allow a popup from this site. Confirm the popup to receive the csv.</span><br />-->
+		<input id="charCompare_HTMLCodeBtn" type="button" value="Embeddable HTML Code" onclick="Basic.showHTMLcode(this);"/><br />
+		<textarea id="charCompare_HTMLCode" COLS=90 ROWS=20 style="display:none;" readonly></textarea>
+
+	<div class="micsc_copyrightnotice"></div>
+	<div class="micsc_EndOfSection"></div>
+</div>
+
+<h3 id="customCharacterSection" class="micsc_sectionHeader">
+    <input id="customchar-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+    Custom Character: Make up a character with your own "store" Damage and Health stats
+    </h3>
+
+<div id="customchar-expansion"  class="micsc_expandedSection">
+
+<form id="formCustomChar">
+
+    <fieldset>
+        <legend>Fill in Bonuses</legend>
+        <div id="customChar_bonuses"></div>
+        <div id="customChar_active_support_cards_for_all"></div>
+    </fieldset>
+
+    <fieldset>
+    <legend>Display: Elite Levels, XP Levels and Augmentations:</legend>
+
+    Display <strong>Elite</strong> Levels:
+    <select id="ddlCustomDisplayEliteStart"></select> to  <select id="ddlCustomDisplayEliteEnd"></select>
+    and <strong>XP</strong> Levels:
+    <select id="ddlCustomDisplayXPStart"></select> to <select id="ddlCustomDisplayXPEnd"></select><br />
+
+    <div id="customChar_augmentations_inputs"></div>
+    </fieldset>
+
+    <fieldset>
+    <legend>Store (Starting) Values</legend>
+    Fill in Store Values for Damage and Health and Character Color:
+    <p>
+        Store Damage:
+        <input class="micsc_medium_input" type="text" id="fldDamageCustomChar" value="1200" size="4">
+
+        Store Health:
+        <input class="micsc_medium_input" type="text" id="fldHealthCustomChar" value="1300" size="4">
+
+        <label for="fldColorCustomChar">Color:</label>
+        <select id="fldColorCustomChar">
+          <option value="Gold" selected>Gold</option>
+          <option value="Silver">Silver</option>
+          <option value="Bronze">Bronze</option>
+        </select>
+    </p>
+    </fieldset>
+
+	<input type="button" value="Calculate Custom Character" onclick="HandleCharCalculations.onClickCalculateCustomChar();">
+
+    <div id="customCharacterMsg" class="micsc_error_msg"></div>
+    <div id="customCharacterOutput"></div>
+
+</form>
+
+		<!--<input id="customChar_CSVBtn" type="button" value="Save results as CSV" onclick="HandleCharCalculations.SaveCSVFile(this);" />
+		<span class="micsc_smalltxt">Note: Your browser may ask you to allow a popup from this site. Confirm the popup to receive the csv.</span><br />-->
+
+		<input id="customChar_HTMLCodeBtn" type="button" value="Embeddable HTML Code" onclick="Basic.showHTMLcode(this);"/><br />
+		<textarea id="customChar_HTMLCode" COLS=90 ROWS=12 style="display:none;" readonly></textarea>
+
+    <div class="micsc_AugmentationCardsReminder"></div>
+	<div class="micsc_copyrightnotice"></div>
+	<div class="micsc_EndOfSection"></div>
+</div>
+
+<h3 id="micsCalcTOS" class="micsc_sectionHeader">
+    <input id="agreement-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+    Agreement, License, Copyright<br />
+    </h3>
+
+<div id="agreement-expansion" class="micsc_expandedSection">
+
+<p>Copyright (c) 2014-2016 L Murphy</p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+<div class="micsc_EndOfSection"></div>
+</div>
+
+<h3 id="guideSection" class="micsc_sectionHeader">
+	<input id="guide-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+	Guide to Using the Calculator
+    </h3>
+
+<div id="guide-expansion" class="micsc_expandedSection">
+
+<h2>How to Use the Mobile Injustice Character Stats Calculator</h2>
+
+<p>Note: If you are examining a character card you already own, especially if you <em>may have augmented it</em>, you should start with
+<a href='#guideOwnedCardAugs'>Owned Card Augmentations</a>
+section before moving on to the other sections of the calculator. This section tells you how many augmentations you've already applied to your card.
+</p>
+
+
+<p>There are seven sections of the calculator which provide data about character cards:</p>
+
+<ol>
+	<li><a href="#guideAllCards">All Cards</a></li>
+	<li><a href="#guideCharSearch">Character Search</a></li>
+	<li><a href="#guideCharStats">Character Stats</a></li>
+	<li><a href="#guideOwnedCardAugs">Owned Card Augmentations</a></li>
+	<li><a href="#guideSpecials">Special 1, Special 2 and Super Damage</a></li>
+	<li><a href="#guideSideBySide">Side-by-Side</a></li>
+	<li><a href="#guideCustomChar">Custom Character</a></li>
+</ol>
+<p>There's also a <a href="#guideNotes">General Notes</a> section of the guide.
+</p>
+
+<p>There are three self-explanatory sections:</p>
+
+<ol>
+	<li><a href='javascript:void(0);' onclick=
+		"Basic.jumpToSection('agreement-expand-button','micsCalcTOS');">
+		Agreement, License, Copyright</a></li>
+
+	<li><a href='javascript:void(0);' onclick=
+		"Basic.jumpToSection('guide-expand-button','guideSection');">
+		This guide</a></li>
+
+	<li><a href='javascript:void(0);' onclick=
+		"Basic.jumpToSection('outside-expand-button','outsideSection');">
+		Additional Resources</a></li>
+</ol>
+
+
+
+<strong id="guideAllCards" style="font-size:large; text-decoration:overline underline ;">Section 1: All Cards, Sorted</strong>
+
+<p>
+	<a href='javascript:void(0);'
+onclick='Basic.jumpToSection("allsorted-expand-button","sortAllCharsByStatsSection");'>
+	All Cards</a> is a quick reference section listing all characters in the game. For each character, you will see:</p>
+<ol>
+	<li>Name</li>
+	<li>"Title" (e.g. Regime or Insurgency)</li>
+	<li>Damage Stat</li>
+	<li>Health Stat</li>
+	<li>Store Damage Stat (also known as Base Damage Stat)</li>
+	<li>Store Health Stat (also known as Base Health Stat)</li>
+	<li>Cost - if it is in the store and</li>
+	<li>Resale value (If you have extra copies, you can sell them and get power or alliance credits for them)</li>
+</ol>
+
+<p>The Damage and Health Stats shown are for Elite level VII, XP level 50, and 35% Damage and Health bonuses.</p>
+
+<p>
+By default, the stats show maximum damage and health <em>augmentations</em> being applied. Since not all players have lots of augmentation cards from <em>Survivor Mode</em>, you can easily adjust the augmentations level. Simply click on the "Augmentations:" box and change "Maxed out 100%" to a different value. For example, to see characters' statistics with no augmentation cards applied, change it to "None 0%".
+</p>
+
+<p>Note that "-" for "Title" is often called "Prime".</p>
+
+
+
+<strong id="guideCharSearch" style="font-size:large; text-decoration:overline underline;">Section 2: Character Search</strong>
+
+<p>
+	The <a href='javascript:void(0);' onclick='Basic.jumpToSection("search-expand-button","searchSection");'>
+	Character Search</a> section allows you to zero in on characters matching rules you specify. Use this section for finding characters to play in Multi-Player or Survivor mode. These two game playing modes match you with opponents based on the attributes of the teams you assemble for a fight.
+</p>
+
+<p>
+	For example, in MP mode, the higher your team's total Damage + Health stats, the higher the opponent team's Damage and Health will be, and if you win the fight, the more battle points you'll earn.
+</p>
+
+<p>
+	You can also use the 'Character Search' section to help you figure out which minimal set of cards you can use to get through Bonus Battle 6, to make the most of your collection and farm it as effectively as possible.
+</p>
+
+
+
+<strong id="guideCharStats" style="font-size:large; text-decoration:overline underline;">Section 3: Character Stats</strong>
+
+<p>The
+<a href='javascript:void(0);'
+onclick='Basic.jumpToSection("onechar-expand-button","characterSection");'>
+Character Stats</a>
+section calculates character health and damage for any specified xp and/or elite levels, with any amount of damage or health augmentation cards. It is very good for focusing in on a single character, and looking ahead to where the character will be when you invest in it. By default, the highest elite level VII and highest XP level 50 are pre-selected when you expand this section. However, you can select the drop-down box and choose different Elite levels, or select different XP levels from the other drop-down box.</p>
+
+<p>By default, <em>no augmentations</em> have been pre-selected for the character. If you have Damage or Health augmentation cards sitting in STAR labs in the game and you would like to see what your card would be like if you applied them to this character, you can do so in this section (as well as some of the other calculator sections.) </p>
+
+<p>Also, just a reminder: the augmentations are added to the starting (base) stat values for a card. If a card starts with Health stat of 1400 and you apply 1 Major Health Augmentation card, it would be as if that card were now starting with 1408 Health stat.</p>
+
+
+
+<strong id="guideOwnedCardAugs" style="font-size:large; text-decoration:overline underline;">Section 4: Owned Card Augmentations</strong>
+
+<p>
+The
+<a href='javascript:void(0);' onclick='Basic.jumpToSection("augs-expand-button","characterAugmentations");'>
+Owned Card Augmentations</a>
+section tells you about Damage and Health augmentations for a card you already own.</p>
+
+<p>
+The Mobile Injustice: Gods Among Us game app does not tell you what augmentations you have already applied to a character when you look at it. It only tells you the Damage and Health the character currently has - there is no way to determine by looking at those numbers if you have applied Damage or Health augmentation cards, or how many.</p>
+
+<p>
+In the Owned Card Augmentations section, you fill in the information from the back of your owned character card, and then the calculator will tell you what augmentations you have applied to its Damage and Health, and will also tell you how many more augmentation cards you could apply to the character before reaching the maximum.</p>
+
+<p>
+If the values you provide in the "Damage for Owned Card:" and "Health for Owned Card:" boxes do not match the calculations, the calculator will tell you the closest values matching the ones you have entered. You can use this feature to reach a target.</p>
+
+<p>
+So for example, let's say you have Ares E7 50 and all support cards active. You want to get his Damage up to 55,000. You pick Ares from the "Character" box, pick VII and 50.  Type 55000 into the "Damage for Owned Card:" box. Check all of the Bonus check boxes. Click the button "Calculate Current and Remaning Damage and Health Augmentations." You will get a message like:</p>
+
+<pre>
+Please fix 'Damage for Owned Card:' value to match your character card. 55000 doesn't appear to be correct. Closest: 54967, level 204.
+</pre>
+<p>
+This means that you can get Ares E7 50 to Damage 54,967 by applying (for example) 102 Minor Damage Augment Cards (204 / 2 = 102).
+</p>
+
+<p>
+If you do not get an error message, you can review the augmentations remaining you could apply, and then you can tweak the card, adding additional augmentation cards to the character to see where it would end up if you applied the augmentations.</p>
+
+
+
+
+<strong id="guideSpecials" style="font-size:large; text-decoration:overline underline;">Section 5: Special 1, Special 2, Super and Basic Attacks Damage</strong>
+
+<p>The <a href='javascript:void(0);'
+onclick='Basic.jumpToSection("specials-expand-button","specialsSection");'>Specials section</a>
+is shorter and simpler than the others. You provide the character&#39;s Damage stat from another section of the calculator, or from the game app, and it provides tables showing how much damage Special 1, Special 2, the Supermove will do depending on how many of the 10 bars you have bought for the character.
+</p>
+
+<p>This section will also show Basic Attacks stats: light tap, knockdown swipe and heavy swipe damage.</p>
+
+<p>You can select the character from a drop-down box so that you do not need to know which characters have normal Specials/Supers and which characters do not.</p>
+
+
+
+<strong id="guideSideBySide" style="font-size:large; text-decoration:overline underline;">Section 6: Side-by-Side Comparision</strong>
+
+<p>The
+<a href='javascript:void(0);'
+onclick='Basic.jumpToSection("sidebyside-expand-button","charComparisonSection");'>
+Side-by-Side</a> comparison section lets you compare up to five characters side-by-side. It lets you look at their potential stats right next to each other and see which ones would the better investments for gaining XP levels, promoting Elite levels or applying damage or health augmentation cards.</p>
+
+<p>This section&#39;s results show you the levels, bonuses and augmentations used as inputs to the calculations, and then shows you the Damage, Health, Light tap, Knockdown swipe, and Heavy Swipe values for each card. It also provides each character&#39;s store Damage and Health, for your convenience.</p>
+
+
+
+
+<strong id="guideCustomChar" style="font-size:large; text-decoration:overline underline;">Section 7: Custom Character</strong>
+
+<p>The
+<a href='javascript:void(0);'
+onclick='Basic.jumpToSection("customchar-expand-button","customCharacterSection");'>
+Custom Character</a>
+section is for characters which do not yet exist in the rest of the calculator. Maybe you are experimenting with creating a new character. Or maybe WB released a character I have not yet added to the other sections of the calculator. This section allows you to plug in the starting store (base) Damage and Health stats and the color of the card, and then you will see the same information as you see in the <a href="#guideCharStats">Character Stats</a> section of the calculator.
+</p>
+
+
+
+<strong id="guideNotes" style="font-size:large; text-decoration:overline underline;">General Notes</strong>
+
+<p>
+You should note that this calculator provides stats, but does not give you a complete picture of how to succeed at this game. There are many factors which impact how successful you will be. Here are some examples:</p>
+<ul>
+<li>Your individual playing style.</li>
+<li>Your best gear.</li>
+<li>The character cards&#39; passives. For example, Hal Jordan&#39;s passive is very unusual, and so his statistics make him seem like a much better card than he is when you actually play him. (His passive is "Red Landern Rage - Special Attacks and Supermove use HEALTH instead of POWER. Red Lantern Hal CANNOT be healed.")</li>
+<li>The cards&#39; special moves. Some cards have a Special 1 move that packs serious damage. However, some very powerful cards have weak Special 1 moves. <p>The Batmen skins are prime examples of cards which would normally have pretty good damage for Special 1, but actually have weak Special 1 moves. So in battles where you will need strong Special 1 moves, you will need to team up Batmen with other cards which have strong Special 1 moves.</p>
+<p>Other cards have strong enough Special 1 moves, but their Special 2 moves lack instant knock-out power. Regime Superman and 600 Wonder Woman are examples of this type. Sometimes in a fight you need to bring out the "big guns," but cards with weak Special 2 moves can leave you high and dry in those moments. The Ares character has a good Special 2  which knocks out most other characters.
+</p>
+<p>Some cards have both strong Special 1 moves and Special 2 moves. To see these characters, check the "Special 1 + Special 2 Moves" checkbox in the Search Characters section, then sort by that column. Those will be the ones better at inflicting damage during battle. However, be sure to check their health stats; cards inflicting tons of damage tend to have lower health stats and be less "tank-y." You will probably want to team them up with characters with better health stats. Or, you can team them up with Batgirl to do as much damage as instantly as possible so that the lower health stat is not that much of a factor.</p>
+</li>
+<li>The cards&#39; speeds. For example, Darkseid is very tanky and has high damage stats, but he is rather slow to fight with. Supermen cards tend to be much slower than Batmen cards.</li>
+</ul>
+<p>For these reasons and more, keep in mind that you cannot rely only on statistics to tell you what the best cards are.
+</p>
+
+<!--<p>Most sections offer you the choice to save results either as CSV (comma-separated-values) or as HTML. The buttons for doing so appear at the bottom of the results.</p>-->
+
+	<div class="micsc_EndOfSection"></div>
+</div>
+
+<h3 id="outsideSection" class="micsc_sectionHeader">
+    <input id="outside-expand-button" type="button" value="Expand" onclick="Basic.toggleExpansion(this);" class="micsc_sectionExpandButton">
+    Additional Resources<br />
+    </h3>
+
+<div id="outside-expansion" class="micsc_expandedSection">
+<ol>
+<li><a target="_blank"
+	href="https://docs.google.com/spreadsheets/d/11Dhxw7EGbkMLKBrhOxocT3rrgX37ndzT2pz8D5sZA-E/edit?pref=2&pli=1#gid=2">Injustice
+	Levels spreadsheet</a>: The 'Characters' tab shows passives, characters&#39; gears, and how to get each card.</li>
+
+<li><a target="_blank"
+	href="http://community.wbgames.com/t5/Player-Guides/bd-p/The-Arena">Player Created Guides</a>: Guides written by other mobile Injustice players.</li>
+
+<li><a target="_blank"
+	href="https://www.facebook.com/injustfancom/">Injustice: Gods Among Us Mobile Fan Community on Facebook.</a> This includes about two dozen character reviews:
+<ol>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1615562208734161">Aquaman, Injustice 2</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1456878157935901/">Aquaman, Prime & Regime</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1556106211346428">Batman, Arkham Knight</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1432925280331189">Batman, Beyond Animated</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1609165979373784">Batman, Beyond Animated</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1451168471840203/">Black Adam, Regime</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1606941476262901">Catwoman, Arkham Knight</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1566636913626691">Darkseid, Apokolips</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1442832506007133">Green Lantern, Red Son</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1541816736108709">Hal Jordan, Red Lantern</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1556396224650760/">Harley Quinn, Arkham Knight</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1509790725977977/">Hawkgirl, Regime</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1446344285655955/">Killer Frost, Regime</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1516435881980128">Lobo, Bounty Hunter</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1530416853915364/">Martian Manhunter</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1540645436225839">Martian Manhunter, Blackest Night</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1457893131167737/">Scorpion, MKS</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1598995347057514/">Sinestro, Antimatter</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1468459666777750/">Sinestro, Green Lantern</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1470836593206724/">Static</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1535547766735606/">Superman, Godfall</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1612691112354604">Superman, Injustice 2</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1448658482091202/">The Flash, Elseworld</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1594120144211701">The Flash, Metahuman</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1497852563838460/">The Joker, Arkham Origins</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/photos/1564939567129759">Wonder Woman, Justice League</a></li>
+	<li><a target="_blank" href="https://www.facebook.com/injustfancom/videos/1480322158924834/">Zatanna</a></li>
+</ol>
+	</li>
+
+<li><a target="_blank" href="http://injustice-mobile.wikia.com/wiki/Injustice_Mobile_Wiki">Injustice Mobile Wiki on wikia.com</a></li>
+
+<li><a target="_blank"
+	href="https://www.facebook.com/injusticegame">Warner Bros. Injustice Facebook Page.</a>
+</li>
+
+</ol>
+
+You can find the Injustice: Gods Among Us app
+			<a target="_blank" href="https://play.google.com/store/apps/details?id=com.wb.goog.injustice">on Google</a> or
+			<a target="_blank" href="https://itunes.apple.com/us/app/injustice-gods-among-us/id575658129">in iTunes</a>.
+
+There are also resources on reddit, YouTube, and Gamefaqs.
+
+<div class="micsc_EndOfSection"></div>
+
+</div>
+
+<script>
+
+/* file basic.js: */
+var Basic = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+	var theme = "micsc_light_style";
+	var embeddableHTMLBtnLabel = "Embeddable HTML Code";
+
+function getElById(elementId) {
+	var el = document.getElementById(elementId);
+	if (el) {
+	} else {
+	console.log("MISSING ELEMENT: \"" + elementId + "\""); }
+	return el;
+}
+
+function getInputCheckboxNumber(checkboxid, number)
+{
+	var el = getElById(checkboxid);
+	if (el)
+		if (el.checked)
+		    return number;
+	return 0;
+}
+
+function getIntFromDDL(ddlFieldId)
+{
+    var el;
+    el = getElById(ddlFieldId);
+    /* Assumes the value of the selected option is an integer */
+	return parseInt(el.options[el.selectedIndex].value,10);
+}
+
+function getFormVal(name)
+{
+  var el = getElById(name);
+  if (el)
+    return el.value;
+  else
+    return "";
+}
+
+function isEven(n) {
+   return (n % 2) === 0;
+}
+
+function cvtRankToRoman(eliteNum) {
+	if (eliteNum === 0) return "Normal";
+	else if (eliteNum == 1) return "I";
+	else if (eliteNum == 2) return "II";
+	else if (eliteNum == 3) return "III";
+	else if (eliteNum == 4) return "IV";
+	else if (eliteNum == 5) return "V";
+	else if (eliteNum == 6) return "VI";
+	else if (eliteNum == 7) return "VII";
+	else if (eliteNum == 8) return "VIII";
+	else if (eliteNum == 9) return "IX";
+	else if (eliteNum == 10) return "X";
+	else return "Unknown Elite " + eliteNum;
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function jumpToSection(buttonID, landingID) {
+	var ExpandButton = getElById(buttonID); /* e.g. "-expand-button" */
+	if (ExpandButton.value == "Expand")
+		toggleExpansion( ExpandButton ); /* Expand the section */
+	window.location.hash = landingID; /* e.g. "micsCalcTOS" and go to it */
+}
+
+function toggleExpansion(buttonElement) {
+    //var pairedElement;
+	//var val = buttonElement.value;
+    if (buttonElement.value == "Expand") {
+		buttonElement.value = "Collapse";
+		//pairedElement = getPairedElement(buttonElement);
+		//pairedElement.style.display = "inline";
+	}
+	else { /* value is not Expand */
+		buttonElement.value = "Expand";
+		//pairedElement = getPairedElement(buttonElement);
+		//pairedElement.style.display = "none";
+    }
+	onToggleShow(getPairedElementName(buttonElement), "inline");
+	//LogUsage.LogKeyValue(buttonElement.id, val);
+}
+
+function getPairedElementName(buttonElement) {
+	var buttonId = buttonElement.id;
+	var cutLen = "-expand-button".length;
+	var buttonIdLen = buttonId.length;
+	var expansionId = buttonId.substring(0, buttonIdLen-cutLen ) + "-expansion";
+	return expansionId;
+}
+
+//function getPairedElement(buttonElement) {
+//		return getElById(expansionId);
+//}
+
+/* some browsers might not have these functions, so provide polyfills: */
+if (!String.prototype.includes) {
+  String.prototype.includes = function(search, start) {
+    'use strict';
+    if (typeof start !== 'number') {
+      start = 0;
+    }
+    
+    if (start + search.length > this.length) {
+      return false;
+    } else {
+      return this.indexOf(search, start) !== -1;
+    }
+  };
+}
+
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position){
+      position = position || 0;
+      return this.substr(position, searchString.length) === searchString;
+  };
+}
+
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function(searchString, position) {
+      var subjectString = this.toString();
+      if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+        position = subjectString.length;
+      }
+      position -= searchString.length;
+      var lastIndex = subjectString.indexOf(searchString, position);
+      return lastIndex !== -1 && lastIndex === position;
+  };
+}
+
+function colorLinks(fgc, bgc)
+{
+    var links = document.getElementsByTagName("a");
+    for(var i=0;i<links.length;i++)
+    {
+        if(links[i].href)
+        {
+            links[i].style.color = fgc;
+			links[i].style.backgroundColor = bgc;
+        }
+    }  
+}
+
+function fixLinkColors() {
+	if (theme == "micsc_dark_style")
+		colorLinks("#00FF00", "#000000"); /* lime on black */
+	else
+		colorLinks("#0000EE", "#FFFFFF"); /* blue on white */
+}
+
+function toggle_color_theme(oldc, newc) {
+	var els = [].slice.apply(document.getElementsByClassName(oldc));
+	var re = new RegExp(" *" + oldc, "g"); //var re = new RegExp(" *\b" + oldc + "\b", "g");
+	for (var i = 0; i < els.length; i++) {
+		els[i].className = els[i].className.replace(re, newc);
+	}
+}
+
+function changeToLightStyle() {
+	theme = "micsc_light_style";
+	toggle_color_theme("micsc_dark_style", theme);
+}
+
+function changeToDarkStyle() {
+	theme = "micsc_dark_style";
+	toggle_color_theme("micsc_light_style", theme);
+}
+
+function colorTheme() {
+	if (theme == "micsc_dark_style") {
+		changeToLightStyle();
+		//LogUsage.LogKeyValue("color", "Light");
+	}
+	else {
+		changeToDarkStyle();
+		//LogUsage.LogKeyValue("color", "Dark");
+	}
+	fixLinkColors();
+}
+
+	// Returns a random number between min (inclusive) and max (exclusive)
+	function getRandomArbitrary(min, max) {
+		return Math.random() * (max - min) + min;
+	}
+	// Returns a random number between min (inclusive) and max (exclusive)
+	function getRandomRequestId() {
+		return getRandomArbitrary(1, 100000); // max is 99,999 
+	}
+	
+	//function generateRandomSessionId() {
+	//	min = 10001;
+	//	max = 1000001;
+	//	return Math.trunc (Math.random() * (max - min) + min );
+	//}
+	//var _RandomSessionId = generateRandomSessionId();
+	//function RandomSessionId() {
+	//	return _RandomSessionId;
+	//}
+	
+	function onToggleShow(elementName, displayType) {
+		var el = getElById(elementName);
+		if ((el.style.display == "none") || (el.style.display === "") ) {
+			el.style.display = displayType; // e.g. block or inline
+			//LogUsage.LogKeyValue(elementName, "display:" + displayType);
+		}
+		else {
+			el.style.display = "none";
+			//LogUsage.LogKeyValue(elementName, "display:none");
+		}
+	}
+	
+	function showHTMLcode(Button) {
+		var whichButton = (Button.id.split("_"))[0]; //e.g. "quickRef"
+		var textAreaId = whichButton + "_HTMLCode";
+		var loButtonLabel = Button.value.toLowerCase(); // current label of Button
+
+		if (loButtonLabel !== embeddableHTMLBtnLabel.toLowerCase() ) {
+			Button.value = embeddableHTMLBtnLabel; // Change the button label
+		}
+		else {
+			Button.value = "Hide HTML Code"; // Change the button label
+		}
+		onToggleShow(textAreaId, 'block');
+	}
+
+	APIList["1.9"] = {
+		getElById: getElById,
+		getInputCheckboxNumber: getInputCheckboxNumber,
+		getIntFromDDL: getIntFromDDL,
+		isEven: isEven,
+		cvtRankToRoman: cvtRankToRoman,
+		numberWithCommas: numberWithCommas,
+		toggleExpansion: toggleExpansion,
+		jumpToSection: jumpToSection,
+		getFormVal: getFormVal,
+		colorTheme: colorTheme,
+		fixLinkColors: fixLinkColors,
+		getRandomRequestId: getRandomRequestId,
+		//RandomSessionId: RandomSessionId,
+		onToggleShow: onToggleShow,
+		embeddableHTMLBtnLabel: embeddableHTMLBtnLabel,
+		showHTMLcode: showHTMLcode,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+/* file simpleWrites.js:*/
+var SimpleWrites = (function() {
+
+	function writeElements(className, tempstr) {
+		var elements = document.getElementsByClassName(className);
+		for (var i=0; i<elements.length; i++)
+			elements[i].innerHTML = tempstr;
+	}
+
+	var quickIndexHTMLCode = "<strong>Quick index: </strong>" +
+"<span>" +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('allsorted-expand-button','sortAllCharsByStatsSection');\">All cards,sorted</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('search-expand-button','searchSection');\">Character Search</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('onechar-expand-button','characterSection');\">Character stats</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('augs-expand-button','characterAugmentations');\">Owned card augmentations</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('specials-expand-button','specialsSection');\">Special &amp; Super moves damage</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('sidebyside-expand-button','charComparisonSection');\">Side-by-side characters</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('customchar-expand-button','customCharacterSection');\">Make up custom character</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('agreement-expand-button','micsCalcTOS');\">Agreement</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.colorTheme();\">Colors</a>, " +
+"<a href=\"javascript:void(0);\" onclick=\"Basic.jumpToSection('issuetracking-expand-button','issueTracking');\">Report Problems</a>" +
+"</span>";
+
+	writeElements("micsc_EndOfSection",
+"<p>" +
+  "<a href=\"#calculatorTop\">Back to Top</a>, " + quickIndexHTMLCode +
+"</p>" +
+"<hr class='micsc_hr'>");
+
+    var CopyRightStmtForExport = 'All other trademarks and copyrights are the property of their respective owners.';
+
+    var _CopyRightStmt = '';
+	//Permission to copy the calculator' + "'" + 's results is hereby granted as long as ' +
+//'you state the following attribution: <em>' + CopyRightStmtForExport + '</em>';
+
+	writeElements("micsc_copyrightnotice", _CopyRightStmt);
+
+	writeElements("micsc_AugmentationCardsReminder",
+'<p><em>Augmentation Cards are added to starting store values for ' +
+'Damage and Health values, rather than final Damage or Health values. Note that minor cards ' +
+'add 2 to store values, medium cards add 4 to store values, and major cards add 8 to store values.</em></p>');
+
+	document.getElementById("QuickIndex").innerHTML = quickIndexHTMLCode;
+
+	//writeElements("micsc_sessionid", GlobalRandomPageId+"");
+
+	writeElements("adpage", "If you don't mind being tracked and wish to support this work, visit the <a target='_blank' href='adpage.php'>ad page</a>.<br />" +
+		"<a href=\"#calculatorTop\">(Back to Top)</a>");
+
+	return { CopyRightStmt :CopyRightStmtForExport };
+})();
+/* file characters.js: */
+var Characters = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+function maxAug() { return 300; }
+function halfAug() { return 150; }
+
+function idxTitle() { return 0; }
+function idxName() { return 1; }
+function idxColor() { return 2; }
+function idxStoreDamage() { return 3; }
+function idxStoreHealth() { return 4; }
+function idxCost() { return 5; }
+function idxAbbr() { return 6; }
+
+var private_arrCharacterCardBasics =
+[
+    [ "-", "Aquaman", "Gold", 950, 1050, 220, "AM" ],
+    [ "Injustice 2", "Aquaman", "Gold", 1400, 1400, 479, "I2AM" ],
+    [ "Regime", "Aquaman", "Gold", 800, 1050, 192, "RAM" ],
+    [ "-", "Ares", "Gold", 1200, 900, 241, "Ares" ],
+    [ "-", "Bane", "Gold", 650, 1000, 157, "Bane" ],
+    [ "Arkham Origins", "Bane", "Gold", 1100, 1100, 262, "AOB"],
+    [ "Luchador", "Bane", "Gold", 1100, 800, 201, "LB"],
+    [ "-", "Batgirl", "Gold", 850, 1000, 192, "BG" ],
+    [ "Cassandra Cain", "Batgirl", "Gold", 1150, 950, 241, "CCBG" ],
+    [ "-", "Batman", "Gold", 700, 1100, 182, "BM" ],
+    [ "Arkham Knight", "Batman", "Gold", 1200, 1300, 395, "AKBM" ],
+    [ "Arkham Origins", "Batman", "Gold", 1000, 1150, 375, "AOBM"],
+    [ "Beyond", "Batman", "Gold", 850, 900, 174, "BBM"],
+    [ "Beyond Animated", "Batman", "Gold", 1100, 1050, 252, "ABB" ],
+    [ "Blackest Night", "Batman", "Gold", 1000, 800, 182, "BNBM" ],
+    [ "Dawn of Justice", "Batman", "Gold", 1300, 1200, 400, "DOJBM" ],
+    [ "Insurgency", "Batman", "Gold", 750, 1050, 182, "IBM" ],
+    [ "Red Son", "Batman", "Gold", 900, 1000, 201, "RSBM" ],
+    [ "Kahndaq", "Black Adam", "Gold", 1100, 1200, 341, "KBA" ],
+    [ "Regime", "Black Adam", "Gold", 750, 750, 133, "RBA" ],
+    [ "Ame-Comi", "Catwoman", "Gold", 1200, 1400, 416, "ACCW" ],
+    [ "Arkham Knight", "Catwoman", "Gold", 1300, 1000, 351, "AKCW"],
+    [ "Batman Returns", "Catwoman", "Gold", 950, 850, 182, "BRCW" ],
+    [ "Teen Titans", "Cyborg", "Gold", 700, 1000, 165, "TTCY" ],
+    [ "-", "Darkseid", "Gold", 1050, 1200, 274, "DKSD" ],
+    [ "Apokolips", "Darkseid", "Gold", 1100, 1400, 333, "ADKSD" ],
+	[ "Suicide Squad", "Deadshot", "Gold", 1450, 1250, 495, "SSQDS" ],
+    [ "Arkham Origins", "Deathstroke", "Gold", 850, 1100, 211, "AODS"],
+    [ "Red Son", "Deathstroke", "Gold", 950, 900, 192, "RSDS" ],
+    [ "-", "Doomsday", "Gold", 850, 1050, 201, "DD" ],
+    [ "Blackest Night", "Doomsday", "Gold", 1050, 1400, 350, "BNDD" ],
+    [ "Containment", "Doomsday", "Gold", 700, 600, 220, "CSDD" ],
+    [ "Man of Steel", "General Zod", "Gold", 800, 1200, 220, "MOSZOD" ],
+    [ "Arrow", "Green Arrow", "Gold", 900, 950, 192, "AGA" ],
+    [ "John Stewart", "Green Lantern", "Gold", 750, 950, 165, "JSGL" ],
+    [ "Red Son", "Green Lantern", "Gold", 850, 1150, 220, "RSGL"],
+    [ "Red Lantern", "Hal Jordan", "Gold", 950, 1400, 325, "RLHJ" ],
+    [ "Animated", "Harley Quinn", "Gold", 700, 900, 148, "ANHQ" ],
+    [ "Arkham", "Harley Quinn", "Gold", 900, 950, 192, "ARHQ" ],
+    [ "Arkham Knight", "Harley Quinn", "Gold", 1100, 1000, 285, "AKHQ" ],
+	[ "Suicide Squad", "Harley Quinn", "Gold", 1250, 1450, 491, "SSQHQ "],
+    [ "-", "Hawkgirl", "Gold", 900, 950, 192, "HG" ],
+    [ "Regime", "Hawkgirl", "Gold", 1100, 1000, 241, "RHG" ],
+    [ "-", "Killer Frost", "Gold", 850, 1200, 231, "KFP" ],
+    [ "Regime", "Killer Frost", "Gold", 700, 1250, 211, "RKF" ],
+    [ "Krypto", "Lex Luthor", "Gold", 800, 950, 174, "KLL" ],
+    [ "-", "Lobo", "Gold", 850, 1000, 182, "LOBO" ],
+    [ "Bounty Hunter", "Lobo", "Gold", 1250, 950, 262, "BHL" ],
+    [ "-", "Martian Manhunter", "Gold", 750, 1200, 211, "MMH" ],
+    [ "Blackest Night", "Martian Manhunter", "Gold", 1000, 1300, 330, "BNMMH" ],
+    [ "New 52", "Nightwing", "Gold", 850, 950, 182, "N52NW" ],
+    [ "-", "Raven", "Gold", 1050, 1000, 231, "RP" ],
+    [ "Regime", "Raven", "Gold", 950, 950, 201, "RR" ],
+    [ "Teen Titans", "Raven", "Gold", 1400, 1200, 426, "TTR" ],
+    [ "-", "Reverse Flash", "Gold", 1000, 1000, 300, "RVF" ],
+    [ "Mortal Kombat", "Scorpion", "Gold", 950, 850, 182, "MKS" ],
+    [ "Mortal Kombat X", "Scorpion", "Gold", 1200, 1000, 262, "MKXS" ],
+    [ "-", "Shazam", "Gold", 950, 1350, 395, "SHAZAM" ],
+    [ "Antimatter", "Sinestro", "Gold", 1200, 1200, 369, "AMS"],
+    [ "Green Lantern", "Sinestro", "Gold", 900, 950, 192, "GLS" ],
+    [ "Boss", "Solomon Grundy", "Gold", 550, 1250, 182, "BSG" ],
+	[ "Earth 2", "Solomon Grundy", "Gold", 1100, 1300, 335, "E2SG"],
+    [ "Red Son", "Solomon Grundy", "Gold", 800, 900, 165, "RSSG" ],
+    [ "-", "Static", "Gold", 1050, 1050, 241, "STATIC" ],
+    [ "-", "Superman", "Gold", 800, 1200, 220, "SM" ],
+    [ "Dawn of Justice", "Superman", "Gold", 1300, 1300, 430, "DOJSM"], 
+    [ "Godfall", "Superman", "Gold", 1000, 1250, 274, "GFSM" ],
+    [ "Injustice 2", "Superman", "Gold", 1300, 1500, 491, "I2SM"],
+    [ "Man of Steel", "Superman", "Gold", 800, 1200, 220, "MOSSM" ],
+    [ "Prison", "Superman", "Gold", 700, 800, 133, "PSM" ],
+    [ "Red Son", "Superman", "Gold", 1000, 1100, 241, "RSSM" ],
+    [ "Regime", "Superman", "Gold", 900, 1100, 220, "RSM" ],
+    [ "Arkham Knight", "The Arkham Knight", "Gold", 1100, 1200, 310, "AKAK" ],
+    [ "Elseworld", "The Flash", "Gold", 750, 750, 133, "EWF" ],
+    [ "Metahuman", "The Flash", "Gold", 1200, 1200, 365, "MHF" ],
+    [ "Arkham Origins", "The Joker", "Gold", 1150, 850, 220, "AOJ" ],
+    [ "Insurgency", "The Joker", "Gold", 750, 850, 148, "IJ" ],
+	[ "Suicide Squad", "The Joker", "Gold", 1350, 1350, 493, "SSQJO"],
+	[ "Suicide Squad", "The Joker Unhinged", "Gold", 1400, 1300, 496, "SSQJU"],
+    [ "The Killing Joke", "The Joker", "Gold", 950, 750, 60, "KJJ" ],
+    [ "600", "Wonder Woman", "Gold", 800, 1100, 201, "WW600" ],
+	[ "Dawn of Justice", "Wonder Woman", "Gold", 1100, 1400, 395, "DOJWW" ],
+    [ "Justice League", "Wonder Woman", "Gold", 1300, 1200, 370, "JLWW" ],
+    [ "Red Son", "Wonder Woman", "Gold", 900, 1000, 201, "RSWW"],
+    [ "Regime", "Wonder Woman", "Gold", 750, 1050, 182, "RWW" ],
+    [ "-", "Zatanna", "Gold", 900, 1150, 231, "ZAT" ],
+    [ "-", "Zod", "Gold", 800, 1200, 220, "ZOD" ],
+
+    [ "Knightfall", "Bane", "Silver", 470, 420, 50, "KFB" ],
+    [ "Regime", "Bane", "Silver", 460, 400, 47, "RBANE" ],
+    [ "-", "Black Adam", "Silver", 500, 400, 51, "BA" ],
+    [ "-", "Catwoman", "Silver", 400, 300, 35, "CW" ],
+    [ "Regime", "Cyborg", "Silver", 370, 450, 44, "RCY" ],
+    [ "-", "Deathstroke", "Silver", 460, 400, 47, "DS" ],
+    [ "Regime", "Doomsday", "Silver", 400, 500, 51, "RDD" ],
+    [ "-", "Green Arrow", "Silver", 380, 420, 42, "GA" ],
+    [ "Regime", "Green Lantern", "Silver", 450, 400, 47, "RGL" ],
+    [ "Insurgency", "Harley Quinn", "Silver", 380, 320, 35, "IHQ" ],
+    [ "Insurgency", "Lex Luthor", "Silver", 420, 420, 46, "ILL" ],
+    [ "Regime", "Nightwing", "Silver", 420, 380, 42, "RNW" ],
+    [ "Regime", "Sinestro", "Silver", 450, 400, 47, "RSIN" ],
+    [ "-", "Solomon Grundy", "Silver", 350, 480, 45, "SG" ],
+    [ "Regime", "The Flash", "Silver", 480, 370, 47, "RF" ],
+    [ "-", "The Joker", "Silver", 470, 400, 48, "JOK" ],
+    [ "-", "Wonder Woman", "Silver", 420, 460, 49, "WW" ],
+
+    [ "Regime", "Catwoman", "Bronze", 220, 180, 8, "RCW" ],
+    [ "-", "Cyborg", "Bronze", 190, 250, 10, "CY" ],
+    [ "Insurgency", "Deathstroke", "Bronze", 270, 200, 12, "IDS" ],
+    [ "Insurgency", "Green Arrow", "Bronze", 190, 230, 9, "IGA" ],
+    [ "-", "Green Lantern", "Bronze", 260, 200, 11, "GL" ],
+    [ "New 52", "Green Lantern", "Bronze", 270, 210, 12, "N52GL" ],
+    [ "-", "Harley Quinn", "Bronze", 200, 200, 8, "HQ" ],
+    [ "-", "Lex Luthor", "Bronze", 220, 220, 10, "LL" ],
+    [ "-", "Nightwing", "Bronze", 210, 210, 9, "NW" ],
+    [ "-", "Sinestro", "Bronze", 260, 200, 11, "SIN" ],
+    [ "Regime", "Solomon Grundy", "Bronze", 200, 260, 11, "RSG" ],
+    [ "-", "The Flash", "Bronze", 280, 180, 11, "TF" ],
+    [ "New 52", "The Flash", "Bronze", 280, 180, 11, "N52F" ]
+];
+
+function getIndexOfCharacterCard(CardName, CardTitle) {
+	var i;
+	for (i = 0; i < private_arrCharacterCardBasics.length; i++) {
+	    var arrChar = private_arrCharacterCardBasics[i];
+	    if ( (arrChar[idxTitle()] === CardTitle) && (arrChar[idxName()] === CardName) ) {
+			return i; }
+	}
+	return -1;
+}
+
+function getTitledCharName(arrChar) {
+	if (arrChar[idxTitle()] === "-")
+	    return arrChar[idxName()];
+	else
+	    return arrChar[idxTitle()] + " " + arrChar[idxName()];
+}
+
+function numCharacters() {
+	return private_arrCharacterCardBasics.length;
+}
+
+function getCharacterByIndex(index) {
+	var arr = private_arrCharacterCardBasics[index];
+	return arr.slice(); /* slice prevents client code from modifying the character's array data*/
+}
+
+function getCharVal(arrChar) {
+	return arrChar[idxName()] + ", " + arrChar[idxTitle()];
+}
+
+function getCharacterIndexFromDDL(ddlElementId) {
+	var select = Basic.getElById(ddlElementId);
+	var option = select.options[select.selectedIndex];
+	var val = option.value;
+	var splitup = val.split(", ");
+	var name = splitup[0]; /* see getCharVal() for separator and for order of value */
+	var title = splitup[1];
+	return getIndexOfCharacterCard(name, title);
+}
+
+function getCharArrById(characterDDLId) {
+	//console.log("ddlid=" + characterDDLId);
+	var idx = getCharacterIndexFromDDL(characterDDLId);
+	var retval;
+	if (idx >= 0)
+		retval = getCharacterByIndex(idx);
+	else
+		retval = null;
+	//console.log("Returning " + retval);
+	return retval;
+}
+
+function addAllianceCreditsIfNeeded(characterArray) {
+	var lowName = (characterArray[idxName()]).toLowerCase();
+	var lowTitl = (characterArray[idxTitle()]).toLowerCase();
+	if ( ( lowName === "the joker" ) && (lowTitl === "the killing joke") )
+		return " AC";
+	return "";
+}
+	
+	APIList["1.9"] = {
+		maxAug: maxAug,
+		halfAug: halfAug,
+		idxTitle: idxTitle,
+		idxName: idxName,
+		idxColor: idxColor,
+		idxStoreDamage: idxStoreDamage,
+		idxStoreHealth: idxStoreHealth,
+		idxCost: idxCost,
+		idxAbbr: idxAbbr,
+		
+		numCharacters: numCharacters,
+		getCharacterByIndex: getCharacterByIndex,
+		getTitledCharName: getTitledCharName,
+		getCharVal: getCharVal,
+		getCharArrById: getCharArrById,
+		addAllianceCreditsIfNeeded: addAllianceCreditsIfNeeded,
+		
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+
+/* file CharacterInputsFromFields.js:*/
+var CharacterInputs = (function() {
+	var APIList = {}; /* different versions of the API of this module*/
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+function CharacterInputsFromFields(bonusesPrefix, extraBonusesPrefix, characterDDLId,
+    eliteStartDDLId, eliteEndDDLId,
+    xpStartDDLId, xpEndDDLId,
+    damageAugStartId, damageAugEndId,
+    healthAugStartId, healthAugEndId,
+    dminorid, dmediumid, dmajorid,
+    hminorid, hmediumid, hmajorid) {
+
+    if (characterDDLId !== "") {
+	this.characterArr = Characters.getCharArrById(characterDDLId); }
+
+    this.DamageBonusPercent = getInputDamageBonus(bonusesPrefix, extraBonusesPrefix);
+    this.HealthBonusPercent = getInputHealthBonus(bonusesPrefix, extraBonusesPrefix);
+
+    this.StartRank = Basic.getIntFromDDL(eliteStartDDLId);
+    this.EndRank = Basic.getIntFromDDL(eliteEndDDLId);
+
+    this.StartXPLevel = Basic.getIntFromDDL(xpStartDDLId);
+    this.EndXPLevel = Basic.getIntFromDDL(xpEndDDLId);
+
+    var StartAugmentationLevelDamage = parseInt( Basic.getFormVal(damageAugStartId),10 );
+	var EndAugmentationLevelDamage = parseInt( Basic.getFormVal(damageAugEndId),10 );
+
+	var StartAugmentationLevelHealth = parseInt( Basic.getFormVal(healthAugStartId),10 );
+	var EndAugmentationLevelHealth = parseInt( Basic.getFormVal(healthAugEndId),10 );
+
+	this.DamageBonusMultiplier = (this.DamageBonusPercent / 100.0) + 1.0;
+	this.HealthBonusMultiplier = (this.HealthBonusPercent / 100.0) + 1.0;
+
+    /* Augmentation Input Fields: */
+	/* Minor, Medium, Major Cards for Damage, Health: */
+    var damMinor = (dminorid  !== "") ? 2 * parseInt(Basic.getFormVal(dminorid),10) : 0;
+    var damMed   = (dmediumid !== "") ? 4 * parseInt(Basic.getFormVal(dmediumid),10) : 0;
+    var damMajor = (dmajorid  !== "") ? 8 * parseInt(Basic.getFormVal(dmajorid),10) : 0;
+    var damAugCardsTotal = damMinor + damMed + damMajor;
+
+    var heaMinor = (hminorid  !== "") ? 2 * parseInt(Basic.getFormVal(hminorid),10) : 0;
+    var heaMed   = (hmediumid !== "") ? 4 * parseInt(Basic.getFormVal(hmediumid),10) : 0;
+    var heaMajor = (hmajorid  !== "") ? 8 * parseInt(Basic.getFormVal(hmajorid),10) : 0;
+    var heaAugCardsTotal = heaMinor + heaMed + heaMajor;
+
+	/* Total of Cards + Level (range): */
+	this.StartAugmentationDamage = StartAugmentationLevelDamage    + damAugCardsTotal;
+	this.EndAugmentationDamage   = EndAugmentationLevelDamage      + damAugCardsTotal;
+
+	this.StartAugmentationHealth = StartAugmentationLevelHealth  	+ heaAugCardsTotal;
+	this.EndAugmentationHealth   = EndAugmentationLevelHealth 		+ heaAugCardsTotal;
+}
+
+function getInputDamageBonus(prefix, extraPrefix)
+{
+	var subtot = 0;
+	subtot += Basic.getInputCheckboxNumber(prefix + extraPrefix + "character_attack_bonus", 10);
+	subtot += Basic.getInputCheckboxNumber(prefix + "ravager_bonus", 4);
+	subtot += Basic.getInputCheckboxNumber(prefix + "starfire_bonus", 5);
+	subtot += Basic.getInputCheckboxNumber(prefix + "taliaalghul_bonus", 6);
+	subtot += Basic.getInputCheckboxNumber(prefix + "thespectre_bonus", 7);
+	subtot += Basic.getInputCheckboxNumber(prefix + "timdrake_bonus", 3);
+	return subtot;
+}
+
+function getInputHealthBonus(prefix, extraPrefix)
+{
+	var subtot = 0;
+	subtot += Basic.getInputCheckboxNumber(prefix + extraPrefix + "character_health_bonus", 10);
+	subtot += Basic.getInputCheckboxNumber(prefix + "black_manta_bonus", 5);
+	subtot += Basic.getInputCheckboxNumber(prefix + "hawkman_bonus", 4);
+	subtot += Basic.getInputCheckboxNumber(prefix + "kilowog_bonus", 3);
+	subtot += Basic.getInputCheckboxNumber(prefix + "parallax_bonus", 6);
+	subtot += Basic.getInputCheckboxNumber(prefix + "swampthing_bonus", 7);
+	return subtot;
+}
+
+function validInputs(userInputs, msgfldid, outputfldid, RandId) {
+    var ddl;
+    var valid = true;
+
+    ddl = Basic.getElById(msgfldid);
+    ddl.innerHTML = "";
+
+	if (!userInputs.characterArr) {
+		ddl.innerHTML += "<span class='micsc_error_msg'>No character selected?</span>";
+		valid = false;
+	}
+    else if (userInputs.characterArr[Characters.idxName()] === "") {
+        ddl.innerHTML += "<br />Please select a character";
+        valid = false;
+	}
+
+	if (userInputs.DamageBonusPercent < 0) {
+		ddl.innerHTML += "<br />Missing Damage Bonus % value";
+		valid = false;
+	}
+
+ 	if (userInputs.HealthBonusPercent < 0) {
+		ddl.innerHTML += "<br />Missing Health Bonus % value";
+		valid = false;
+	}
+
+	if ((userInputs.characterArr[Characters.idxStoreDamage()] > 9999) || (userInputs.characterArr[Characters.idxStoreDamage()] < 100)) {
+	    ddl.innerHTML += "<br />Store Damage must be between 100 and 9999";
+		valid = false;
+	}
+	
+	if ((userInputs.characterArr[Characters.idxStoreHealth()] > 9999) || (userInputs.characterArr[Characters.idxStoreHealth()] < 100)) {
+	    ddl.innerHTML += "<br />Store Health must be between 100 and 9999";
+		valid = false;
+	}
+
+	if ( (userInputs.StartRank < 0) || (userInputs.StartRank > 10) ) {
+		ddl.innerHTML += "<br />Starting Elite level must be between 0 and 10";
+		valid = false;
+	}
+
+	if ( (userInputs.EndRank < 0) || (userInputs.EndRank > 10) ) {
+		    ddl.innerHTML += "<br />Ending Elite level must be between 0 and 10";
+			valid = false;
+	}
+
+	if (userInputs.EndRank < userInputs.StartRank) {
+		ddl.innerHTML += "<br />Ending Elite level must be >= Starting Elite level";
+		valid = false;
+	}
+
+    if ( (userInputs.StartXPLevel < 1) || (userInputs.StartXPLevel > 100) ) {
+		ddl.innerHTML += "<br />Starting XP level must be between 1 and 100";
+		valid = false;
+	}
+
+    if ( (userInputs.EndXPLevel < 1) || (userInputs.EndXPLevel > 100) ) {
+		ddl.innerHTML += "<br />Ending XP level must be between 1 and 100";
+		valid = false;
+	}
+
+    if ( userInputs.EndXPLevel < userInputs.StartXPLevel) {
+		ddl.innerHTML += "<br />Ending XP level must be >= Starting XP level";
+		valid = false;
+	}
+
+	if ( ( userInputs.StartAugmentationDamage < 0) || (userInputs.StartAugmentationDamage > Characters.maxAug()) ) {
+		ddl.innerHTML += "<br />Starting Damage Augmentation must be between 0 and " + Characters.maxAug();
+		valid = false;
+	}
+
+	if ( ( userInputs.EndAugmentationDamage < 0) || (userInputs.EndAugmentationDamage > Characters.maxAug()) ) {
+		ddl.innerHTML += "<br />Ending Damage Augmentation must be between 0 and " + Characters.maxAug();
+		valid = false;
+	}
+
+	if (userInputs.EndAugmentationDamage < userInputs.StartAugmentationDamage) {
+		ddl.innerHTML += "<br />Ending Damage Augmentation must be >= Starting Damage Augmentation";
+		valid = false;
+	}
+
+	if ( ( userInputs.StartAugmentationHealth < 0) || (userInputs.StartAugmentationHealth > Characters.maxAug()) ) {
+		ddl.innerHTML += "<br />Starting Health Augmentation must be between 0 and " + Characters.maxAug();
+		valid = false;
+	}
+
+	if ( ( userInputs.EndAugmentationHealth < 0) || (userInputs.EndAugmentationHealth > Characters.maxAug()) ) {
+		ddl.innerHTML += "<br />Ending Health Augmentation must be between 0 and " + Characters.maxAug();
+		valid = false;
+	}
+
+	if (userInputs.EndAugmentationHealth < userInputs.StartAugmentationHealth) {
+		ddl.innerHTML += "<br />Ending Health Augmentation must be >= Starting Health Augmentation";
+		valid = false;
+	}
+
+    if (valid) {
+    	ddl = Basic.getElById(outputfldid);
+    	ddl.innerHTML = "";
+	}
+	//else {
+	//	LogUsage.logOutputShown(msgfldid, RandId);
+	//}
+	return valid;
+}
+
+	APIList["1.9"] = {
+		CharacterInputsFromFields: CharacterInputsFromFields,
+		validInputs: validInputs,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+
+})();
+/* file genAugmentationCardsAndLevels.js: */
+var GenAugmentationCards = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+/* Used by several calculator sections to generate Augmentations subsection */
+function genAugmentationCardsAndLevels(prefix, InputAugmentationType, addTitle, useRange) {
+	var outstr = "";
+	var fullprefix = prefix+InputAugmentationType; /* e.g. fullprefix = "owned_Damage" */
+
+	if (addTitle) outstr += "<strong>" + InputAugmentationType + " Augmentations:</strong><br />\n";
+	outstr += "Cards:<br />\n";
+
+	outstr += "Minor:<input id=\"" + fullprefix + "AugMinorCards\" class=\"micsc_small_input\" type=\"text\" value=\"0\"\n";
+	outstr += "  onchange='GenAugmentationCards.setAugTotals(\"" + fullprefix+ "\");'> \n";
+
+	outstr += "Med:<input id=\"" + fullprefix + "AugMediumCards\" class=\"micsc_small_input\" type=\"text\" value=\"0\"\n";
+	outstr += "  onchange='GenAugmentationCards.setAugTotals(\"" + fullprefix + "\");'> \n";
+
+	outstr += "Major:<input id=\"" + fullprefix + "AugMajorCards\" class=\"micsc_small_input\" type=\"text\" value=\"0\"\n";
+	outstr += "  onchange='GenAugmentationCards.setAugTotals(\"" + fullprefix + "\");'> \n";
+
+    outstr += "<br />\nadded to ";
+    if (useRange) outstr += " range:\n";
+
+    outstr += "<input class=\"micsc_small_input\" type=\"text\" id=\"" + fullprefix+ "StartAug\" value=\"0\"\n";
+    outstr += "  onchange='GenAugmentationCards.setAugTotals(\"" + fullprefix + "\");'> \n";
+
+	if (useRange) {
+        outstr += " to <input class=\"micsc_small_input\" type=\"text\" id=\"" + fullprefix + "EndAug\" value=\"0\"\n";
+        outstr += "  onchange='GenAugmentationCards.setAugTotals(\"" + fullprefix + "\");'> \n";
+	}
+
+    outstr += "<br />Total Augmentations to apply: ";
+    outstr += "<span class=\"micsc_inline\" id=\"" + fullprefix + "AugTotalStart\">0</span>\n";
+    if (useRange) {
+        outstr += " to <span class=\"micsc_inline\" id=\"" + fullprefix + "AugTotalEnd\">0</span>\n";
+	}
+
+    return outstr;
+}
+
+/* Show read-only aug totals on the fly, as the user changes the specific input fields */
+function setAugTotals(fullprefix) {
+	var minCardsId = fullprefix + "AugMinorCards";
+	var medCardsId = fullprefix + "AugMediumCards";
+	var majCardsId = fullprefix + "AugMajorCards";
+	var startAugRangeId = fullprefix + "StartAug";
+	var endAugRangeId = fullprefix + "EndAug";
+
+	var numMinor = parseInt(Basic.getFormVal(minCardsId),10);
+	var numMedium = parseInt(Basic.getFormVal(medCardsId),10);
+	var numMajor = parseInt(Basic.getFormVal(majCardsId),10);
+	var startLevel = parseInt(Basic.getFormVal(startAugRangeId),10);
+	var endLevel = parseInt(Basic.getFormVal(endAugRangeId),10);
+
+	if (Number.isNaN(numMinor) ) numMinor = 0;
+	if (Number.isNaN(numMedium) ) numMedium = 0;
+	if (Number.isNaN(numMajor) ) numMajor = 0;
+	if (Number.isNaN(startLevel) ) startLevel = 0;
+	if (Number.isNaN(endLevel) ) endLevel = startLevel;
+
+	var el;
+	if (endLevel < startLevel) {
+		endLevel = startLevel;
+		el = Basic.getElById(endAugRangeId);
+		if (el) el.value = endLevel; /* put end of range out onto the form */
+	}
+
+	var totalCardAugs = (2*numMinor) + (4*numMedium) + (8*numMajor);
+
+	startLevel = startLevel + totalCardAugs;
+	endLevel = endLevel + totalCardAugs;
+
+	var augTotalStartId = fullprefix + "AugTotalStart";
+	var augTotalEndId = fullprefix + "AugTotalEnd";
+
+	el = Basic.getElById(augTotalStartId);
+	if (el) el.innerHTML = startLevel + "";
+	el = Basic.getElById(augTotalEndId);
+	if (el) el.innerHTML = endLevel + "";
+}
+
+	APIList["1.9"] = {
+		setAugTotals: setAugTotals,
+		genAugmentationCardsAndLevels: genAugmentationCardsAndLevels,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+/* file doCalcRank.js:*/
+var DoCalcRank = (function() {
+	var APIList = {}; /* different versions of the API of this module*/
+	function getAPIByVersion(versionStr) {
+		return APIList[versionStr];
+	}
+
+function doCalcRank(Rank, inputs) {
+  var LevelsForRank = []; /* local version of array variable*/
+  var RankDamageBonusMultiplier = 0;
+  var RankHealthBonusMultiplier = 0;
+	
+  if (inputs.characterArr[Characters.idxColor()]=== "Gold")
+  {
+    if (Rank === 0) RankDamageBonusMultiplier = 1.0;
+    else if (Rank === 1) RankDamageBonusMultiplier = 1.5;
+    else if (Rank === 2) RankDamageBonusMultiplier = 2.0;
+    else if (Rank === 3) RankDamageBonusMultiplier = 3.0;
+    else if (Rank === 4) RankDamageBonusMultiplier = 3.5;
+    else if (Rank === 5) RankDamageBonusMultiplier = 4.0;
+    else if (Rank === 6) RankDamageBonusMultiplier = 4.5;
+    else if (Rank === 7) RankDamageBonusMultiplier = 5.0;
+    else if (Rank === 8) RankDamageBonusMultiplier = 5.5;
+    else if (Rank === 9) RankDamageBonusMultiplier = 6.0;
+    else if (Rank === 10) RankDamageBonusMultiplier = 6.5;
+
+    if (Rank === 4) /* as of version 2.6, the health multiplier is not the same as the damage multiplier, for Gold IV cards */
+        RankHealthBonusMultiplier = RankDamageBonusMultiplier + 0.1;
+    else
+        RankHealthBonusMultiplier = RankDamageBonusMultiplier;
+  }
+
+  else if (inputs.characterArr[Characters.idxColor()]=== "Silver")
+  {
+	RankDamageBonusMultiplier = 1 + (Rank * 0.4);
+	RankHealthBonusMultiplier = RankDamageBonusMultiplier;
+  }
+
+  else if (inputs.characterArr[Characters.idxColor()]=== "Bronze")
+  {
+    RankDamageBonusMultiplier = 1 + (Rank * 0.2);
+    RankHealthBonusMultiplier = RankDamageBonusMultiplier;
+  }
+
+  var HealthRate = 0.2;
+  var DamRateThruLvl10 = 0.20;
+  var DamRateThruLvl30 = 0.10;
+  var DamRateThruLvl50 = 0.05;
+
+  /* initialize the array with zero'd records: */
+  var augIdx = 0;
+  for (var Lvl = 1; Lvl <= inputs.EndXPLevel; Lvl++) {
+    var thisLevel = {
+      XPLevel: 0,
+      arrDamageNoBonus: [],
+      arrHealthNoBonus: [],
+      arrDamageWithBonus: [],
+      arrHealthWithBonus: [],
+      arrMeleeDamage: []
+    };
+    for (augIdx = 0; augIdx <= inputs.EndAugmentationDamage; augIdx++) {
+		thisLevel.arrDamageNoBonus[augIdx] = 0;
+		thisLevel.arrDamageWithBonus[augIdx] = 0;
+		thisLevel.arrMeleeDamage[augIdx] = 0;
+	}
+    for (augIdx = 0; augIdx <= inputs.EndAugmentationHealth; augIdx++) {
+		thisLevel.arrHealthNoBonus[augIdx] =  0;
+		thisLevel.arrHealthWithBonus[augIdx] = 0;
+	}
+    LevelsForRank[Lvl - 1] = thisLevel;
+  }
+
+  var level = LevelsForRank[0];
+  /* Initialize the first xp level: */
+  level.XPLevel = 1;
+  for (augIdx = inputs.StartAugmentationDamage; augIdx <= inputs.EndAugmentationDamage; augIdx++) {
+      level.arrDamageNoBonus[augIdx] = ((inputs.characterArr[Characters.idxStoreDamage()] + augIdx) * RankDamageBonusMultiplier);
+      level.arrDamageWithBonus[augIdx] = (level.arrDamageNoBonus[augIdx] * inputs.DamageBonusMultiplier);
+      level.arrMeleeDamage[augIdx] = calcMeleeDamage(
+		  level.arrDamageWithBonus[augIdx],
+          inputs.characterArr[Characters.idxName()],
+          inputs.characterArr[Characters.idxTitle()]);
+  }
+  for (augIdx = inputs.StartAugmentationHealth; augIdx <= inputs.EndAugmentationHealth; augIdx++) {
+      level.arrHealthNoBonus[augIdx] = ((inputs.characterArr[Characters.idxStoreHealth()] + augIdx) * RankHealthBonusMultiplier);
+      level.arrHealthWithBonus[augIdx] = (level.arrHealthNoBonus[augIdx] * inputs.HealthBonusMultiplier);
+  }
+  /* Calculate the rest of the xp levels: */
+  for (var Lev = 2; Lev <= inputs.EndXPLevel; Lev++) {
+    var idx = Lev - 1;
+    var prevIdx = Lev - 2;
+
+    var DamRate;
+    if (Lev <= 10) DamRate = DamRateThruLvl10;
+    else if (Lev <= 30) DamRate = DamRateThruLvl30;
+    else DamRate = DamRateThruLvl50;
+
+    level = LevelsForRank[idx];
+    level.XPLevel = Lev;
+
+    for (augIdx = inputs.StartAugmentationDamage; augIdx <= inputs.EndAugmentationDamage; augIdx++) {
+        level.arrDamageNoBonus[augIdx] =
+        	LevelsForRank[prevIdx].arrDamageNoBonus[augIdx] + (DamRate * (inputs.characterArr[Characters.idxStoreDamage()] + augIdx) * RankDamageBonusMultiplier);
+
+        level.arrDamageWithBonus[augIdx] = (level.arrDamageNoBonus[augIdx] * inputs.DamageBonusMultiplier);
+
+        level.arrMeleeDamage[augIdx] = calcMeleeDamage(
+			level.arrDamageWithBonus[augIdx],
+			inputs.characterArr[Characters.idxName()],
+			inputs.characterArr[Characters.idxTitle()]);
+    }
+
+    for (augIdx = inputs.StartAugmentationHealth; augIdx <= inputs.EndAugmentationHealth; augIdx++) {
+        level.arrHealthNoBonus[augIdx] =
+        	LevelsForRank[prevIdx].arrHealthNoBonus[augIdx] + (HealthRate * (inputs.characterArr[Characters.idxStoreHealth()] + augIdx) * RankHealthBonusMultiplier);
+
+        level.arrHealthWithBonus[augIdx] = (level.arrHealthNoBonus[augIdx] * inputs.HealthBonusMultiplier);
+    }
+  }
+  return LevelsForRank; /* return local version of array variable */
+} /* DoCalcRank */
+
+function calcMeleeDamage(damage, CharName, CharTitle)
+{
+  var LightHit = damage * 0.02;
+  var KnockdownHit = LightHit * 1.5;
+  var HeavyHit1 = damage * 0.04;
+  var HeavyHit2 = HeavyHit1;
+
+  var loCharName = CharName.toLowerCase();
+  var loCharTitle = CharTitle.toLowerCase();
+
+  /* Exceptions: */
+  if (loCharName === "shazam" || ( (loCharName === "harley quinn") && (loCharTitle !== "arkham knight") ) ) {
+	HeavyHit1 = damage * 0.05;
+    HeavyHit2 = damage * 0.07;
+  }
+  else if (loCharName === "doomsday" && (loCharTitle === "regime" || loCharTitle === "-")) {
+	HeavyHit1 = damage * 0.05;
+    HeavyHit2 = damage * 0.07;
+  }
+
+  var MeleeDamage = {
+        Light: LightHit,
+        Knockdown: KnockdownHit,
+        Heavy1: HeavyHit1,
+        Heavy2: HeavyHit2
+    };
+  return MeleeDamage;
+}
+
+	APIList["1.9"] = {
+		doCalcRank: doCalcRank,
+		calcMeleeDamage: calcMeleeDamage,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+/* file damageHealthChart.js: */
+var DamageHealthChart = (function() {
+	var APIList = {}; /* different versions of the API of this module*/
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+function doDamageHealthChart(outputFieldName, inputs)
+{
+  var tdStyle = " class='micsc_border_more_padding'";
+  var allOutput = "";
+  var rankOutput;
+  var LevelsForRank = [];
+  var DamageForRank = "";
+  var HealthForRank = "";
+  var TableStyle = " class='micsc_table_less_spacing'";
+  var csv = "";
+  
+  for (var Rank = inputs.StartRank; Rank <= inputs.EndRank; Rank++)
+  {
+	rankOutput = "";
+    LevelsForRank = DoCalcRank.doCalcRank(Rank, inputs);
+    DamageForRank = getResultsDamage(Rank, tdStyle, inputs, LevelsForRank);
+    HealthForRank = getResultsHealth(Rank, tdStyle, inputs, LevelsForRank);
+
+    rankOutput += "<br />\n<strong>RANK (ELITE) " + Basic.cvtRankToRoman(Rank) + "</strong>\n";
+	csv += '\r\n"RANK (ELITE)","' + Rank + '"\r\n';
+	
+rankOutput += "\n<table" + TableStyle + ">";
+rankOutput += "\n<tr class='micsc_noborder'>";
+
+rankOutput += "\n<td class='micsc_noborder'>";
+    rankOutput += "<table" + TableStyle + ">";
+    rankOutput += "\n<caption class='micsc_padding'>\n<strong>Damage</strong></caption>";
+    rankOutput += "\n<tr class='micsc_padding'>";
+    //rankOutput += "<th" + tdStyle + ">Elite</th>";
+    rankOutput += "\n<th" + tdStyle + ">Level</th>";
+    rankOutput += "\n<th" + tdStyle + ">Augmentation</th>";
+    rankOutput += "\n<th" + tdStyle + ">Damage</th>";
+    rankOutput += "\n<th" + tdStyle + ">Light Tap</th>";
+    rankOutput += "\n<th" + tdStyle + ">Knockdown Swipe</th>";
+    rankOutput += "\n<th" + tdStyle + ">Heavy Swipe</th>";
+    rankOutput += "</tr>\n";
+    rankOutput += DamageForRank.html;
+    rankOutput += "</table>\n";
+	csv += '"Damage"\r\n';
+	csv += '"Level","Augmentation","Damage","Light Tap","Knockdown Swipe","Heavy Swipe"\r\n';
+	csv += DamageForRank.csv;
+rankOutput += "</td>";
+
+rankOutput += "\n<td class='micsc_noborder'>";
+    rankOutput += "\n<table" + TableStyle + ">";
+    rankOutput += "\n<caption class='micsc_padding'>\n<strong>Health</strong></caption>";
+    rankOutput += "\n<tr class='micsc_padding'>";
+    //rankOutput += "<th" + tdStyle + ">Elite</th>";
+    rankOutput += "\n<th" + tdStyle + ">Level</th>";
+    rankOutput += "\n<th" + tdStyle + ">Augmentation</th>";
+    rankOutput += "\n<th" + tdStyle + ">Health</th>";
+    rankOutput += "</tr>\n";
+    rankOutput += HealthForRank.html;
+    rankOutput += "</table>";
+	csv += '"Health"\r\n';
+	csv += '"Level","Augmentation","Health"\r\n';
+	csv += HealthForRank.csv;
+rankOutput += "</td>";
+rankOutput += "</tr>\n";
+rankOutput += "</table>";
+
+
+    allOutput += rankOutput;
+  }
+  
+  var topStr =
+            "<strong>" + Characters.getTitledCharName(inputs.characterArr) +
+            " (" + inputs.characterArr[Characters.idxColor()] + ") - " +
+	        " StoreDamage: " + inputs.characterArr[Characters.idxStoreDamage()] +
+	        " StoreHealth: " + inputs.characterArr[Characters.idxStoreHealth()] + "<br />\n" +
+	        " Damage Bonus: " + inputs.DamageBonusPercent + "%" +
+            " Health Bonus: " + inputs.HealthBonusPercent + "%" + "</strong><br />\n";
+  allOutput = topStr + allOutput + "<br />\n<br />\n";
+  Basic.getElById(outputFieldName).innerHTML = allOutput;
+
+  var cprt = SimpleWrites.CopyRightStmt.replace(/ /g, '"\r\n"');  
+  csv =
+	'"' + Characters.getTitledCharName(inputs.characterArr) + " (" + inputs.characterArr[Characters.idxColor()] + ")" + '"\r\n' +
+	'"Store Damage","' + inputs.characterArr[Characters.idxStoreDamage()] + '"\r\n' +
+	'"Store Health","' + inputs.characterArr[Characters.idxStoreHealth()] + '"\r\n' +
+	'"Damage Bonus","' + inputs.DamageBonusPercent + '%"\r\n' +
+	'"Health Bonus","' + inputs.HealthBonusPercent + '%"\r\n' +
+	csv + '\r\n"' + cprt + '"\r\n';
+  return csv;
+} /* doDamageHealthChart()*/
+
+
+function getResultsDamage(Rank, tdStyle, inputs, LevelsForRank) {
+	var rowstr = "";
+    var outstr = "";
+    var augIdx;
+    var startIdx;
+	var csv = "";
+
+    startIdx = inputs.StartAugmentationDamage;
+	if (!Basic.isEven(startIdx))
+	    startIdx = startIdx + 1; /* make startIdx be even. we won't show values for odd augmentation levels*/
+
+    for (var Lvl = inputs.StartXPLevel; Lvl <= inputs.EndXPLevel; Lvl++) {
+		var level = LevelsForRank[Lvl - 1]; /* Arrays are 0 indexed in Javascript */
+		for (augIdx = startIdx; augIdx <= inputs.EndAugmentationDamage; augIdx += 2) {
+			rowstr = "";
+			/* Columns: Rank, Level, Damage Augmentation, Damage, Light Tap, Knockdown Swipe, Heavy Swipe */
+			rowstr += "\n<tr>";
+			//rowstr += "<td " + tdStyle + ">" + Basic.cvtRankToRoman(Rank) + "</td>";
+			rowstr += "\n<td " + tdStyle + ">" + level.XPLevel + "</td>";
+			rowstr += "\n<td " + tdStyle + ">" + augIdx + "</td>";
+			rowstr += "\n<td " + tdStyle + ">" + Math.round(level.arrDamageWithBonus[augIdx]) + "</td>";
+
+			rowstr += "\n<td " + tdStyle + ">" + Math.round(level.arrMeleeDamage[augIdx].Light) + "</td>";
+			rowstr += "\n<td " + tdStyle + ">" + Math.round(level.arrMeleeDamage[augIdx].Knockdown) + "</td>";
+			rowstr += "\n<td " + tdStyle + ">" + Math.round(level.arrMeleeDamage[augIdx].Heavy1);
+			if (Math.round(level.arrMeleeDamage[augIdx].Heavy1) != Math.round(level.arrMeleeDamage[augIdx].Heavy2))
+			    rowstr += "(" + Math.round(level.arrMeleeDamage[augIdx].Heavy2) + ")";
+			rowstr += "</td>";
+
+			rowstr += "</tr>\n";
+			outstr += rowstr;
+			csv += '"' + level.XPLevel + '","' + 
+				augIdx + '","' + 
+				Math.round(level.arrDamageWithBonus[augIdx]) + '","' +
+				Math.round(level.arrMeleeDamage[augIdx].Light) + '","' +
+				Math.round(level.arrMeleeDamage[augIdx].Knockdown) + '","' +
+				Math.round(level.arrMeleeDamage[augIdx].Heavy1);
+				if (Math.round(level.arrMeleeDamage[augIdx].Heavy1) != Math.round(level.arrMeleeDamage[augIdx].Heavy2))
+					csv += "(" + Math.round(level.arrMeleeDamage[augIdx].Heavy2) + ")";
+				csv += '"\r\n';
+		}
+	}
+	return { html:outstr, csv:csv };
+}
+
+function getResultsHealth(Rank, tdStyle, inputs, LevelsForRank) {
+    var outstr = "";
+    var augIdx;
+	var csv = ""
+
+    var startIdx = inputs.StartAugmentationHealth;
+	if (!Basic.isEven(startIdx))
+	    startIdx = startIdx + 1; /* make startIdx be even. we won't show values for odd augmentation levels*/
+
+    for (var Lvl = inputs.StartXPLevel; Lvl <= inputs.EndXPLevel; Lvl++) {
+		var level = LevelsForRank[Lvl - 1]; /* Arrays are 0 indexed in Javascript */
+		for (augIdx = startIdx; augIdx <= inputs.EndAugmentationHealth; augIdx += 2) {
+			/* Columns: Rank, Level, Health Augmentation, Health */
+			outstr += "\n<tr>";
+			//outstr += "<td" + tdStyle + ">" + Basic.cvtRankToRoman(Rank) + "</td>";
+			outstr += "\n<td" + tdStyle + ">" + level.XPLevel + "</td>";
+			outstr += "\n<td" + tdStyle + ">" + augIdx + "</td>";
+			outstr += "\n<td" + tdStyle + ">" + Math.round(level.arrHealthWithBonus[augIdx]) + "</td>";
+			outstr += "</tr>\n";
+			csv += '"' + level.XPLevel + '","' + augIdx + '","' + Math.round(level.arrHealthWithBonus[augIdx]) + '"\r\n';
+		}
+	}
+	return { html:outstr, csv:csv };
+}
+
+	APIList["1.9"] = {
+		doDamageHealthChart: doDamageHealthChart,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+
+})();
+/* file handleCharCalculations.js:*/
+var HandleCharCalculations = (function() {
+	var APIList = {}; /* different versions of the API of this module*/
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+	var onecharcsv = "";
+	var customcharcsv = "";
+	
+function onClickCalculateDamageAndHealth() /* Regular character calculator*/
+{
+	var RandId = Basic.getRandomRequestId();
+	//LogUsage.logInputForm("formCharacter", RandId);
+
+  var userInputs = new CharacterInputs.CharacterInputsFromFields("", "", "ddlCharacters",
+      "ddlDisplayEliteStart", "ddlDisplayEliteEnd",
+      "ddlDisplayXPStart", "ddlDisplayXPEnd",
+
+      "DamageStartAug", "DamageEndAug",
+      "HealthStartAug", "HealthEndAug",
+
+      "DamageAugMinorCards", "DamageAugMediumCards", "DamageAugMajorCards",
+      "HealthAugMinorCards", "HealthAugMediumCards", "HealthAugMajorCards" );
+
+  if (CharacterInputs.validInputs(userInputs, "characterMsg", "characterOutput", RandId))
+  {
+    onecharcsv = DamageHealthChart.doDamageHealthChart("characterOutput", userInputs);
+	//LogUsage.logOutputShown("characterOutput", RandId);
+	Basic.getElById("oneChar_HTMLCode").value = genEmbeddableHTML(Basic.getElById('characterOutput').innerHTML);
+  }
+  return true;
+}
+
+/* CUSTOM CHARACTER CALCULATOR: InputCharacterFromTextFields AND onClickCalculateCustomChar*/
+function InputCharacterFromTextFields()
+{
+	var field;
+	var arr = [];
+
+	arr[Characters.idxTitle()] = "-";
+	arr[Characters.idxName()] = "Custom Char";
+
+	field = Basic.getElById("fldColorCustomChar");
+	arr[Characters.idxColor()] = field.options[field.selectedIndex].text;
+
+    arr[Characters.idxStoreDamage()] = parseInt(Basic.getFormVal("fldDamageCustomChar"),10 );
+    arr[Characters.idxStoreHealth()] = parseInt(Basic.getFormVal("fldHealthCustomChar"),10 );
+
+	return arr;
+}
+
+function onClickCalculateCustomChar()
+{
+	var RandId = Basic.getRandomRequestId();
+		//LogUsage.logInputForm("formCustomChar", RandId);
+
+//console.log("Enter onClickCalculateCustomChar");
+  var userInputs = new CharacterInputs.CharacterInputsFromFields("customChar_", "", "",
+      "ddlCustomDisplayEliteStart", "ddlCustomDisplayEliteEnd",
+      "ddlCustomDisplayXPStart", "ddlCustomDisplayXPEnd",
+
+      "customChar_DamageStartAug", "customChar_DamageEndAug",
+      "customChar_HealthStartAug", "customChar_HealthEndAug",
+
+	  "customChar_DamageAugMinorCards", "customChar_DamageAugMediumCards", "customChar_DamageAugMajorCards",
+      "customChar_HealthAugMinorCards", "customChar_HealthAugMediumCards", "customChar_HealthAugMajorCards" );
+
+  userInputs.characterArr = InputCharacterFromTextFields();
+
+  if (CharacterInputs.validInputs(userInputs, "customCharacterMsg", "customCharacterOutput", RandId))
+  {
+    customcharcsv = DamageHealthChart.doDamageHealthChart("customCharacterOutput", userInputs);
+	//LogUsage.logOutputShown("customCharacterOutput", RandId);
+	Basic.getElById("customChar_HTMLCode").value = genEmbeddableHTML(Basic.getElById('customCharacterOutput').innerHTML);
+  }
+	  
+  return true;
+}
+
+	function genEmbeddableHTML(innerHTML) {
+		return "<div>\n" + 
+			"<style>" + 
+			".micsc_table_less_spacing  { border-collapse:collapse; border-spacing:1px; }\n" +
+			".micsc_padding             { border:1px solid; padding:3px; }\n" +
+			".micsc_noborder			{ border:0px; padding:0px; }\n" +
+			".micsc_border_more_padding { border:1px solid; padding:5px; }\n" +
+			"</style>\n" +
+			innerHTML + 
+			"\n" + 
+			SimpleWrites.CopyRightStmt + 
+			"</div>";
+	}
+	
+	/*function SaveCSVFile(Sender) {
+		var senderID = "";
+		var csv = "";
+		
+		senderID = Sender.id.split('_')[0];
+		if (senderID.toLowerCase().startsWith("onechar"))
+			csv = onecharcsv;
+		else
+			csv = customcharcsv;
+		//LogUsage.PostAndGetTextFile('csv', csv);
+	}*/
+
+
+/* Moved code which was previously located here to file "handleSpSup.js" */
+
+	APIList["1.9"] = {
+		onClickCalculateDamageAndHealth: onClickCalculateDamageAndHealth,
+		onClickCalculateCustomChar: onClickCalculateCustomChar,
+		//SaveCSVFile: SaveCSVFile,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+
+})();
+/* file handleOwnedCharAugCalculations.js:*/
+var HandleOwnedCharAugs = (function() {
+	var APIList = {}; /* different versions of the API of this module*/
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+	var OwnedCharCSV = "";
+	
+function onClickAugmentationsRemaining() {
+	var RandId = Basic.getRandomRequestId();
+	//LogUsage.logInputForm("formOwnedCharAugs", RandId);
+    var LevelsForRank;
+    var level;
+    var el;
+    var actualDamage;
+    var actualHealth;
+    var outstr = "";
+    var healthAugmentationLevel = -1;
+    var damageAugmentationLevel = -1;
+	var halObj, dalObj;
+
+    var inputs = new CharacterInputs.CharacterInputsFromFields("owned_", "", "ddlCharacterOwned",
+        "ddlOwnedElite", "ddlOwnedElite",
+        "ddlOwnedXPLevel", "ddlOwnedXPLevel",
+        "fldOwnedStartAugmentationDamage", "fldOwnedEndAugmentationDamage", /* 0 to max, hidden*/
+        "fldOwnedStartAugmentationDamage", "fldOwnedEndAugmentationDamage", /* 0 to max, hidden*/
+        "", "", "", "", "", "");
+
+    if (CharacterInputs.validInputs(inputs, "augmentationsRemainingMsg", "augmentationsRemainingOutput", RandId) ) {
+        LevelsForRank = DoCalcRank.doCalcRank(inputs.StartRank, inputs);
+        level = LevelsForRank[inputs.StartXPLevel - 1];
+
+        actualDamage = parseInt(Basic.getFormVal("fldOwnedDamage"),10);
+        actualHealth = parseInt(Basic.getFormVal("fldOwnedHealth"),10);
+
+		dalObj = findAppliedAugLevel(actualDamage, level.arrDamageWithBonus, "Damage");
+        if (dalObj.found===false) 
+		{
+			outstr += dalObj.errMsg;
+			Basic.getElById("fldOwnedDamage").value = dalObj.closest;
+		}
+		else 
+			damageAugmentationLevel = dalObj.augmentationLevel;
+
+		halObj = findAppliedAugLevel(actualHealth, level.arrHealthWithBonus, "Health");
+        if (halObj.found===false) 
+		{
+			outstr += halObj.errMsg;
+			Basic.getElById("fldOwnedHealth").value = halObj.closest;
+		}
+		else 
+			healthAugmentationLevel = halObj.augmentationLevel;
+		
+        if (outstr !== "") {
+            el = Basic.getElById("augmentationsRemainingMsg");
+			if (el) el.innerHTML = outstr;
+			//LogUsage.logOutputShown("augmentationsRemainingMsg", RandId);
+			el = Basic.getElById("OwnedCharacterExplained");
+			if (el) el.style.display = "block";			
+        }
+        else {
+			outstr = "<strong>" + Characters.getTitledCharName(inputs.characterArr) + 
+				" E" + Basic.cvtRankToRoman(inputs.StartRank) + " level " + inputs.StartXPLevel + "</strong><br />\n";
+				
+			OwnedCharCSV = '"' + Characters.getTitledCharName(inputs.characterArr) + 
+				" E" + Basic.cvtRankToRoman(inputs.StartRank) + " level " + inputs.StartXPLevel + '"\r\n';
+				
+			damageOut = ShowAugsAndRemainingAugs("Damage", Characters.idxStoreDamage(), level.arrDamageWithBonus,
+				actualDamage, damageAugmentationLevel, inputs.DamageBonusPercent, inputs);
+			outstr += damageOut.html;
+			OwnedCharCSV += damageOut.csv;
+
+			healthOut = ShowAugsAndRemainingAugs("Health", Characters.idxStoreHealth(), level.arrHealthWithBonus,
+				actualHealth, healthAugmentationLevel, inputs.HealthBonusPercent, inputs);
+			outstr += healthOut.html;
+			OwnedCharCSV += healthOut.csv;
+
+			el = Basic.getElById("hiddenOwnedCharTweak");
+			if (el) el.style.display = "block"; /* Show the hidden block*/
+
+			el = Basic.getElById("owned_DamageStartAug");
+			if (el) el.value = damageAugmentationLevel; /* pre-fill the damage augmentations already applied*/
+
+			el = Basic.getElById("owned_HealthStartAug");
+			if (el) el.value = healthAugmentationLevel; /* pre-fill the health augmentations already applied*/
+
+			el = Basic.getElById("augmentationsRemainingOutput");
+			el.innerHTML = outstr;
+			//LogUsage.logOutputShown("augmentationsRemainingOutput", RandId);
+			Basic.getElById('ownedCharAugs_HTMLCode').value = 
+			"<div>\n" +
+			"<style>\n" +
+				".micsc_padding { border:1px solid; padding:3px; }\n" +
+				".micsc_table_spacing { border-collapse:collapse; border-spacing:10px; }\n" +
+				".micsc_textcenter {text-align:center;}\n" +
+			"</style>\n"+
+			outstr + "\n" + SimpleWrites.CopyRightStmt + "</div>";
+			
+			var cprt = (' '+SimpleWrites.CopyRightStmt).replace(/ /g, '"\r\n"","","');
+			OwnedCharCSV += '"'+cprt+'"\r\n';
+			
+			el = Basic.getElById("OwnedCharacterExplained");
+			if (el) el.style.display = "none";
+		}
+	}
+}
+
+function HideExplanation(explanationId) {
+	var el = Basic.getElById(explanationId);
+	if (el)
+		el.style.display = "none";
+}
+
+function findAppliedAugLevel(actualVal, arrWithBonus, which) {
+	var augIdx;
+	var delta = 0;
+	var smallestDelta = 1000000;
+	var closestIdx = 0;
+	var closestVal = 0;
+	var str = "";
+	
+	for (augIdx = 0; augIdx < arrWithBonus.length; augIdx+=2) {
+		delta = actualVal - arrWithBonus[augIdx];
+		delta = Math.abs(delta);
+		//console.log(augIdx + ") Compare " + actualVal + " with " + Math.round(arrWithBonus[augIdx]) + ": " + Math.round(testVal));
+		if (delta < smallestDelta) {
+			smallestDelta = delta;
+			closestIdx = augIdx;
+			closestVal = arrWithBonus[augIdx];
+		}
+		if (delta <= 2) {
+			//console.log("FOUND!");
+			return { found: true, augmentationLevel : augIdx };			
+		}
+	}
+	//console.log("NOT FOUND"); // Please fix "Damage for Owned Card:" value to match your character card.
+	str = "<span class='micsc_error_msg'>Please fix '" + which + " for Owned Card:' value to match your character card. " + 
+				actualVal + " doesn't appear to be correct. Closest: " + Math.round(closestVal) + ", level " + closestIdx + ".</span><br />";
+	return { found: false, errMsg : str, closest: Math.round(closestVal) };
+}	
+
+function ShowAugsAndRemainingAugs(whichType, whichIdx, arrWithBonus, actualStat, AugmentationLevel, BonusPercent, inputs) {
+    var boost = actualStat - Math.floor(arrWithBonus[0]);
+    var LevelsRemaining = Characters.maxAug() - AugmentationLevel;
+    var outstr = "";
+	var csv = "";
+
+	outstr += "<table class='micsc_table_spacing'>";
+	outstr += "<tr><td class='micsc_padding'>Reported " + whichType + ":</td><td class='micsc_padding'>" + Basic.numberWithCommas(actualStat) + "</td></tr>\n";
+    outstr += "<tr><td class='micsc_padding'>Store " + whichType + ":</td><td class='micsc_padding'>" +  Basic.numberWithCommas(inputs.characterArr[whichIdx]) + "</td></tr>\n";
+	outstr += "<tr><td class='micsc_padding'>" + whichType+" Bonus Applied:</td><td class='micsc_padding'>" + BonusPercent+"%</td></tr>\n";
+	outstr += "<tr><td class='micsc_padding'>Augmentations already applied:</td><td class='micsc_padding'>" + AugmentationLevel + " (" + Math.round(AugmentationLevel*100/300) + "%)</td></tr>\n";
+	outstr += "<tr><td class='micsc_padding'>Store " + whichType + " + augmentations:</td><td class='micsc_padding'>" +
+		inputs.characterArr[whichIdx] + " + " + AugmentationLevel + " = " + Basic.numberWithCommas(inputs.characterArr[whichIdx]+AugmentationLevel) + "</td></tr>\n";
+	outstr += "<tr><td class='micsc_padding'>" + whichType + " before applying augmentations:</td><td class='micsc_padding'>" + Basic.numberWithCommas(Math.floor(arrWithBonus[0])) + "</td></tr>\n";
+	outstr += "<tr><td class='micsc_padding'>Gained from applied augmentations:</td><td class='micsc_padding'>" + Basic.numberWithCommas(boost) + 
+		" (" + Basic.numberWithCommas(actualStat) + " - " + Basic.numberWithCommas(Math.floor(arrWithBonus[0])) + ")</td></tr>\n";
+	
+    outstr += "<tr><td class='micsc_padding'>Needed to reach max:</td><td class='micsc_padding'>" + LevelsRemaining + " (" + Characters.maxAug() + " - " + AugmentationLevel + ")</td></tr>\n";
+	outstr += "<tr><td class='micsc_padding micsc_textcenter' colspan='2'><strong>To reach max, you need:</strong></td></tr>\n";
+    outstr += "<tr><td class='micsc_padding'>Minor " + whichType+" Augment Cards:</td><td class='micsc_padding'>" + Math.round((LevelsRemaining / 2) * 100) / 100 + " <strong>OR</strong></td></tr>\n";
+	outstr += "<tr><td class='micsc_padding'>Medium "+ whichType+" Augment Cards:</td><td class='micsc_padding'>" + Math.round((LevelsRemaining / 4) * 100) / 100 + " <strong>OR</strong></td></tr>\n";
+	outstr += "<tr><td class='micsc_padding'>Major " + whichType+" Augment Cards:</td><td class='micsc_padding'>" + Math.round((LevelsRemaining / 8) * 100) / 100 + "</td></tr>\n";
+
+	outstr += "</table><br />";
+	
+	csv += '"' + 'Reported ' + whichType + ':","' + Basic.numberWithCommas(actualStat) + '"\r\n';
+    csv += '"' + 'Store ' + whichType + ':","' + Basic.numberWithCommas(inputs.characterArr[whichIdx]) + '"\r\n';
+	csv += '"' + whichType+' Bonus Applied:","' +BonusPercent+ '%"\r\n';
+	csv += '"' + 'Augmentations already applied:","' + AugmentationLevel + " (" + Math.round(AugmentationLevel*100/300) + '%)"\r\n';
+	csv += '"' + 'Store ' + whichType + ' + augmentations:","' +
+		inputs.characterArr[whichIdx] + ' + ' + AugmentationLevel + ' = ' + Basic.numberWithCommas(inputs.characterArr[whichIdx]+AugmentationLevel) + '"\r\n';
+	csv += '"' + whichType + ' before applying augmentations:","' + Basic.numberWithCommas(Math.floor(arrWithBonus[0])) + '"\r\n';
+	csv += '"' + 'Gained from applied augmentations:","' + Basic.numberWithCommas(boost) + 
+		' (' + Basic.numberWithCommas(actualStat) + ' - ' + Basic.numberWithCommas(Math.floor(arrWithBonus[0])) + ')"\r\n';
+	
+    csv += '"' + 'Needed to reach max:","' + LevelsRemaining + ' (' + Characters.maxAug() + ' - ' + AugmentationLevel + ')"\r\n';
+	csv += '"' + 'To reach max, you need:"\r\n';
+    csv += '"' + 'Minor ' + whichType+' Augment Cards:","' + Math.round((LevelsRemaining / 2) * 100) / 100 + ' OR"\r\n';
+	csv += '"' + 'Medium '+ whichType+' Augment Cards:","' + Math.round((LevelsRemaining / 4) * 100) / 100 + ' OR"\r\n';
+	csv += '"' + 'Major ' + whichType+' Augment Cards:","' + Math.round((LevelsRemaining / 8) * 100) / 100 + '"\r\n';
+	
+    return { html:outstr, csv:csv };
+}
+
+function TweakOwnedCharAugmentations() {
+	var RandId = Basic.getRandomRequestId();
+	//LogUsage.logInputForm("formTweakedAugmentations", RandId);
+    var inputs = new CharacterInputs.CharacterInputsFromFields("owned_", "", "ddlCharacterOwned",
+        "ddlOwnedElite", "ddlOwnedElite",
+        "ddlOwnedXPLevel", "ddlOwnedXPLevel",
+        "owned_DamageStartAug", "owned_DamageStartAug",
+        "owned_HealthStartAug", "owned_HealthStartAug",
+        "owned_DamageAugMinorCards", "owned_DamageAugMediumCards", "owned_DamageAugMajorCards",
+        "owned_HealthAugMinorCards", "owned_HealthAugMediumCards", "owned_HealthAugMajorCards" );
+
+    if (CharacterInputs.validInputs(inputs, "tweakedAugmentationsMsg", "tweakedAugmentationsOutput", RandId)) {
+        DamageHealthChart.doDamageHealthChart("tweakedAugmentationsOutput", inputs);
+		//LogUsage.logOutputShown("tweakedAugmentationsOutput", RandId);
+    }
+		
+    return true;
+}
+
+	/*function SaveCSVFile(Sender) {
+		//LogUsage.PostAndGetTextFile('csv', OwnedCharCSV);
+	}*/
+
+	APIList["1.9"] = {
+		onClickAugmentationsRemaining: onClickAugmentationsRemaining,
+		TweakOwnedCharAugmentations: TweakOwnedCharAugmentations,
+		HideExplanation: HideExplanation,
+		//SaveCSVFile: SaveCSVFile,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+/* file handleSpSup.js: */
+var HandleSpSup = (function() {
+
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+	var csv = "";
+
+var Sp1NormalBaseFactor = 0.020;
+var Sp1EffectStartArr = [
+	["*","Aquaman"], [ "*","Batman"], ["*","Catwoman"], 
+	["*","Cyborg"], ["*","Green Arrow"], ["*","Hawkgirl"], 
+	["*","Lex Luthor"], ["*","Nightwing"], ["-","Zatanna"] ];
+
+var Sp1AbnormalStartArr = [
+	["*", "Black Adam",           0.021], /*[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.34644] ], 10, 0.34644], */
+	/*["Regime", "Black Adam",      0.021], /*[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.346477] ],*/
+	/*10, 0.346477], */
+	["Red Lantern", "Hal Jordan", 0.015], /*[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.2474937] ],*/
+	["-", "Static",				  0.025] ]; /*[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.4125] ] ]; 10, 0.4125] ];*/
+
+var Sp1NormalEnd = 2.0;
+
+var Sp1AbnormalEndArr = [
+	["*","Batman", 1.8],
+	["-","Harley Quinn", 1.95],
+	["-","Static", 1.6],
+	["Arkham Knight","The Arkham Knight", 1.5] ];
+
+
+var Sp2EffectStartArr = [["-","Black Adam"], ["Regime","Black Adam"], ["-","Darkseid"], ["-","Deathstroke"], ["New 52","Green Lantern"], [ "Regime", "Green Lantern" ],
+	["Red Lantern", "Hal Jordan"], ["-","Lobo"], ["-","Sinestro"], ["Regime","Sinestro"], ["-","Solomon Grundy"], ["Regime", "Solomon Grundy"],
+	["Regime", "Superman"], ["New 52", "The Flash"], ["-","The Joker"], ["Insurgency","The Joker"], ["The Killing Joke", "The Joker"],
+	["600","Wonder Woman"] ];
+
+var Sp2NormalBaseFactor = 0.060;
+var Sp2AbnormalStartArr = [
+	["-","Aquaman",                 0.020], /*[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.33] ], 10,0.33], */
+	["Arkham Knight", "Batman",		0.062],
+	["-","Catwoman",                0.080], /*[-1, 0.80, 0.88, 0.96, 1.04, 1.12, 1.16,  1.20, 1.24,  1.28, 1.32 ] ], 10,1.32], */
+	["Apokolips", "Darkseid",		0.062],
+	["Mortal Kombat X", "Scorpion", 0.040], /*[-1, 0.4, 0.44, 0.48, 0.52, 0.56, 0.58, 0.6, 0.62, 0.64, 0.66] ],*/
+	["-","Static",                  0.080], /*[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 1.32] ], 10,1.32],*/
+	["Godfall","Superman",          0.052],
+	["Dawn of Justice", "Wonder Woman", 0.061],
+	["Arkham Knight", "Catwoman",	0.045]
+	]; /*[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0.86] ] ]; 10,0.86]];*/
+	
+var Sp2NormalEnd = 2.0;
+
+var Sp2AbnormalEndArr = [
+	["-","Catwoman",1.5],
+	["Arkham Knight", "Batman",2.0324],
+	["*","Harley Quinn",1.0],
+	["Apokolips", "Darkseid", 1.9678],
+	["Mortal Kombat X","Scorpion",1.5],
+	["-","Static",1.5],
+	["Arkham Knight", "The Arkham Knight",1.75],
+	["Dawn of Justice", "Superman", 2.06666],//2.067075384 ],
+	["Dawn of Justice", "Wonder Woman", 1.9836907 ]
+	];
+
+	
+var SuperNormalBaseFactor = 0.15;
+var SupAbnormalArr = [
+	["Red Lantern", "Hal Jordan", 0.12], /* [-1, 1.20, 1.32, 1.44, 1.56, 1.68, 1.74, 1.80, 1.86, 1.92, 1.98] ],  1.20 is a guess for 1 bar*/
+	["-","Shazam",                0.03] ];/* [-1, -1, -1, -1, -1, 0.420, 0.435, 0.450, 0.465, 0.480, 0.495] ] ];*/
+	/* 10,0.495] ]; */
+/* Shazam data from friczon, member of community.wbgames.com Injustice forum. See his PM to me around November 15th 2014, and his post:
+5 segments - 42%
+6 segments - 43.5%
+7 segments - 45%
+8 segments - 46.5%
+9 segments - 48%
+10 segments - 49.5%
+*/
+
+    /*var special1Regular = [0.20, 0.22, 0.24, 0.26, 0.28, 0.290, 0.30, 0.310, 0.32, 0.330];
+    var special1Penalty = [0.10, 0.11, 0.12, 0.13, 0.14, 0.145, 0.15, 0.155, 0.16, 0.165];
+
+    var special2Regular = [0.60, 0.66, 0.72, 0.78, 0.84, 0.870, 0.90, 0.930, 0.96, 0.990];
+    var special2Penalty = [0.30, 0.33, 0.36, 0.39, 0.42, 0.435, 0.45, 0.465, 0.48, 0.495];
+
+    var superRegular = [1.500, 1.650, 1.800, 1.950, 2.100, 2.175, 2.250, 2.325, 2.400, 2.475];
+    var superPenalty = [0.60, 0.66, 0.72, 0.78, 0.84, 0.870, 0.90, 0.930, 0.96, 0.990];*/
+
+function indexInSpecialArray(outerArray, lowerName, lowerTitle) {
+	var arrayLength = outerArray.length;
+	for (var i = 0; i < arrayLength; i++) {
+		var arr = outerArray[i];
+		if (arr && (arr[1].toLowerCase() === lowerName) ) {
+			if (arr[0] === "*") /* star matches all char titles */
+				return i;
+			else if (arr[0].toLowerCase() === lowerTitle)
+				return i;
+		}
+	}
+	return -1000;
+}
+
+/* Formula: 10 * baseFactor + (numBars-1) * baseFactor 
+   - IF (numBars < 6; 0; (baseFactor / 2) * (numBars - 5)) */
+function getSpecialOrSuperStartDamage(damage, numBars, baseFactor) {
+	var factor = 10 * baseFactor + (numBars - 1) * baseFactor;
+	if (numBars > 5)
+		factor = factor - (baseFactor / 2) * (numBars - 5);
+	return factor * damage;
+}
+
+function getEffectStart(NormalStart) {
+	return NormalStart/2;
+}
+
+function getSpStart(charName, charTitle, damage, numBars, 
+	NormalBaseFactor, EffectStartCharacters, AbnormalStartCharacters) {
+	
+	var lowerName = charName.toLowerCase();
+	var lowerTitle = charTitle.toLowerCase();
+	var normalStart = getSpecialOrSuperStartDamage(damage, numBars,NormalBaseFactor);
+	var idx;
+	
+	if (EffectStartCharacters) {
+		idx = indexInSpecialArray(EffectStartCharacters, lowerName, lowerTitle);
+		if (idx >= 0)
+			return getEffectStart(normalStart);
+	}
+	
+	idx = indexInSpecialArray(AbnormalStartCharacters, lowerName, lowerTitle);
+	if (idx >= 0) {
+		var arr = AbnormalStartCharacters[idx];
+		return getSpecialOrSuperStartDamage(damage, numBars, arr[2]);
+	}
+	
+	return normalStart; /* Default is normal start value */
+} /* getSpStart */
+
+function getSp1Start(charName, charTitle, damage, numBars) {
+	return getSpStart(charName, charTitle, damage, numBars,
+		Sp1NormalBaseFactor, Sp1EffectStartArr, Sp1AbnormalStartArr);
+}
+
+function getSp2Start(charName, charTitle, damage, numBars) {
+	return getSpStart(charName, charTitle, damage, numBars,
+		Sp2NormalBaseFactor, Sp2EffectStartArr, Sp2AbnormalStartArr);
+}
+
+function getSuper(charName, charTitle, damage, numBars) {
+	return getSpStart(charName, charTitle, damage, numBars,
+		SuperNormalBaseFactor, false, SupAbnormalArr);
+}
+
+function getSpEnd(charName, charTitle, SpStart, NormalEnd, CharactersWithAbnormalEnd)
+{
+	if (SpStart < 0) /* if not able to get SpStart, then don't even try to get Sp1End */
+		return SpStart;
+	
+	var idx = indexInSpecialArray(CharactersWithAbnormalEnd, charName.toLowerCase(), charTitle.toLowerCase());
+	if (idx >= 0) {
+		var arr = CharactersWithAbnormalEnd[idx];
+		return SpStart * arr[2];
+	}
+	else 
+		return SpStart * NormalEnd;
+} /* getSpEnd */
+
+function getSp1End(charName, charTitle, Sp1Start) {
+	return getSpEnd(charName, charTitle, Sp1Start, Sp1NormalEnd, Sp1AbnormalEndArr);
+}
+
+function getSp2End(charName, charTitle, Sp2Start) {
+	return getSpEnd(charName, charTitle, Sp2Start, Sp2NormalEnd, Sp2AbnormalEndArr);
+}
+
+function getTenBarsSp1End(charArray, damage) {
+	var name = charArray[Characters.idxName()];
+	var title = charArray[Characters.idxTitle()];
+	var start = getSp1Start(name, title, damage, 10);
+	return getSp1End(name, title, start);
+}
+
+function getTenBarsSp2End(charArray, damage) {
+	var name = charArray[Characters.idxName()];
+	var title = charArray[Characters.idxTitle()];
+	var start = getSp2Start(name, title, damage, 10);
+	return getSp2End(name, title, start);
+}
+
+function getTenBarsSuper(charArray, damage) {
+	var name = charArray[Characters.idxName()];
+	var title = charArray[Characters.idxTitle()];
+	return getSuper(name, title, damage, 10);
+}
+
+function FormInputsSpecialsDamage()
+{
+		this.curDamage = parseInt( Basic.getFormVal("fldSpecialsDamageStat"),10 );
+		this.normalSpecial1 = Basic.getInputCheckboxNumber("normal_special_1", true);
+		this.normalSpecial2 = Basic.getInputCheckboxNumber("normal_special_2", true);
+		this.useCheckboxes = Basic.getInputCheckboxNumber("use_checkboxes_for_spsup", true);
+		this.characterArr = Characters.getCharArrById("ddlSpecialSuperCharacters");
+}
+
+function onClickSpecialsDamage(Sender)
+{
+	var RandId = Basic.getRandomRequestId();
+	//LogUsage.logInputForm("formSpecials", RandId);
+	if (Sender === Basic.getElById("normal_special_1") || Sender === Basic.getElById("normal_special_2") ) 
+		Basic.getElById("use_checkboxes_for_spsup").checked = true;
+	else if (Sender === Basic.getElById("ddlSpecialSuperCharacters"))
+		Basic.getElById("use_checkboxes_for_spsup").checked = false;
+	
+    var inputs = new FormInputsSpecialsDamage();
+	var el = Basic.getElById("specialsError");
+	if ((typeof inputs.characterArr === 'undefined') && !inputs.useCheckboxes) {
+		el.innerHTML = "Please select a character (left) or use the checkboxes (right)";
+		return;
+	}
+	else if (inputs.curDamage < 1) {
+		el.innerHTML = "Please enter character's damage";
+		return;
+	}
+	else
+		el.innerHTML = "";
+
+	csv = "";
+	csv += outputSpecialDamage(1, inputs); 
+	csv += outputSpecialDamage(2, inputs);
+	csv += outputSupDamage    (inputs);
+	
+    csv += outputBasicAttackDam("spsup_basicattacks", inputs, inputs.characterArr[Characters.idxName()], inputs.characterArr[Characters.idxTitle()]); /* Basic Attacks */
+	var cprt = '"' + SimpleWrites.CopyRightStmt.replace(/ /g, '"\r\n"') + '"';
+	csv += cprt;
+	
+	//LogUsage.logOutputShown("specialsError", RandId);
+	//LogUsage.logOutputShown("special1results", RandId);
+	//LogUsage.logOutputShown("special2results", RandId);
+	//LogUsage.logOutputShown("superresults", RandId);
+	//LogUsage.logOutputShown("spsup_basicattacks", RandId);
+	
+	var htmlCode = '<div>\n' +
+			'<style>\n' +
+			'.micsc_table_spacing { border-collapse:collapse; border-spacing:10px; }\n' +
+			'.micsc_padding { border:1px solid; padding:3px; }\n' +
+			'.micsc_noborder { border:0px; padding:0px; }\n' +
+			'</style>\n\n';
+	htmlCode += "<strong>Specials, Super and Basic Attacks for " + Characters.getTitledCharName(inputs.characterArr) + " with Damage Stat of " + inputs.curDamage + "</strong><br />\n";
+	htmlCode += '<div id="sp1res">' + Basic.getElById('special1results').innerHTML + '</div><br />\n';
+	htmlCode += '<div id="sp2res">' + Basic.getElById('special2results').innerHTML + '</div><br />\n';
+	htmlCode += '<div id="superres">' + Basic.getElById('superresults').innerHTML + '</div><br />\n';
+	htmlCode += '<div id="bscattk">' + Basic.getElById('spsup_basicattacks').innerHTML + '</div><br />\n';
+	htmlCode += SimpleWrites.CopyRightStmt + "\n</div>\n";
+	Basic.getElById('specials_HTMLCode').value = htmlCode;
+}
+
+function outputBasicAttackDam(resultsFldName, inputs, charName, charTitle) {
+        var meleeDamageObj =  DoCalcRank.calcMeleeDamage(inputs.curDamage, charName, charTitle);
+        var basicAtt_el = Basic.getElById(resultsFldName);
+
+        var basicAttStr;
+		var csv = "";
+		basicAttStr = "<br /><table class='micsc_table_spacing' id='SpBasicAttacksDamageTable'>\n";
+		basicAttStr += "<caption class='micsc_padding'><strong>Basic Attacks:</strong></caption>\n";
+
+		basicAttStr += "<tr class='micsc_noborder'>\n";
+		basicAttStr += "  <th class='micsc_padding'>Light Tap</th>\n";
+		basicAttStr += "  <th class='micsc_padding'>Knockdown swipe</th>\n";
+		basicAttStr += "  <th class='micsc_padding'>Heavy swipe</th>\n";
+		basicAttStr += "</tr>\n";
+		
+		basicAttStr += "<tr class='micsc_noborder'>\n";
+		basicAttStr += "<td class='micsc_padding'>" + Basic.numberWithCommas(Math.round(meleeDamageObj.Light)) + "</td>\n";
+		basicAttStr += "<td class='micsc_padding'>" + Basic.numberWithCommas(Math.round(meleeDamageObj.Knockdown)) + "</td>\n";
+		
+		basicAttStr += "<td class='micsc_padding'>" + Basic.numberWithCommas(Math.round(meleeDamageObj.Heavy1));
+		if (Math.round(meleeDamageObj.Heavy1) != Math.round(meleeDamageObj.Heavy2) )
+            basicAttStr += " (" + Basic.numberWithCommas(Math.round(meleeDamageObj.Heavy2)) + ")";
+		basicAttStr += "</td>\n";
+		
+		basicAttStr += "</tr>\n";
+		basicAttStr += "</table>\n";
+		
+		csv += '"Basic Attacks:"\r\n';
+		csv += '"Light Tap","Knockdown swipe","Heavy Swipe"\r\n';
+		csv += '"' + Math.round(meleeDamageObj.Light) + '",';
+		csv += '"' + Math.round(meleeDamageObj.Knockdown) + '",';
+		csv += '"' + Math.round(meleeDamageObj.Heavy1);
+		if (Math.round(meleeDamageObj.Heavy1) != Math.round(meleeDamageObj.Heavy2) )
+			csv += " (" + Math.round(meleeDamageObj.Heavy2) + ")";
+		csv += '"\r\n\r\n';
+		
+        if (basicAtt_el) basicAtt_el.innerHTML = basicAttStr;
+		return csv;
+}
+
+function outputSpecialDamage(Sp1OrSp2, inputs) {
+	var SpStart = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+	var SpEnd   = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+
+	var normalBaseFactor, normalSpecialFlag, spEffectStartArr, spAbnormalStartArr, normalEnd, abnormalEndArr;
+	if (Sp1OrSp2 === 1) {
+		normalBaseFactor	= Sp1NormalBaseFactor;
+		normalSpecialFlag	= inputs.normalSpecial1;
+		spEffectStartArr	= Sp1EffectStartArr;
+		spAbnormalStartArr	= Sp1AbnormalStartArr;
+		normalEnd			= Sp1NormalEnd;
+		abnormalEndArr		= Sp1AbnormalEndArr;
+	} else {
+		normalBaseFactor	= Sp2NormalBaseFactor;
+		normalSpecialFlag	= inputs.normalSpecial2;
+		spEffectStartArr	= Sp2EffectStartArr;
+		spAbnormalStartArr	= Sp2AbnormalStartArr;
+		normalEnd			= Sp2NormalEnd;
+		abnormalEndArr		= Sp2AbnormalEndArr;	
+	}
+
+	for (var bars=1; bars <= 10; bars++) {
+		if (inputs.useCheckboxes) {
+			var normalStart = getSpecialOrSuperStartDamage(inputs.curDamage, bars, normalBaseFactor);
+			if (normalSpecialFlag)
+				SpStart[bars-1] = normalStart;
+			else
+				SpStart[bars-1] = getEffectStart(normalStart);
+			SpEnd[bars-1] = SpStart[bars-1] * 2;
+		}
+		else {
+			SpStart[bars-1] = getSpStart(inputs.characterArr[Characters.idxName()], inputs.characterArr[Characters.idxTitle()], 
+				inputs.curDamage, bars, normalBaseFactor, spEffectStartArr, spAbnormalStartArr);
+			
+			SpEnd[bars-1] = getSpEnd(inputs.characterArr[Characters.idxName()], inputs.characterArr[Characters.idxTitle()], SpStart[bars-1], normalEnd, abnormalEndArr);
+		}
+	}
+	return outputSpecialDam(Sp1OrSp2, SpStart, SpEnd, inputs.useCheckboxes);
+}
+
+function outputSupDamage(inputs) {
+	var SupDam = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+
+	for (var bars=1; bars <= 10; bars++) {
+		if (inputs.useCheckboxes)
+			SupDam[bars-1] = getSpecialOrSuperStartDamage(inputs.curDamage, bars, SuperNormalBaseFactor);
+		else
+			SupDam[bars-1] = getSpStart(inputs.characterArr[Characters.idxName()], inputs.characterArr[Characters.idxTitle()], 
+				inputs.curDamage, bars, SuperNormalBaseFactor, false, SupAbnormalArr);
+	}
+	return outputSuperDam("superresults", "Super:", SupDam);
+}
+
+function outputSpecialDam(Sp1OrSp2, DamagesArrMin, DamagesArrMax, useCheckboxes) {
+    var colorBorder = " class='micsc_padding'>";
+	var trclass = " class='micsc_padding'>\n";
+	var resultsFldId = "special" + Sp1OrSp2 + "results";
+    var resEl = Basic.getElById(resultsFldId);
+    var outStr = "";
+    var idx = 0;
+	var dat;
+	var csv = "";
+
+    outStr += "<br /><table class='micsc_table_spacing' id='Sp" +Sp1OrSp2+"DamageTable'>\n";
+	outStr += "<caption class='micsc_padding'><strong>Damage per bar for Sp" + Sp1OrSp2 + "</strong> (Using " +
+		(useCheckboxes ? "checkboxes" : "character") + ")</caption>\n";
+	csv += '"Damage per bar for Sp' + Sp1OrSp2 + ' (Using ' + (useCheckboxes?"checkboxes":"character") + ')"\r\n\r\n';
+	
+    outStr += "<tr class='micsc_noborder'>\n";
+    outStr += "<td" + colorBorder + " " + "</td>\n";
+	csv += '""';
+	
+    for (idx = 1; idx <= 10; idx++) {
+        outStr += "<td" + colorBorder + "<strong>" + idx + "</strong>" + "</td>\n";
+		csv += ',"' + idx + '"';
+	}
+	csv += '\r\n';
+	
+	outStr += "</tr>\n<tr" + trclass;
+    outStr += "<td" + colorBorder + "<strong>Min</strong>" + "</td>\n";
+	csv += '"Min"';	
+    for (idx = 0; idx < 10; idx++) {
+		dat = Math.floor(DamagesArrMin[idx]);
+		if (dat < 0)
+			dat = "?";
+		else
+			dat = Basic.numberWithCommas(dat);
+        outStr += "<td" + colorBorder + dat + "</td>\n";
+		csv += ',"' + dat + '"';
+	}
+    outStr += "</tr>\n";
+	csv += '\r\n';
+
+    outStr += "<tr" +trclass;
+    outStr += "<td" + colorBorder + "<strong>Max</strong>" + "</td>\n";
+	csv += '"Max"';
+    for (idx = 0; idx < 10; idx++) {
+		dat = Math.floor(DamagesArrMax[idx]);
+		if (dat < 0)
+			dat = "?";
+		else
+			dat = Basic.numberWithCommas(dat);
+        outStr += "<td" + colorBorder + dat + "</td>\n";
+		csv += ',"' + dat + '"';
+	}
+    outStr += "</tr>\n";
+	csv += '\r\n\r\n';
+
+    outStr += "</table>";
+
+    if (resEl) {
+        resEl.innerHTML = outStr;
+    }
+	else alert("Unable to find Element named \"" + resultsFldId + "\"");
+	return csv;
+}
+
+function outputSuperDam(resultsFldId, whichMove, DamagesArr) {
+    var colorBorder = " class='micsc_padding'>\n";
+	var trclass = " class='micsc_padding'>\n";
+    var resEl = Basic.getElById(resultsFldId);
+    var outStr = "";
+    var idx = 0;
+	var dat;
+	var csv = "";
+
+	outStr += "<br /><table class='micsc_table_spacing' id='SuperDamageTable'>\n";
+	outStr += "<caption class='micsc_padding'><strong>Damage per bar for " + whichMove + "</strong></caption>\n";
+    outStr += "<tr"+trclass;
+	csv += '"Damage per bar for Super"\r\n';
+
+    for (idx = 1; idx <= 10; idx++) {
+        outStr += "<td" + colorBorder + "<strong>" + idx + "</strong>" + "</td>\n";
+		csv += '"' + idx + '"';
+		if (idx < 10)
+			csv += ',';
+	}
+	csv += '\r\n';
+	outStr += "</tr>\n<tr"+trclass;
+
+    for (idx = 0; idx < 10; idx++) {
+		dat = Math.floor(DamagesArr[idx]);
+		if (dat < 0)
+			dat = "?";
+		else
+			dat = Basic.numberWithCommas(dat);
+        outStr += "<td" + colorBorder + dat + "</td>\n";
+		csv += '"' + dat + '"';
+		if (idx < 9)
+			csv += ',';
+	}
+    outStr += "</tr>\n";
+    outStr += "</table>";
+	csv += '\r\n\r\n';
+    if (resEl) {
+        resEl.innerHTML = outStr;
+    }
+	return csv;
+}
+
+	/*function SaveCSVFile(Sender) {
+		//LogUsage.PostAndGetTextFile('csv', csv);
+	}*/
+
+
+	APIList["1.9"] = {
+		onClickSpecialsDamage: onClickSpecialsDamage,
+		getSp1Start: getSp1Start,
+		getSp2Start: getSp2Start,
+		getSp1End: getSp1End,
+		getSp2End: getSp2End,
+		getSuper: getSuper,
+		getTenBarsSp1End: getTenBarsSp1End,
+		getTenBarsSp2End: getTenBarsSp2End,
+		getTenBarsSuper: getTenBarsSuper,
+		//SaveCSVFile: SaveCSVFile,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+/* file search.js */
+var QuickRef = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+	var QuickRef_ResultRows = [];
+	var QuickRef_SortKey = "Damage";
+	var QuickRef_AugmentationLevel = 300;
+	var QuickRef_CSV = "";
+	
+	// see searchOutput displayResultRowsAsHTML for list of possible columns
+	var savedColumns =["Damage", "Health", "Color", "Resale", "StoreDamage", "StoreHealth", "Cost"];
+
+	function quickRefLabel() { 
+		return 1; 
+	}
+	
+	function getCriteria() {
+		var criteria = {};
+		var inputs = {};
+		var colors = ["Gold", "Silver", "Bronze"];
+		
+		inputs.StartRank = 7;
+		inputs.EndRank = 7;
+		inputs.StartXPLevel = 50;
+		inputs.EndXPLevel = 50;
+		inputs.DamageBonusMultiplier = 1.35;
+		inputs.HealthBonusMultiplier = 1.35;
+		
+		inputs.StartAugmentationDamage = QuickRef_AugmentationLevel;
+		inputs.EndAugmentationDamage = QuickRef_AugmentationLevel;
+
+		inputs.StartAugmentationHealth = QuickRef_AugmentationLevel;
+		inputs.EndAugmentationHealth = QuickRef_AugmentationLevel;
+		
+		criteria.numbers = {};
+		criteria.inputs = inputs;
+		criteria.colors = colors;
+		return criteria;
+	}
+	
+	function getColumns() {
+		return savedColumns;
+	}
+	
+	function getSortKey() { return QuickRef_SortKey; }
+	
+	function setSortKey(newKey) {
+		/*console.log("QuickRef: old sort key:" + QuickRef_SortKey + ", new sort key:" + newKey); */
+		QuickRef_SortKey = newKey;
+	} 
+	
+	function setAugmentationLevel(newLevel) { QuickRef_AugmentationLevel = newLevel; }
+	
+	function getSavedColumns() {
+     return savedColumns;
+   }
+   
+	// Set the internal result rows for this module:
+	function setResultRows(rowArr) {
+		QuickRef_ResultRows = rowArr.slice();
+	}
+	
+	// The searching 'engine' needs this so it can stop: 
+	function getMaxNumRows() { return 320; }
+
+	function getResultRows() {
+		return QuickRef_ResultRows;
+	}
+	
+	function getOutputElementId() { return "quickRefTable"; }
+	
+	function getshowCodeElementId() { return "quickRefSave"; }
+	
+	function getCSV() { return QuickRef_CSV;}
+	function setCSV(csv) { QuickRef_CSV = csv; }
+
+	APIList["1.9"] = {
+		quickRefLabel: quickRefLabel,
+		getSortKey: getSortKey,
+		getCriteria: getCriteria,
+		getMaxNumRows: getMaxNumRows, 
+		getOutputElementId: getOutputElementId,
+		getColumns: getColumns,
+		getResultRows: getResultRows,
+		getshowCodeElementId: getshowCodeElementId,
+
+		setResultRows: setResultRows,
+		setSortKey: setSortKey,
+		setAugmentationLevel: setAugmentationLevel,
+		getSavedColumns: getSavedColumns,
+		getCSV: getCSV,
+		setCSV: setCSV,
+		 
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+}
+)
+();
+
+var FindChars = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+		var FindChars_ResultRows = [];
+	var FindChars_SortKey = "Name";
+	var savedColumns = [];
+	var csvRows = "";
+
+	function getSortKey() { return FindChars_SortKey; }
+	
+	function setSortKey(newKey) {
+		FindChars_SortKey = newKey;
+	}
+	
+	// Set the internal result rows for this module:
+	function setResultRows(rowArr) {
+		FindChars_ResultRows = rowArr.slice();
+	}
+	
+	// The searching 'engine' needs this so it can stop: 
+	function getMaxNumRows() { return 1000; }
+	
+	function getResultRows() {
+		return FindChars_ResultRows;
+	}
+	
+	function getOutputElementId() { return "findCharsTable"; }
+	
+	function getshowCodeElementId() { return "findCharsSave"; }
+
+	function getColorCriteria() {
+		var colorCriteria = [];
+		var el;		
+		el = Basic.getElById("srchGold");
+		if (el.checked) colorCriteria.push("Gold");
+		el = Basic.getElById("srchSilver");
+		if (el.checked) colorCriteria.push("Silver");
+		el = Basic.getElById("srchBronze");
+		if (el.checked) colorCriteria.push("Bronze");
+		return colorCriteria;
+	}
+	
+	function getStandardInputs() {
+		return (new CharacterInputs.CharacterInputsFromFields("srch_", "", "",
+			"ddlSrchEliteStart", "ddlSrchEliteEnd",
+			"ddlSrchXPStart", "ddlSrchXPEnd",
+
+			"srch_DamageStartAug", "srch_DamageStartAug", /* start and end the same */
+			"srch_HealthStartAug", "srch_HealthStartAug", /* start and end the same */
+
+			"srch_DamageAugMinorCards", "srch_DamageAugMediumCards", "srch_DamageAugMajorCards",
+			"srch_HealthAugMinorCards", "srch_HealthAugMediumCards", "srch_HealthAugMajorCards" ) );
+	}
+
+	function getAdditionalColumnsToShow() {
+		var columnsToShow = [];
+		var chkElements = document.getElementsByClassName('micsc_srchShow');
+		for (var i = 0; i < chkElements.length; i++) {
+			var el = chkElements[i]; 
+			if (el.checked) {
+				columnsToShow.push((el.value).trim());
+			}
+		}
+		return columnsToShow;
+	}
+	
+	function getColumns(criteria) {
+		var columnsToShow = [];
+
+		if (criteria.inputs.EndRank - criteria.inputs.StartRank + 1 > 1)
+			columnsToShow.push("Rank");
+		if (criteria.inputs.EndXPLevel - criteria.inputs.StartXPLevel + 1 > 1)
+			columnsToShow.push("XP");
+		if (criteria.colors.length > 1)
+			columnsToShow.push("Color");
+
+     var additionalCols = getAdditionalColumnsToShow();
+     for (var i = 0; i < additionalCols.length; i++) {
+			columnsToShow.push(additionalCols[i]);
+		}
+		savedColumns = columnsToShow;
+		return columnsToShow;
+	}
+
+   function getSavedColumns() {
+   //console.log("# cols in savedCols= "+ savedColumns.length);
+     return savedColumns;
+   }
+
+   function getNameOrTitleCriterium(NameOrTitle, num) {
+	   var does = 1;
+	   var func = "contain";
+	   var match = "";
+	   var logOp = "and";
+	   var el;
+
+	   el = Basic.getElById("micsc_srch" + NameOrTitle + "Match" + num); //micsc_srchNameMatch3
+	   if (el)
+		   match = el.value.trim().toLowerCase();
+	   else
+		   return false;
+	   
+	   if (match === "")
+		   return false;
+	   // e.g. micsc_ddlsrch_NameFunc3
+	   el = Basic.getElById("micsc_ddlsrch_" + NameOrTitle + "Does" + num);
+	   if (el)
+			does = el.options[el.selectedIndex].value;
+		
+	   el = Basic.getElById("micsc_ddlsrch_" + NameOrTitle + "Func" + num);
+	   if (el)
+		   func = el.options[el.selectedIndex].value;	   
+	   
+	   if (num < 3) {
+			el = Basic.getElById("micsc_ddlsrch_" + NameOrTitle + "Logical" + num);
+			if (el)
+				logOp = el.options[el.selectedIndex].value;
+	   }
+	   return { does:does, func:func, match:match, logOp:logOp };
+   }
+   
+	function getNameAndTitleCriteria() {
+		var criterium;
+		var nameCriteria = [];
+		var titleCriteria = [];
+		
+		criterium = getNameOrTitleCriterium("Name", 1);
+		if (criterium) nameCriteria.push(criterium);
+		
+		criterium = getNameOrTitleCriterium("Name", 2);
+		if (criterium) nameCriteria.push(criterium);
+		
+		criterium = getNameOrTitleCriterium("Name", 3);
+		if (criterium) nameCriteria.push(criterium);
+		
+		criterium = getNameOrTitleCriterium("Title", 1);
+		if (criterium) titleCriteria.push(criterium);
+		
+		criterium = getNameOrTitleCriterium("Title", 2);
+		if (criterium) titleCriteria.push(criterium);
+	
+		criterium = getNameOrTitleCriterium("Title", 3);
+		if (criterium) titleCriteria.push(criterium);
+	
+		return {nameCriteria:nameCriteria, titleCriteria:titleCriteria};
+	}
+
+	function getCriteria() {
+		var val;
+		var numberCriteria = {};
+		var numberElements = document.getElementsByClassName("micsc_srchNum");
+		for (var i = 0; i < numberElements.length; i++) {
+			val = (numberElements[i].value).trim();
+			val = val.replace(/,/g, ''); // get rid of comma separators
+			if ( (val==="") || isNaN(val) ) {} /* value is not a number, ignore it */
+			else {
+				numberCriteria[numberElements[i].id] = +(val);
+			}
+		}
+
+		var colorCriteria = getColorCriteria();
+		var userInputs = getStandardInputs();
+		var nameAndTitleCriteria = getNameAndTitleCriteria();
+		
+	    return { numbers:numberCriteria, colors:colorCriteria, inputs:userInputs, nameAndTitle:nameAndTitleCriteria };
+	}
+
+	function getCSV() { return csvRows; }
+	function setCSV(csv) { csvRows = csv; }
+
+	APIList["1.9"] = {
+		getCriteria: getCriteria,
+		setResultRows: setResultRows,
+		getResultRows: getResultRows,
+		getMaxNumRows: getMaxNumRows,
+		getSortKey: getSortKey,
+		setSortKey: setSortKey,
+		getColumns: getColumns,
+		getOutputElementId: getOutputElementId,
+		getshowCodeElementId: getshowCodeElementId,
+		getSavedColumns: getSavedColumns,
+		getCSV: getCSV,
+		setCSV: setCSV,
+
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+}
+)
+();
+
+var SearchRows = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+	function idxidx() { return 0; }
+	function idxDamage() { return 1; }
+	function idxHealth() { return 2; }
+	function idxRank() { return 3; }
+	function idxXP() { return 4; }
+
+	function meetsColorCriteria(colorCriteria, color) {
+		return colorCriteria.indexOf(color) >= 0;
+	}
+
+	function getResultRows(criteria, maxNumRowResults) { // Engine for generating rows and testing number criteria
+		var i;
+		var results = [];
+		var rank;
+		var XPLvl;
+		var xplevel_data;
+		var inputs;
+		var characterArray;
+		var LevelsForRank;
+		var rowArr = [];
+		
+		/* For each character: */
+		for ( i = 0; i < Characters.numCharacters() && results.length<maxNumRowResults; i++) {
+			characterArray = Characters.getCharacterByIndex(i);
+			inputs = criteria.inputs;
+			inputs.characterArr = characterArray;
+			if ( meetsColorCriteria(criteria.colors, characterArray[Characters.idxColor()] ) ) { /* Is character right color? */
+			if ( meetsNameAndTitleCriteria(criteria.nameAndTitle, characterArray[Characters.idxName()], characterArray[Characters.idxTitle()])){
+				/* for each Rank/Elite level: */
+				for (rank = criteria.inputs.StartRank; rank <= criteria.inputs.EndRank && results.length<maxNumRowResults; rank++) {
+					// doCalcRank iterates through XP levels and augmentation levels.
+					// However, there will only be one augmentation level here:					
+					LevelsForRank = DoCalcRank.doCalcRank(rank, inputs);					
+					/* for each XP level: */
+					for ( XPLvl = criteria.inputs.StartXPLevel; XPLvl <= criteria.inputs.EndXPLevel && results.length<maxNumRowResults; XPLvl++) {						
+						xplevel_data = LevelsForRank[XPLvl - 1]; /* Arrays are 0 indexed in Javascript */						
+						if (meetsCriteria(
+							criteria.numbers, inputs.StartAugmentationDamage, inputs.StartAugmentationHealth, inputs.characterArr, xplevel_data) ) {
+							rowArr = [];
+							rowArr[idxidx()] = i; //character index for main Characters array
+							rowArr[idxDamage()] = xplevel_data.arrDamageWithBonus[inputs.StartAugmentationDamage];
+							rowArr[idxHealth()] = xplevel_data.arrHealthWithBonus[inputs.StartAugmentationHealth];
+							rowArr[idxRank()] = rank;
+							rowArr[idxXP()] = xplevel_data.XPLevel;
+							results.push(rowArr);// Add this combination to the array of result rows
+						} // meets number criteria
+					} // for each XPLvl
+					LevelsForRank = null;
+				} // each rank/elite level
+			}} // meets NameAndTitle and color criteria
+		} // for each character
+		return results;
+	} // function get result rows
+	
+	function meetsNameOrTitle(critList, thisStr) {
+		if (!critList)
+			return true;
+		var crit;
+		var prevLogicalOperator = "and";
+		var prevMatches = true;
+		var j;
+		var thisMatches;
+			
+		for (j=0; j<critList.length; j++) {
+			crit = critList[j];
+			thisMatches = false;
+			if (crit.func === "equal") {
+					if (thisStr === crit.match) {
+						thisMatches = true; 
+					}
+			}
+			else if (crit.func === "contain") {
+					if (thisStr.includes(crit.match)) {
+						thisMatches = true;
+					}
+			}
+			else if (crit.func === "start with") {
+					if (thisStr.startsWith(crit.match)) {
+						thisMatches = true;
+					}
+			}
+			else {// "end with"
+					if (thisStr.endsWith(crit.match)) {
+						thisMatches = true;
+					}
+			}
+			if ((crit.does === 0) || (crit.does === "0")) {
+					if (thisMatches) {
+						thisMatches = false;
+					}
+					else {
+						thisMatches = true;
+					}
+			}
+			if (prevLogicalOperator === "or") {
+				prevMatches = prevMatches || thisMatches;
+			}
+			else {
+				prevMatches = prevMatches && thisMatches;
+			}			
+			prevLogicalOperator = crit.logOp;
+		}
+		return prevMatches;
+	}
+	
+	function meetsNameAndTitleCriteria(criteria, Name, Title) {
+		if ( !criteria )
+			return true;
+		return meetsNameOrTitle(criteria.nameCriteria, Name.toLowerCase()) && meetsNameOrTitle(criteria.titleCriteria, Title.toLowerCase()); 
+	}
+
+// meetsCriteria() input parameters:
+// numbers: an object with these optional properties: 
+//		srchMinHealth, srchMaxHealth, srchMinDamage, srchMaxDamage
+//		srchMinDamagePlusHealth, srchMaxDamagePlusHealth,
+//		srchMinStoreDamage, srchMaxStoreDamage, srchMinStoreHealth, srchMaxStoreHealth
+//		srchMinStoreDamagePlusHealth, srchMaxStoreDamagePlusHealth,
+//		srchMinCost, srchMaxCost, srchMinResale, srchMaxResale,
+//		srchMinSp1, srchMaxSp1, srchMinSp2, srchMaxSp2, srchMinSuper, srchMaxSuper
+//		srchMinSp1PlusSp2, srchMaxSp1PlusSp2
+//		srchMinCostDivBase, srchMaxCostDivBase
+// DamageAugLevel and HealthAugLevel: each a number 0 to 300, represents Damage Augmentation level, Health Augmentation level
+// charArr: A copy of a character from the Characters list. An array of name, title, base values, cost, etc
+// level: Object containing two arrays, arrDamageWithBonus and arrHealthWithBonus
+
+	function meetsCriteria(numbers, DamageAugLevel, HealthAugLevel, charArr, level) {
+		var ok = true;
+		var damage = Math.round(level.arrDamageWithBonus[DamageAugLevel]);
+		var health = Math.round(level.arrHealthWithBonus[HealthAugLevel]);
+		var sp1Dam, sp2Dam, superDam, costDivBase;
+		var storeDamage = charArr[Characters.idxStoreDamage()];
+		var storeHealth = charArr[Characters.idxStoreHealth()];
+		var cost = charArr[Characters.idxCost()];
+		var resale = cost * 0.3;
+		
+		if (ok && numbers.srchMinHealth && (health < numbers.srchMinHealth) )
+			ok = false;
+		if (ok && numbers.srchMaxHealth && (health > numbers.srchMaxHealth) )
+			ok = false;
+		
+		if (ok && numbers.srchMinDamage && (damage < numbers.srchMinDamage) )
+			ok = false;
+		if (ok && numbers.srchMaxDamage && (damage > numbers.srchMaxDamage) )
+			ok = false;
+		
+		if (ok && numbers.srchMinDamagePlusHealth && (damage+health < numbers.srchMinDamagePlusHealth) )
+			ok = false;
+		if (ok && numbers.srchMaxDamagePlusHealth && (damage+health > numbers.srchMaxDamagePlusHealth) )
+			ok = false;		
+		
+		if (ok && numbers.srchMinStoreDamage && (storeDamage < numbers.srchMinStoreDamage) )
+			ok = false;
+		if (ok && numbers.srchMaxStoreDamage && (storeDamage > numbers.srchMaxStoreDamage) )
+			ok = false;
+		
+		if (ok && numbers.srchMinStoreHealth && (storeHealth < numbers.srchMinStoreHealth) )
+			ok = false;
+		if (ok && numbers.srchMaxStoreHealth && (storeHealth > numbers.srchMaxStoreHealth) )
+			ok = false;
+		
+		if (ok && numbers.srchMinStoreDamagePlusHealth && (storeDamage+storeHealth < numbers.srchMinStoreDamagePlusHealth) )
+			ok = false;
+		if (ok && numbers.srchMaxStoreDamagePlusHealth && (storeDamage+storeHealth > numbers.srchMaxStoreDamagePlusHealth) )
+			ok = false;
+		
+		if (ok && numbers.srchMinCost && (cost < numbers.srchMinCost) )
+			ok = false;
+		if (ok && numbers.srchMaxCost && (cost > numbers.srchMaxCost) )
+			ok = false;
+		
+		if (ok && numbers.srchMinResale && (resale < numbers.srchMinResale) )
+			ok = false;
+		if (ok && numbers.srchMaxResale && (resale > numbers.srchMaxResale) )
+			ok = false;
+
+		if (ok) {
+			sp1Dam = HandleSpSup.getTenBarsSp1End(charArr, damage);
+			sp2Dam = HandleSpSup.getTenBarsSp2End(charArr, damage);
+			superDam = HandleSpSup.getTenBarsSuper(charArr, damage);
+			costDivBase = cost / (storeDamage + storeHealth);
+
+			if (ok && numbers.srchMinCostDivBase && (costDivBase < numbers.srchMinCostDivBase) )
+				ok = false;
+			if (ok && numbers.srchMaxCostDivBase && (costDivBase > numbers.srchMaxCostDivBase) )
+				ok = false;
+	
+			if (ok && numbers.srchMinSp1 && (sp1Dam < numbers.srchMinSp1) )
+				ok = false;
+			if (ok && numbers.srchMaxSp1 && (sp1Dam > numbers.srchMaxSp1) )
+				ok = false;
+			
+			if (ok && numbers.srchMinSp2 && (sp2Dam < numbers.srchMinSp2) )
+				ok = false;
+			if (ok && numbers.srchMaxSp2 && (sp2Dam > numbers.srchMaxSp2) )
+				ok = false;
+			
+			if (ok && numbers.srchMinSp1PlusSp2 && (sp1Dam+sp2Dam < numbers.srchMinSp1PlusSp2) )
+				ok = false;
+			if (ok && numbers.srchMaxSp1PlusSp2 && (sp1Dam+sp2Dam > numbers.srchMaxSp1PlusSp2) )
+				ok = false;
+			
+			if (ok && numbers.srchMinSuper && (superDam < numbers.srchMinSuper) )
+				ok = false;
+			if (ok && numbers.srchMaxSuper && (superDam > numbers.srchMaxSuper) )
+				ok = false;
+		}
+		return ok;
+	}
+
+	APIList["1.9"] = {
+		idxidx: idxidx,
+		idxDamage: idxDamage,
+		idxHealth: idxHealth, 
+		idxRank: idxRank,
+		idxXP: idxXP,
+		getResultRows: getResultRows,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+}
+)
+();
+
+var SearchOutput = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+	var columnsToShow;
+	
+	function showColumn(columnName) {
+		return columnsToShow.indexOf(columnName) >= 0;
+	}
+	
+	function colHeader(s, which) {
+		var str;
+		
+		str = "  <th class='micsc_padding'><a href='javascript:void(0);' \n    onClick='Search.sortCharacters(this, " + which + ");'>" + s + "</a></th>\n";
+		//console.log("colHeader returning: " + str);
+		return str;
+	}
+	function colCell(s){
+		return "  <td class='micsc_padding'>" + s + "</td>\n";
+	}
+	function colCellCentered(s){
+		return "  <td class='micsc_padding micsc_textcenter'>" + s + "</td>\n";
+	}
+
+	function displayResultRowsAsHTML(which, resultRows, columns, maxNumRowResults, sortKey, resultsElementId) {
+		var str = "";
+		var i;
+		var row;
+		var characterArray;
+		var sp1;
+		var sp2;
+		var sup;
+		var sp1PlusSp2;
+		var damage, health;
+		var str2;
+		var csv = "";
+		
+		str2 = "which="+ which + ", searchOutput columns: ";
+		for (var j=0; j<columns.length; j++) {
+		  if (j>0) str2 += "; ";
+			str2 += columns[j];
+		}
+		//console.log(str2);
+		str2 = "";
+		     
+		columnsToShow = columns;
+		if (resultRows.length >= maxNumRowResults)
+			str += "<p><span class='micsc_error_msg'>Results may be truncated, maximum of " + maxNumRowResults + " matches reached.</span></p>";
+		str += "<table class='micsc_table_spacing' id='table_" + resultsElementId + "'>\n";
+		str += "<caption class='micsc_padding micsc_bold'>Characters sorted by '" + sortKey + "' (Click col name to change.)</caption>\n";
+		str += "<tr>\n";
+		csv += '"","","Characters sorted by ' + sortKey + '"\r\n\r\n';
+		
+		str += colHeader("#", which);
+		csv += '"#",';
+		if (showColumn("Color")) { str += colHeader("Color", which); csv += '"Color",'; }
+		str += colHeader("Name", which);
+		csv += '"Name",';
+		str += colHeader("Title", which);
+		csv += '"Title",';
+		if (showColumn("Rank")) { str += colHeader("Elite", which); csv += '"Elite",'; }
+		if (showColumn("XP")) {  str += colHeader("XP", which); csv += '"XP",'; }
+		if (showColumn("Damage")) { str += colHeader("Damage", which); csv += '"Damage",'; }
+		if (showColumn("Health")) { str += colHeader("Health", which); csv += '"Health",'; }
+		if (showColumn("Damage+Health")) { str += colHeader("Damage<br />+ Health", which); csv += '"Damage+Health",'; }
+		if (showColumn("Sp1")) { str += colHeader("Sp1", which); csv += '"Sp1",'; }
+		if (showColumn("Sp2")) { str += colHeader("Sp2", which); csv += '"Sp2",'; }
+		if (showColumn("Sp1+Sp2")) { str += colHeader("Sp1<br />+ Sp2", which); csv += '"Sp1+Sp2",'; }
+		if (showColumn("Super")) { str += colHeader("Super", which); csv += '"Super",'; }
+		if (showColumn("StoreDamage")) { str += colHeader("Store<br />Damage", which); csv += '"Store Damage",'; }
+		if (showColumn("StoreHealth")) { str += colHeader("Store<br />Health", which); csv += '"Store Health",'; }
+		if (showColumn("StoreDamage+StoreHealth")) { str += colHeader("Store<br />Damage<br />+ Health", which); csv += '"Store Damage + Health",'; }
+		if (showColumn("Cost")) { str += colHeader("Cost if<br />in Store", which); csv += '"Cost if in Store",'; }
+		if (showColumn("Resale")) { str += colHeader("Resale<br />Value", which); csv += '"Resale",'; }
+
+		str += "</tr>\n";
+		csv += '\r\n';
+		
+		for (i=0; i < resultRows.length; i++) {
+			row = resultRows[i];
+			sp1 = -1;
+			sp2 = -1;
+			sup = -1;
+			sp1PlusSp2 = -1;
+			damage = row[SearchRows.idxDamage()];
+			health = row[SearchRows.idxHealth()];
+			characterArray = Characters.getCharacterByIndex(row[SearchRows.idxidx()]);
+			str += "<tr class='";
+			if (characterArray[Characters.idxColor()] == 'Gold')
+				str += "micsc_goldbg";
+			else if (characterArray[Characters.idxColor()] == 'Silver')
+				str += "micsc_silverbg";
+			else
+				str += "micsc_bronzebg";
+			str += "'>\n";
+			
+			str += colCell( (i+1) +""); csv += '"' + (i+1) + '",';
+			if (showColumn("Color")) { 
+				str += colCell(characterArray[Characters.idxColor()]); 
+				csv += '"' + characterArray[Characters.idxColor()] + '",';
+				
+			}
+			str += colCell(characterArray[Characters.idxName()]); 
+			csv += '"' + characterArray[Characters.idxName()] + '",';
+			str += colCell(characterArray[Characters.idxTitle()]); 
+			csv += '"' + (characterArray[Characters.idxTitle()]==="-" ? "" :characterArray[Characters.idxTitle()]) + '",';
+			
+			if (showColumn("Rank")) { str += colCell(Basic.cvtRankToRoman(row[SearchRows.idxRank()])); csv += '"' +row[SearchRows.idxRank()]+ '",'; }
+			if (showColumn("XP")) { str += colCell(row[SearchRows.idxXP()]); csv += '"'+row[SearchRows.idxXP()]+'",'; }
+			if (showColumn("Damage")) {str += colCell(Basic.numberWithCommas(Math.round(damage))); csv += '"'+Math.round(damage)+'",'; }
+			if (showColumn("Health")) {str += colCell(Basic.numberWithCommas(Math.round(health))); csv += '"'+Math.round(health)+'",'; }
+			if (showColumn("Damage+Health")) {str += colCell(Basic.numberWithCommas(Math.round( damage+health ))); csv += '"'+Math.round(damage+health)+'",'; }
+			if (showColumn("Sp1")) {
+				if (sp1 < 0) sp1 = Math.round(HandleSpSup.getTenBarsSp1End(characterArray, damage));
+				str += colCell(Basic.numberWithCommas(sp1));
+				csv += '"'+sp1+'",';
+			}
+			if (showColumn("Sp2")) {
+				if (sp2 < 0) sp2 = Math.round(HandleSpSup.getTenBarsSp2End(characterArray, damage));
+				str += colCell(Basic.numberWithCommas(sp2));
+				csv += '"'+sp2+'",';
+			}
+			if (showColumn("Sp1+Sp2")) {
+				if (sp1 < 0) sp1 = Math.round(HandleSpSup.getTenBarsSp1End(characterArray, damage));
+				if (sp2 < 0) sp2 = Math.round(HandleSpSup.getTenBarsSp2End(characterArray, damage));
+				str += colCell(Basic.numberWithCommas(sp1+sp2));
+				csv += '"' + (sp1+sp2) + '",';
+			}
+			if (showColumn("Super")) {
+				if (sup < 0) sup = Math.round(HandleSpSup.getTenBarsSuper(characterArray, damage));
+				str += colCell(Basic.numberWithCommas(sup));
+				csv += '"' + sup + '",';
+			}
+			if (showColumn("StoreDamage")) {str += colCell(characterArray[Characters.idxStoreDamage()]); csv += '"'+characterArray[Characters.idxStoreDamage()]+'",'; }
+			if (showColumn("StoreHealth")) {str += colCell(characterArray[Characters.idxStoreHealth()]); csv += '"'+characterArray[Characters.idxStoreHealth()]+'",'; }
+			if (showColumn("StoreDamage+StoreHealth")) {
+				str += colCell(Basic.numberWithCommas(characterArray[Characters.idxStoreDamage()] +
+					characterArray[Characters.idxStoreHealth()]));
+				csv += '"'+(characterArray[Characters.idxStoreDamage()]+characterArray[Characters.idxStoreHealth()])+'",';
+			}
+			if (showColumn("Cost")) {
+				str2 = Characters.addAllianceCreditsIfNeeded(characterArray);
+				if (str2 === "") {
+					str += colCell(Basic.numberWithCommas(1000*characterArray[Characters.idxCost()]));
+					csv += '"' + 1000*characterArray[Characters.idxCost()] + '",';
+				}
+				else {
+					str += colCell(Basic.numberWithCommas(characterArray[Characters.idxCost()])+str2);
+					csv += '"' + characterArray[Characters.idxCost()]+str2 + '",';
+				}
+			}
+			if (showColumn("Resale")) {
+				str2 = Characters.addAllianceCreditsIfNeeded(characterArray);
+				if (str2 === "") {
+					str += colCell(Basic.numberWithCommas(1000*0.3*characterArray[Characters.idxCost()]));
+					csv += '"' + 1000*0.3*characterArray[Characters.idxCost()] + '",';
+				}
+				else {
+					str += colCell(Basic.numberWithCommas(0.3*characterArray[Characters.idxCost()])+str2);
+					csv += '"' + 0.3*characterArray[Characters.idxCost()]+str2 + '",';
+				}
+			}
+			str += "</tr>\n";
+			csv += '\r\n';
+		}
+		str += "</table>";
+		Basic.getElById(resultsElementId).innerHTML = str;
+		Basic.fixLinkColors();
+		
+		fillInTextArea(Basic.getElById(resultsElementId).innerHTML, which);
+		
+		var cprt = (' '+SimpleWrites.CopyRightStmt).replace(/ /g, '"\r\n"","","');
+		csv += '"'+cprt+'"\r\n';
+		if (which == QuickRef.quickRefLabel())
+			QuickRef.setCSV(csv);
+		else
+			FindChars.setCSV(csv);
+	}
+
+	function fillInTextArea(innerhtmlCode, which) {
+			var sStart, sEnd;
+			sStart = 
+				'<div>\n' +
+				'<style>\n' +
+				'   .micsc_padding {border:1px solid; padding:3px; }\n' +
+				'	.micsc_goldbg { background-color:gold; color:black; }\n' +
+				'	.micsc_silverbg { background-color:silver; color:black; }\n' +
+				'	.micsc_bronzebg { background-color:peru; color:black; }\n' +
+				'   .micsc_table_spacing { border-collapse:collapse; border-spacing:10px; }\n' +
+				'   .micsc_bold { font-weight:bold; }\n' +
+				'</style>\n' +
+				'<h2>Character Stats Calculator Results:</h2>';
+			sEnd = "\n" + SimpleWrites.CopyRightStmt + "</div>";
+			
+			// special characters in replace regex: $&`'*:?[]{}.-^|()+ (might not be complete)
+			innerhtmlCode = innerhtmlCode.replace(
+			/\<a style\=\"color\: rgb\(0\, 255\, 0\)\; background-color\: rgb\(0\, 0\, 0\)\;\" href\=\"javascript\:void\(0\)\;\" onclick\=\"Search\.sortCharacters\(this\, 1\)\;">/g, '');
+			
+			innerhtmlCode = innerhtmlCode.replace(
+			/\<a style\=\"color\: rgb\(0\, 0\, 238\)\; background-color\: rgb\(255\, 255\, 255\)\;\" href\=\"javascript\:void\(0\)\;\" onclick\=\"Search\.sortCharacters\(this\, 1\)\;\"\>/g, '');
+			
+			innerhtmlCode = innerhtmlCode.replace(
+			/<a style="color\: rgb\(0\, 255\, 0\)\; background-color\: rgb\(0\, 0\, 0\)\;" href\="javascript\:void\(0\)\;" onclick\="Search\.sortCharacters\(this\, 1000\)\;">/g, '');
+			
+			innerhtmlCode = innerhtmlCode.replace(
+			/<a style="color\: rgb\(0\, 0\, 238\)\; background-color\: rgb\(255\, 255\, 255\)\;" href\="javascript\:void\(0\)\;" onclick\="Search\.sortCharacters\(this\, 1000\)\;">/g, '');
+			
+			innerhtmlCode = innerhtmlCode.replace(/<\/a><\/th>\n/g, '</th>\n');
+			
+			var textAreaId = 'unknown';
+			if (which === QuickRef.quickRefLabel())
+				textAreaId = "quickRef_HTMLCode";
+			else
+				textAreaId = "findChars_HTMLCode";
+			// put the html code into the textarea:
+			Basic.getElById(textAreaId).value = sStart + innerhtmlCode + sEnd;
+	}
+	
+ 	APIList["1.9"] = {
+		displayResultRowsAsHTML: displayResultRowsAsHTML,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+}
+)
+();
+
+var Sort = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+	var sortKey = "";
+	var numCalls;
+
+	function ColorToNumber(colorStr) { /* Convert colors to a number for sorting. */
+		if (colorStr === "Gold") return 3;
+		else if (colorStr === "Silver") return 2;
+		else if (colorStr === "Bronze") return 1;
+		else return 0;
+	}
+
+	function ColorDiff(cardA, cardB) {
+		var aVal = cardA[Characters.idxColor()];
+		aVal = ColorToNumber(aVal);
+		var bVal = cardB[Characters.idxColor()];
+		bVal = ColorToNumber(bVal);
+		return aVal - bVal;
+	}
+
+	function getStringDiff(strA, strB) {
+			var str1 = strA.toLowerCase();
+			var str2 = strB.toLowerCase();
+			var n = str1.localeCompare(str2);
+			return n;
+	}
+
+	function NameDiff(cardA, cardB) {
+		var aVal = cardA[Characters.idxName()];
+		var bVal = cardB[Characters.idxName()];
+		return getStringDiff(aVal, bVal);
+	}
+
+	function TitleDiff(cardA, cardB) {
+		var aVal = cardA[Characters.idxTitle()];
+		var bVal = cardB[Characters.idxTitle()];
+		return getStringDiff(aVal, bVal);
+	}
+
+	function sortByColorNameTitle(cardA, cardB) {
+	/* sort by Color (Gold, Silver, Bronze), then by Name, then by Title */
+		var diff;
+		diff = ColorDiff(cardA, cardB);
+		
+		if (diff > 0) return -1;
+		if (diff < 0) return 1;
+
+		/* Same color, go to Name*/
+		diff = NameDiff(cardA, cardB);
+		if (diff !== 0) return diff;
+
+		/* Same Color and Name, go to Title */
+		diff = TitleDiff(cardA, cardB);
+		return diff;
+	}
+	
+	function sortByNameAndTitle(cardA, cardB) {
+	/* sort by Name, then by Title */
+		var diff;
+	
+		diff = NameDiff(cardA, cardB);
+		if (diff !== 0) return diff;
+
+		/* Same Name, go to Title */
+		diff = TitleDiff(cardA, cardB);
+		return diff;
+	}
+
+	function sortByTitleAndName(cardA, cardB) {
+	/* sort by Name, then by Title */
+		var diff;
+
+		diff = TitleDiff(cardA, cardB);
+		if (diff !== 0) return diff;
+
+		/* Same Title, go to Name */
+		diff = NameDiff(cardA, cardB);
+		return diff;
+	}
+
+	/*** MAIN ROUTINE: ***/
+	function compareResultRows(rowA, rowB) {
+		var AValue, ACard, Aidx;
+		var BValue, BCard, Bidx;
+		var diff;
+
+		numCalls++;//count # of times comparison function is called.
+		
+		Aidx = rowA[SearchRows.idxidx()];
+		ACard = Characters.getCharacterByIndex(Aidx);
+		
+		Bidx = rowB[SearchRows.idxidx()];
+		BCard = Characters.getCharacterByIndex(Bidx);
+		
+		//console.log("cmp: A=" + ACard[0] + " " + ACard[1] + ", B=" + BCard[0] + " " + BCard[1]);
+		
+	/* is switch stmt faster than if-else? */
+	if (sortKey === "color") {
+		diff =  sortByColorNameTitle(ACard, BCard);
+		//console.log("diff:" + diff);
+		return diff;
+	}
+
+	if (sortKey === "name") {
+		diff = sortByNameAndTitle(ACard, BCard);
+		//console.log("diff:" + diff);
+		return diff;
+	}
+
+	if (sortKey === "title") {
+		diff = sortByTitleAndName(ACard, BCard);
+		//console.log("diff:" + diff);
+		return diff;
+	}
+
+    /* Numeric Sorting: */
+	if (sortKey === "elite") {
+		AValue = rowA[SearchRows.idxRank()];
+		BValue = rowB[SearchRows.idxRank()];
+	}
+	
+	else if (sortKey === "xp") {
+		AValue = rowA[SearchRows.idxXP()];
+		BValue = rowB[SearchRows.idxXP()];
+	}
+	
+	else if (sortKey === "damage") {
+		AValue = rowA[SearchRows.idxDamage()];
+		BValue = rowB[SearchRows.idxDamage()];
+	}
+	
+	else if (sortKey === "health") {
+		AValue = rowA[SearchRows.idxHealth()];
+		BValue = rowB[SearchRows.idxHealth()];
+	}
+
+	else if (sortKey === "sp1") {
+		AValue = HandleSpSup.getTenBarsSp1End(ACard, rowA[SearchRows.idxDamage()]);
+		BValue = HandleSpSup.getTenBarsSp1End(BCard, rowB[SearchRows.idxDamage()]);
+	}
+	
+	else if (sortKey === "sp2") {
+		AValue = HandleSpSup.getTenBarsSp2End(ACard, rowA[SearchRows.idxDamage()]);
+		BValue = HandleSpSup.getTenBarsSp2End(BCard, rowB[SearchRows.idxDamage()]);
+	}
+
+	else if (sortKey === "super") {
+		AValue = HandleSpSup.getTenBarsSuper(ACard, rowA[SearchRows.idxDamage()]);
+		BValue = HandleSpSup.getTenBarsSuper(BCard, rowB[SearchRows.idxDamage()]);
+	}
+	
+	else if (sortKey === "damage + health") {
+		AValue = rowA[SearchRows.idxDamage()] + rowA[SearchRows.idxHealth()];
+		BValue = rowB[SearchRows.idxDamage()] + rowB[SearchRows.idxHealth()];
+	}
+	
+	else if (sortKey === "sp1 + sp2") {
+		AValue = 
+			HandleSpSup.getTenBarsSp1End(ACard, rowA[SearchRows.idxDamage()]) +
+			HandleSpSup.getTenBarsSp2End(ACard, rowA[SearchRows.idxDamage()]);
+
+		BValue = 
+			HandleSpSup.getTenBarsSp1End(BCard, rowB[SearchRows.idxDamage()]) +
+			HandleSpSup.getTenBarsSp2End(BCard, rowB[SearchRows.idxDamage()]);
+	}
+	
+	else if (sortKey === "store damage") {
+		AValue = ACard[Characters.idxStoreDamage()];
+		BValue = BCard[Characters.idxStoreDamage()];
+	}
+
+	else if (sortKey === "store health") {
+		AValue = ACard[Characters.idxStoreHealth()];
+		BValue = BCard[Characters.idxStoreHealth()];
+	}
+	
+	else if (sortKey === "store damage + health") {
+		AValue = 
+			ACard[Characters.idxStoreDamage()] + ACard[Characters.idxStoreHealth()];
+		BValue = 
+			BCard[Characters.idxStoreDamage()] + BCard[Characters.idxStoreHealth()];
+	}
+	
+	else if (sortKey === "resale value") {
+		AValue = ACard[Characters.idxCost()] * 0.3;
+		BValue = BCard[Characters.idxCost()] * 0.3;
+	}
+	
+	else if (sortKey === "cost if in store") {
+		AValue = ACard[Characters.idxCost()];
+		BValue = BCard[Characters.idxCost()];
+	}
+	
+	else if (sortKey === "base / cost") {
+	  if (ACard[Characters.idxCost()] !== 0)
+			AValue = 
+				(ACard[Characters.idxStoreDamage()] + ACard[Characters.idxStoreHealth()]) /
+					ACard[Characters.idxCost()];
+		else
+			AValue = 1000;
+
+	  if (BCard[Characters.idxCost()] !== 0)
+			BValue = 
+				(BCard[Characters.idxStoreDamage()] + BCard[Characters.idxStoreHealth()]) /
+					BCard[Characters.idxCost()];
+		else
+			BValue = 1000;
+	}
+	
+	else {/*default sort:*/
+		AValue = 0;
+		BValue = 0;
+	}
+	diff = BValue - AValue;
+	//console.log("  cmp diff=" + diff);
+	return diff;
+}
+
+function doSort(arr, sortKeyParam) {
+	sortKey = sortKeyParam.toLowerCase();
+	numCalls = 0;
+	arr.sort(compareResultRows);
+	//console.log("doSort: #calls:" + numCalls + " #rows:" + arr.length + " key:" + sortKey);
+}
+
+ 	APIList["1.9"] = {
+		doSort: doSort,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+}
+)
+();
+
+var Search = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+	function SortAndShow(which, sortKey) {
+		
+	//if (which === QuickRef.quickRefLabel())
+	//	LogUsage.logSort("QuickRef", sortKey); 
+	//else
+	//	LogUsage.logSort("FindChars", sortKey);
+		
+    var getResultRowsFunction, resultRows;
+    var maxNumRows, columns, outputElementId;
+    //var showCodeElementId;
+	
+		if (which !== QuickRef.quickRefLabel()) {
+			getResultRowsFunction = FindChars.getResultRows;
+			maxNumRows = FindChars.getMaxNumRows();
+			columns = FindChars.getColumns(FindChars.getCriteria());
+			outputElementId = FindChars.getOutputElementId();
+			//showCodeElementId = FindChars.getshowCodeElementId();
+			}
+		else {
+			getResultRowsFunction = QuickRef.getResultRows;
+			maxNumRows = QuickRef.getMaxNumRows();
+			columns = QuickRef.getColumns(QuickRef.getCriteria());
+			outputElementId = QuickRef.getOutputElementId();
+			//showCodeElementId = QuickRef.getshowCodeElementId();
+		}
+		
+		resultRows = getResultRowsFunction();
+		Sort.doSort(resultRows, sortKey);
+		var csv = SearchOutput.displayResultRowsAsHTML(which, resultRows, columns, maxNumRows, sortKey, outputElementId );
+	}
+	
+	function SearchSortAndShow(which) {
+		var resultRows;
+		var sortKey;
+		var criteria;
+		var setResultRowsFunction;
+		var maxNumRows;
+		
+		if (which !== QuickRef.quickRefLabel()) {
+			criteria = FindChars.getCriteria();
+			setResultRowsFunction = FindChars.setResultRows;
+			maxNumRows = FindChars.getMaxNumRows();
+			sortKey = FindChars.getSortKey();
+			}
+		else {
+			criteria = QuickRef.getCriteria();
+			setResultRowsFunction = QuickRef.setResultRows;
+			maxNumRows = QuickRef.getMaxNumRows();
+			sortKey = QuickRef.getSortKey();
+		}		
+		resultRows = SearchRows.getResultRows( criteria, maxNumRows);
+		setResultRowsFunction( resultRows ); // use slice to make a copy
+		SortAndShow(which, sortKey);
+	}
+
+
+	function sortCharacters(Sender, which) {
+		// Repeat "Sort" and "Show" functionality, with a changed sort key
+		var newSortKey = (Sender.innerHTML.toLowerCase()).replace(/<br>/g, " ");
+		SortAndShow(which, newSortKey);
+		if (which === QuickRef.quickRefLabel()) {
+			QuickRef.setSortKey(newSortKey);
+		}
+		else {
+			FindChars.setSortKey(newSortKey);
+		}
+	}
+
+	function QuickRefAugLevelSelectChanged(Sender) {
+		//LogUsage.logInputForm("formQuickRef", 0);
+		QuickRef.setAugmentationLevel( Basic.getIntFromDDL("QuickRefAugLevelSelect") );
+		SearchSortAndShow(QuickRef.quickRefLabel());
+	}
+	
+	function onClickSearchCharacters()
+	{
+		//LogUsage.logInputForm("formFindCharacters", 0);
+   		SearchSortAndShow( 999 + QuickRef.quickRefLabel() );
+	}
+
+
+	/*function SaveCSVFile(Sender) {
+		var senderID = "";
+		var csv = "";
+		
+		senderID = Sender.id.split('_')[0];
+		if (senderID.toLowerCase().startsWith("quickref"))
+			csv = QuickRef.getCSV();
+		else
+			csv = FindChars.getCSV();
+		//LogUsage.PostAndGetTextFile('csv', csv);
+	}*/
+	
+ 	APIList["1.9"] = {
+		SearchSortAndShow: SearchSortAndShow,
+		QuickRefAugLevelSelectChanged: QuickRefAugLevelSelectChanged,
+		onClickSearchCharacters: onClickSearchCharacters,
+		sortCharacters: sortCharacters,
+		//SaveCSVFile: SaveCSVFile,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+}
+)
+();
+/* file SideBySideCompare.js:*/
+var SideBySideCompare = (function() {
+	var APIList = {}; /*different versions of the API of this module*/
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+	var csv = "";
+
+function genSidebySideTable() {
+	var outstr = "<table class='micsc_table_less_spacing'>\n";
+	var numChars = 5;
+	var thWithStyle = "\n<th class='micsc_border_less_padding'>\n";
+	var tdWithStyle = "\n<td class='micsc_border_less_padding'>\n";
+	var trClass="\n<tr class='micsc_noborder'>";
+
+	/* First Row: Select character*/
+	var nthStr = ["", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th" ];
+	outstr += "\n<tr" +trClass;
+	outstr += thWithStyle + "Character:</th>\n";
+	for (var ich = 1; ich <=numChars; ich++ ) {
+		outstr += tdWithStyle+"\n<select " +
+		"id='compareChar" + ich + "'>" +
+		"<option value=''>Select " + nthStr[ich] + " Character</option></select></td>\n";
+	}
+    outstr += "</tr>\n";
+
+    /* Second Row: Select Elite (Rank) such as EVII */
+    outstr += "<tr" + trClass;
+    outstr += thWithStyle + "Elite:</th>\n";
+    for (var ielite=1; ielite <= numChars; ielite++) {
+		outstr += tdWithStyle + "<select id='compareCharElite" + ielite + "'></select></td>\n";
+	}
+	outstr += "</tr>\n";
+
+	/* Third Row: XP level */
+	outstr += "<tr" + trClass;
+	outstr += thWithStyle + "XP Level:</th>\n";
+	for (var iXP = 1; iXP <= numChars; iXP++) {
+		outstr += tdWithStyle + "<select id='compareCharXP" + iXP + "'></select></td>\n";
+	}
+	outstr += "</tr>\n";
+
+	/* Fourth Row: Character bonuses: */
+	outstr += "<tr class='micsc_noborder'>" + thWithStyle + "Char Bonuses:</th>\n";
+	for (var chBon = 1; chBon <= numChars; chBon++) {
+		outstr += tdWithStyle + AfterHtmlParsed.individualCharacterBonusCards("compareChar" +chBon , false) + "</td>\n";
+	}
+	outstr += "</tr>\n";
+
+	/* Fifth Row: Damage Augmentations: */
+	outstr += "<tr>" + thWithStyle + "Damage Aug:</th>\n";
+	for (var chDamAug = 1; chDamAug <= numChars; chDamAug++) {
+	    outstr += tdWithStyle + GenAugmentationCards.genAugmentationCardsAndLevels('compareChar' + chDamAug, "Damage", false, false) + "</td>\n";
+	}
+	outstr += "</tr>\n";
+
+	/* Sixth Row: Health Augmentations: */
+	outstr += "<tr>" + thWithStyle + "Health Aug:</th>\n";
+	for (var chHealthAug = 1; chHealthAug <= numChars; chHealthAug++) {
+	    outstr += tdWithStyle + GenAugmentationCards.genAugmentationCardsAndLevels("compareChar" + chHealthAug, "Health", false, false) + "</td>\n";
+	}
+	outstr += "</tr>\n";
+    outstr += "</table>\n";
+
+    var el = Basic.getElById("sidebysideTable");
+    if (el) el.innerHTML = outstr;
+
+	for (var idxCh = 1; idxCh <= numChars; idxCh++) {
+		AfterHtmlParsed.addOptionsToCharacterDropDownList("compareChar" + idxCh);
+		AfterHtmlParsed.addOptionsToRankDropDownList("compareCharElite" + idxCh, 10, 7);
+		AfterHtmlParsed.addOptionsToXPDropDownList("compareCharXP" + idxCh, 60, 50);
+	}
+}
+
+
+function onClickSideBySideCharCompare()
+{
+	var RandId = Basic.getRandomRequestId();
+	//LogUsage.logInputForm("formSideBySide", RandId);
+	var idx;
+	var characterInputs;
+    var level;
+    var melee;
+    var charCompareOutput = "";
+    var tdStyle = " class='micsc_border_less_padding'";
+    var TableStyle = " class='micsc_table_less_spacing'";
+    var LevelsForRank = [];
+    var inputsArr = [];
+    var levelsArr = [];
+    var augIdx;
+
+    for (idx = 1; idx <= 5; idx++) {
+        characterInputs = new CharacterInputs.CharacterInputsFromFields(
+			"compareChar", ""+idx, /* bonus prefixes */
+
+			"compareChar" + idx, /* character drop-down box 'select' */
+
+			"compareCharElite" + idx, "compareCharElite" + idx, /* start & end the same */
+			"compareCharXP" + idx, "compareCharXP" + idx, /* start & end the same */
+
+			"compareChar" + idx + "DamageStartAug", "compareChar" + idx + "DamageStartAug", /* start & end the same */
+			"compareChar" + idx + "HealthStartAug", "compareChar" + idx + "HealthStartAug", /* start & end the same */
+
+			"compareChar" + idx  + "DamageAugMinorCards",
+			"compareChar" + idx  + "DamageAugMediumCards",
+			"compareChar" + idx  + "DamageAugMajorCards",
+
+			"compareChar" + idx  + "HealthAugMinorCards",
+			"compareChar" + idx  + "HealthAugMediumCards",
+			"compareChar" + idx  + "HealthAugMajorCards" );
+
+        if (characterInputs && characterInputs.characterArr && CharacterInputs.validInputs(characterInputs, "charCompareMsg", "charCompareOutput", RandId)) {
+			inputsArr[idx] = characterInputs;
+            LevelsForRank = DoCalcRank.doCalcRank(characterInputs.StartRank, characterInputs);
+            levelsArr[idx] = LevelsForRank[characterInputs.StartXPLevel - 1];
+        }
+	}
+	if (inputsArr.length < 1)
+	{
+		//LogUsage.LogKeyValue("inputsArr length less than 1", inputsArr.length);
+	    return true;
+	}
+
+	charCompareOutput += "<table class='micsc_table_spacing' id='SideBySideTable'" + TableStyle + ">";
+	csv = "";
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Character:</th>";
+	csv += '"Character:",';	
+	for (idx = 1; idx <= 5; idx++) {
+		if (inputsArr[idx]) {
+			charCompareOutput += "\n<th " + tdStyle + ">";
+			charCompareOutput += Characters.getTitledCharName(inputsArr[idx].characterArr) +
+					        "<br />\n E" + Basic.cvtRankToRoman(inputsArr[idx].StartRank) + " " + inputsArr[idx].StartXPLevel;
+			csv += '"' + Characters.getTitledCharName(inputsArr[idx].characterArr) +
+					" E " + inputsArr[idx].StartRank + " " + inputsArr[idx].StartXPLevel + '",';
+			charCompareOutput += "</th>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+	charCompareOutput += "\n<th " + tdStyle + ">Bonuses:</th>";
+	csv += '"Bonuses:",';
+    for (idx = 1; idx <= 5; idx++) {
+		if (inputsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += "D: " + inputsArr[idx].DamageBonusPercent + "% H: " + inputsArr[idx].HealthBonusPercent + "%";
+			csv += '"' + "D: " + inputsArr[idx].DamageBonusPercent + "% H: " + inputsArr[idx].HealthBonusPercent + "%" + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+	charCompareOutput += "\n<th " + tdStyle + ">Augmentations:</th>";
+	csv += '"Augmentations:",';
+    for (idx = 1; idx <= 5; idx++) {
+		if (inputsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += "D: " + inputsArr[idx].StartAugmentationDamage + " H: " + inputsArr[idx].StartAugmentationHealth;
+			csv += '"' + "D: " + inputsArr[idx].StartAugmentationDamage + " H: " + inputsArr[idx].StartAugmentationHealth + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Damage:</th>";
+	csv += '"Damage:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += Basic.numberWithCommas(Math.floor(levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage]));
+			csv += '"' + Math.floor(levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage]) + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Health:</th>";
+	csv += '"Health:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += Basic.numberWithCommas(Math.floor(levelsArr[idx].arrHealthWithBonus[inputsArr[idx].StartAugmentationHealth]));
+			csv += '"' + Math.floor(levelsArr[idx].arrHealthWithBonus[inputsArr[idx].StartAugmentationHealth]) + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+	
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Sp1 Max:</th>";
+	csv += '"Sp1 Max:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += Basic.numberWithCommas(Math.floor(HandleSpSup.getTenBarsSp1End(inputsArr[idx].characterArr,
+				levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage])));
+			csv += '"' + Math.floor(HandleSpSup.getTenBarsSp1End(inputsArr[idx].characterArr,
+				levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage])) + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+	
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Sp2 Max:</th>";
+	csv += '"Sp2 Max:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += Basic.numberWithCommas(Math.floor(HandleSpSup.getTenBarsSp2End(inputsArr[idx].characterArr,
+				levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage])));
+			csv += '"' + Math.floor(HandleSpSup.getTenBarsSp2End(inputsArr[idx].characterArr,
+				levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage])) + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Super Max:</th>";
+	csv += '"Super Max:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += Basic.numberWithCommas(Math.floor(HandleSpSup.getTenBarsSuper(inputsArr[idx].characterArr,
+				levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage])));
+			csv += '"' + Math.floor(HandleSpSup.getTenBarsSuper(inputsArr[idx].characterArr,
+				levelsArr[idx].arrDamageWithBonus[inputsArr[idx].StartAugmentationDamage])) + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Light tap:</th>";
+	csv += '"Light tap:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			level = levelsArr[idx];
+			augIdx = inputsArr[idx].StartAugmentationDamage;
+			melee = level.arrMeleeDamage[augIdx];
+			charCompareOutput += Basic.numberWithCommas(Math.round(melee.Light));
+			csv += '"' + Math.round(melee.Light) + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Knockdown swipe:</th>";
+	csv += '"Knockdown swipe:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			level = levelsArr[idx];
+			augIdx = inputsArr[idx].StartAugmentationDamage;
+			melee = level.arrMeleeDamage[augIdx];
+			charCompareOutput += Basic.numberWithCommas(Math.round(melee.Knockdown));
+			csv += '"' + Math.round(melee.Knockdown) + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Heavy swipe:</th>";
+	csv += '"Heavy swipe:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (levelsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			level = levelsArr[idx];
+			augIdx = inputsArr[idx].StartAugmentationDamage;
+			melee = level.arrMeleeDamage[augIdx];
+			charCompareOutput += Basic.numberWithCommas(Math.round(melee.Heavy1));
+			csv += '"' + Math.round(melee.Heavy1);
+			if (Math.round(melee.Heavy1) != Math.round(melee.Heavy2)) {
+				charCompareOutput += "(" + Basic.numberWithCommas(Math.round(melee.Heavy2)) + ")";
+				csv += "(" + Math.round(melee.Heavy2) + ")";
+			}
+			charCompareOutput += "</td>";
+			csv += '",';
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Store Damage:</th>";
+	csv += '"Store Damage:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (inputsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += Basic.numberWithCommas(inputsArr[idx].characterArr[Characters.idxStoreDamage()]);
+			csv += '"' + inputsArr[idx].characterArr[Characters.idxStoreDamage()] + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n';
+
+	charCompareOutput += "\n<tr>";
+    charCompareOutput += "\n<th " + tdStyle + ">Store Health:</th>";
+	csv += '"Store Health:",';
+	for (idx = 1; idx <= 5; idx++) {
+		if (inputsArr[idx]) {
+			charCompareOutput += "\n<td " + tdStyle + ">";
+			charCompareOutput += Basic.numberWithCommas(inputsArr[idx].characterArr[Characters.idxStoreHealth()]);
+			csv += '"' + inputsArr[idx].characterArr[Characters.idxStoreHealth()] + '",';
+			charCompareOutput += "</td>";
+		}
+	}
+	charCompareOutput += "</tr>\n";
+	csv += '\r\n\r\n';
+	//csv += '"' + SimpleWrites.CopyRightStmt + '"\r\n';
+	csv += '"' + SimpleWrites.CopyRightStmt.replace(/ /g, '"\r\n"') + '"';
+	
+	charCompareOutput += "</table>";
+
+    Basic.getElById("charCompareOutput").innerHTML = charCompareOutput;
+	//LogUsage.logOutputShown("charCompareOutput", RandId);
+	
+	Basic.getElById('charCompare_HTMLCode').value = 
+		"<style>\n" +
+		".micsc_table_spacing {border-collapse:collapse; border-spacing:10px;}\n" +
+		".micsc_border_less_padding {border:1px solid; padding:1px;}\n" +
+		"</style>\n\n" +
+		Basic.getElById("charCompareOutput").innerHTML + 
+		SimpleWrites.CopyRightStmt;
+}
+
+	/*function SaveCSVFile(Sender) {
+		//LogUsage.PostAndGetTextFile('csv', csv);
+	}*/
+
+
+	APIList["1.9"] = {
+		genSidebySideTable: genSidebySideTable,
+		onClickSideBySideCharCompare: onClickSideBySideCharCompare,
+		//SaveCSVFile: SaveCSVFile,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+/* file afterHtmlParsed.js: */
+var AfterHtmlParsed = (function() {
+	var APIList = {}; /* different versions of the API of this module */
+	var getAPIByVersion = function(versionStr) {
+		return APIList[versionStr];
+	};
+
+function domContLoaded(event) {
+	/***** CHARACTER SECTION:*****/
+	addOptionsToCharacterDropDownList("ddlCharacters");
+	Basic.getElById("character_bonuses").innerHTML = individualCharacterBonusCards("", true);
+	Basic.getElById("active_support_cards_for_all").innerHTML = genActiveSupportCards("");
+	addOptionsToRankDropDownList("ddlDisplayEliteStart", 10, 7);
+	addOptionsToRankDropDownList("ddlDisplayEliteEnd", 10, 7);
+	addOptionsToXPDropDownList("ddlDisplayXPStart", 60, 50);
+	addOptionsToXPDropDownList("ddlDisplayXPEnd", 60, 50);
+	Basic.getElById("augmentations_inputs").innerHTML =
+	    GenAugmentationCards.genAugmentationCardsAndLevels("", "Damage", true, true) + "<br />" +
+	    GenAugmentationCards.genAugmentationCardsAndLevels("", "Health", true, true);
+		
+    /***** CUSTOM CHARACTER SECTION:*****/
+    /* There is no dropdown list of characters */
+	Basic.getElById("customChar_bonuses").innerHTML = individualCharacterBonusCards("customChar_", true);
+	Basic.getElById("customChar_active_support_cards_for_all").innerHTML = genActiveSupportCards("customChar_");
+	addOptionsToRankDropDownList("ddlCustomDisplayEliteStart", 10, 7);
+	addOptionsToRankDropDownList("ddlCustomDisplayEliteEnd", 10, 7);
+	addOptionsToXPDropDownList("ddlCustomDisplayXPStart", 60, 50);
+	addOptionsToXPDropDownList("ddlCustomDisplayXPEnd", 60, 50);
+	Basic.getElById("customChar_augmentations_inputs").innerHTML =
+	    GenAugmentationCards.genAugmentationCardsAndLevels("customChar_", "Damage", true, true) + "<br />" +
+	    GenAugmentationCards.genAugmentationCardsAndLevels("customChar_", "Health", true, true);
+
+	/***** Specials/Super Damage Section:*****/
+	addOptionsToCharacterDropDownList("ddlSpecialSuperCharacters");
+
+	/***** SIDE-BY-SIDE SECTION:*****/
+	Basic.getElById("compareChar_active_support_cards_for_all").innerHTML = genActiveSupportCards("compareChar");
+    SideBySideCompare.genSidebySideTable();
+
+    /***** OWNED CHARACTER SECTION:*****/
+	/* There is no augmentation section in the first half of this section */
+    addOptionsToCharacterDropDownList("ddlCharacterOwned");
+    Basic.getElById("owned_character_bonuses").innerHTML = individualCharacterBonusCards("owned_", true);
+    Basic.getElById("owned_active_support_cards_for_all").innerHTML = genActiveSupportCards("owned_");
+    addOptionsToRankDropDownList("ddlOwnedElite", 10, 7);   /* Owned characters are at a specific Elite level thus don't need a range */
+    addOptionsToXPDropDownList("ddlOwnedXPLevel", 60, 50); /* Owned characters are at a specific XP    level thus don't need a range */
+	/* Augmentations section is for the second half of this section, which starts out hidden. */
+	Basic.getElById("owned_augmentations_inputs").innerHTML =
+	    GenAugmentationCards.genAugmentationCardsAndLevels("owned_", "Damage", true, false) + "<br />" +
+	    GenAugmentationCards.genAugmentationCardsAndLevels("owned_", "Health", true, false);
+	
+	/***** Search Characters section: *****/
+	Basic.getElById("srch_bonuses").innerHTML = individualCharacterBonusCards("srch_", true);
+	Basic.getElById("srch_active_support_cards_for_all").innerHTML = genActiveSupportCards("srch_");
+	addOptionsToRankDropDownList("ddlSrchEliteStart", 10, 7);
+	addOptionsToRankDropDownList("ddlSrchEliteEnd", 10, 7);
+	addOptionsToXPDropDownList("ddlSrchXPStart", 60, 50);
+	addOptionsToXPDropDownList("ddlSrchXPEnd", 60, 50);
+	Basic.getElById("srch_augmentations_inputs").innerHTML =
+	    GenAugmentationCards.genAugmentationCardsAndLevels("srch_", "Damage", true, false) + "<br />" +
+	    GenAugmentationCards.genAugmentationCardsAndLevels("srch_", "Health", true, false);
+
+	/* Quick Ref section:*/
+	Search.SearchSortAndShow(QuickRef.quickRefLabel()); 
+	//Basic.getElById("allsorted-expansion").style.display = "inline";
+	//Basic.getElById("allsorted-expand-button").value = "Collapse";
+}
+
+document.addEventListener("DOMContentLoaded", domContLoaded);
+
+function addSelectOption(select, txt, val)
+{
+	var opt = document.createElement('option');
+	opt.innerHTML = txt;
+	opt.value = val;
+	select.appendChild(opt);
+	return opt;
+}
+
+function addOptionsToCharacterDropDownList(ddlElementId) {
+	var select = Basic.getElById(ddlElementId);			
+
+	for (var i = 0; i < Characters.numCharacters(); i++) {
+		var arrChar = Characters.getCharacterByIndex(i);
+		var opt = addSelectOption(select, Characters.getTitledCharName(arrChar), Characters.getCharVal(arrChar));
+		if (arrChar[Characters.idxColor()] == "Gold")
+		    opt.style.backgroundColor = "gold";
+		else if (arrChar[Characters.idxColor()] == "Silver")
+		    opt.style.backgroundColor = "silver";
+		else
+		    opt.style.backgroundColor = "peru";
+    }
+}
+
+function addOptionsToRankDropDownList(ddlElementId, numRanks, selected) {
+	var select = Basic.getElById(ddlElementId);
+
+	addSelectOption(select, "Normal", 0);
+	addSelectOption(select, "I", 1);
+	addSelectOption(select, "II", 2);
+	addSelectOption(select, "III", 3);
+	addSelectOption(select, "IV", 4);
+	addSelectOption(select, "V", 5);
+	addSelectOption(select, "VI", 6);
+	addSelectOption(select, "VII", 7);
+	if (numRanks >= 8)
+	    addSelectOption(select, "VIII", 8);
+	if (numRanks >= 9)
+	    addSelectOption(select, "IX", 9);
+	if (numRanks >= 10)
+	    addSelectOption(select, "X", 10);
+	select.selectedIndex = selected;
+}
+
+function addOptionsToXPDropDownList(ddlElementId, numLevels, selected) {
+	var select = Basic.getElById(ddlElementId);
+	for (var i = 1; i <= numLevels; i++) {
+		addSelectOption(select, i, i);
+	}
+	select.selectedIndex = selected - 1;
+}
+
+function individualCharacterBonusCards(IdPrefix, useTitle) { /* generates html for 2 checkboxes for individual chars*/
+	var outstr = "";
+	if (useTitle) outstr += "<strong>Character Bonuses:</strong> ";
+	outstr +=
+	    "+10% Damage<input type='checkbox' id='" + IdPrefix + "character_attack_bonus' value='damage 10' checked='checked'>\n"+
+        "+10% Health<input type='checkbox' id='" + IdPrefix + "character_health_bonus' value='health 10' checked='checked'>";
+    return outstr;
+}
+
+function genActiveSupportCards(prefix) { /* generates html for support cards for all characters */
+	var outstr = "";
+	outstr += "<strong>Active support cards for all characters:</strong>\n"+
+	    "<table class='micsc_table_less_spacing'>\n"+
+	    "<tr class='micsc_border_less_padding'>\n"+
+	      "<td class='micsc_border_less_padding'>Black Manta - Health (5%)\n<input type='checkbox' id='"+prefix+"black_manta_bonus' value='health 5' checked='checked'></td>\n"+
+	      "<td class='micsc_border_less_padding'>Hawkman - Health (4%)\n<input type='checkbox' id='"+prefix+"hawkman_bonus' value='health 4' checked='checked'></td>\n"+
+	      "<td class='micsc_border_less_padding'>Kilowog - Health (3%)\n<input type='checkbox' id='"+prefix+"kilowog_bonus' value='health 3' checked='checked'></td>\n"+
+	    "</tr>\n"+
+
+	    "<tr class='micsc_border_less_padding'>\n"+
+	      "<td class='micsc_border_less_padding'>Parallax - Health (6%)\n<input type='checkbox' id='"+prefix+"parallax_bonus' value='health 6' checked='checked'></td>\n"+
+	      "<td class='micsc_border_less_padding'>Ravager - Damage (4%)\n<input type='checkbox' id='"+prefix+"ravager_bonus' value='damage 4' checked='checked'></td>\n"+
+	      "<td class='micsc_border_less_padding'>Starfire - Damage (5%)\n<input type='checkbox' id='"+prefix+"starfire_bonus' value='damage 5' checked='checked'></td>\n"+
+	    "</tr>\n"+
+
+	    "<tr class='micsc_border_less_padding'>\n"+
+	      "<td class='micsc_border_less_padding'>Swamp Thing - Health (7%)\n<input type='checkbox' id='"+prefix+"swampthing_bonus' value='health 7' checked='checked'></td>\n"+
+	      "<td class='micsc_border_less_padding''>Talia Al Ghul - Damage (6%)\n<input type='checkbox' id='"+prefix+"taliaalghul_bonus' value='damage 6' checked='checked'></td>\n"+
+	      "<td class='micsc_border_less_padding'>The Spectre - Damage (7%)\n<input type='checkbox' id='"+prefix+"thespectre_bonus' value='damage 7' checked='checked'></td>\n"+
+	    "</tr>\n"+
+
+	    "<tr class='micsc_border_less_padding'>\n"+
+	      "<td class='micsc_border_less_padding''>Tim Drake - Damage (3%)\n<input type='checkbox' id='"+prefix+"timdrake_bonus' value='damage 3' checked='checked'></td>"+
+	      "<th class='micsc_border_less_padding'>\n"+
+	          "<input type='button' value='Check All' onclick='AfterHtmlParsed.onClickCheckAllSupportCards(true,  \""+prefix+"\");'></th>\n"+
+	      "<th class='micsc_border_less_padding'>\n"+
+	          "<input type='button' value='Uncheck All' onclick='AfterHtmlParsed.onClickCheckAllSupportCards(false, \""+prefix+"\");'></th>\n"+
+	    "</tr>\n"+
+	    "</table>";
+	return outstr;
+}
+
+function setCheckboxChecked(checkboxid, checkedflag)
+{
+    var el = Basic.getElById(checkboxid);
+    if (el)
+        el.checked = checkedflag;
+}
+
+function getCheckboxChecked(checkboxid) {
+	var el = Basic.getElById(checkboxid);
+	if (el) return el.checked;
+	else return false;
+}
+
+function onClickCheckAllSupportCards(flag, prefix)
+{
+    setCheckboxChecked(prefix + "black_manta_bonus", flag);
+    setCheckboxChecked(prefix + "hawkman_bonus", flag);
+    setCheckboxChecked(prefix + "kilowog_bonus", flag);
+    setCheckboxChecked(prefix + "parallax_bonus",  flag);
+    setCheckboxChecked(prefix + "ravager_bonus", flag);
+	setCheckboxChecked(prefix + "starfire_bonus", flag);
+	setCheckboxChecked(prefix + "swampthing_bonus", flag);
+	setCheckboxChecked(prefix + "taliaalghul_bonus", flag);
+	setCheckboxChecked(prefix + "thespectre_bonus", flag);
+	setCheckboxChecked(prefix + "timdrake_bonus",  flag);
+}
+
+function Copy_AllSupportCards(oldprefix, newprefix) {
+	var suffix = "active_support_cards_for_all";
+	oldprefix = oldprefix + suffix;
+	newprefix = newprefix + suffix;
+    setCheckboxChecked(newprefix + "black_manta_bonus", getCheckboxChecked(oldprefix+ "black_manta_bonus"));
+    setCheckboxChecked(newprefix + "hawkman_bonus", getCheckboxChecked(oldprefix+ "hawkman_bonus"));
+    setCheckboxChecked(newprefix + "kilowog_bonus", getCheckboxChecked(oldprefix+ "kilowog_bonus"));
+    setCheckboxChecked(newprefix + "parallax_bonus",  getCheckboxChecked(oldprefix+ "parallax_bonus"));
+    setCheckboxChecked(newprefix + "ravager_bonus", getCheckboxChecked(oldprefix+ "ravager_bonus"));
+	setCheckboxChecked(newprefix + "starfire_bonus", getCheckboxChecked(oldprefix+ "starfire_bonus"));
+	setCheckboxChecked(newprefix + "swampthing_bonus", getCheckboxChecked(oldprefix+ "swampthing_bonus"));
+	setCheckboxChecked(newprefix + "taliaalghul_bonus", getCheckboxChecked(oldprefix+ "taliaalghul_bonus"));
+	setCheckboxChecked(newprefix + "thespectre_bonus", getCheckboxChecked(oldprefix+ "thespectre_bonus"));
+	setCheckboxChecked(newprefix + "timdrake_bonus",  getCheckboxChecked(oldprefix+ "timdrake_bonus"));	
+}
+
+function Copy_Individual_Character_Bonuses(oldprefix, newprefix) {
+	var oldDamageId = oldprefix + "character_attack_bonus";
+	var oldHealthId = oldprefix + "character_health_bonus";
+	
+	var newDamageId = newprefix + "character_attack_bonus";
+	var newHealthId = newprefix + "character_health_bonus";
+	
+	setCheckboxChecked(newDamageId, getCheckboxChecked(oldDamageId));
+	setCheckboxChecked(newHealthId, getCheckboxChecked(oldHealthId));
+}
+
+//window.addEventListener("beforeunload", function (e) {
+//  LogUsage.LogKeyValue("BeforeUnload", "Unloading Page");
+//  window.setTimeout(function() { (e || window.event).returnValue = null; }, 700); //pause a little bit
+  //(e || window.event).returnValue = null;
+//  return null;
+//});
+
+	APIList["1.9"] = {
+		onClickCheckAllSupportCards: onClickCheckAllSupportCards,
+		addOptionsToCharacterDropDownList: addOptionsToCharacterDropDownList,
+		addOptionsToRankDropDownList: addOptionsToRankDropDownList,
+		addOptionsToXPDropDownList: addOptionsToXPDropDownList,
+		individualCharacterBonusCards: individualCharacterBonusCards,
+		Copy_AllSupportCards: Copy_AllSupportCards,
+		getAPIByVersion: getAPIByVersion
+	};
+	return getAPIByVersion("1.9");
+})();
+</script>
+
+<!--
+<script type="text/javascript" src="scripts/basic.js"></script>
+<script type="text/javascript" src="scripts/simpleWrites.js"></script>
+<script type="text/javascript" src="scripts/characters.js"></script>
+<script type="text/javascript" src="scripts/CharacterInputsFromFields.js"></script>
+<script type="text/javascript" src="scripts/genAugmentationCardsAndLevels.js"></script>
+
+<script type="text/javascript" src="scripts/doCalcRank.js"></script>
+<script type="text/javascript" src="scripts/damageHealthChart.js"></script>
+<script type="text/javascript" src="scripts/handleCharCalculations.js"></script>
+<script type="text/javascript" src="scripts/handleOwnedCharAugCalculations.js"></script>
+<script type="text/javascript" src="scripts/handleSpSup.js"></script>
+
+<script type="text/javascript" src="scripts/search.js"></script>
+<script type="text/javascript" src="scripts/SideBySideCompare.js"></script>
+<script type="text/javascript" src="scripts/afterHtmlParsed.js"></script>
+-->
+</body>
+</html>
